@@ -1,0 +1,28 @@
+body {
+  background-color: darkgray;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  text-align: center;
+}
+
+canvas {
+  display: block;
+  margin: auto;
+  background-color: lightgray;
+  border: 1px solid black;
+}
+
+.btn-container {
+  width: 600px;
+  margin: 1em auto;
+  display: flex;
+  justify-content: space-around;
+}
+
+button {
+  padding: 0.25em 0.5em;
+  min-width: 6em;
+}
