@@ -1,22 +1,24 @@
-console.log("JS has started!");
+import { init, simulate } from "./simulation.js";
 
 const initialState = {
 	g: 9.8,
 	scale: 0.01,
-	dt: 1e-5,
+	dt: 1e-6,
 	animTime: 1 / 60,
 	points: [
 		{
 			x: 3,
 			y: 1,
-			m: 1,
+			m: 1e6,
 			size: 0.2,
 			isFixed: true,
 		},
 		{
 			x: 3,
-			y: 2,
-			m: 1e6,
+			y: 3,
+			vx: 2,
+			vy: 0,
+			m: 1,
 			size: 0.2,
 			isFixed: false,
 		},
@@ -25,13 +27,13 @@ const initialState = {
 		{
 			point1: 0,
 			point2: 1,
-			flexibility: 1e6,
-			length: 1,
+			elast: 1e4,
+			length: 2,
 		},
 	],
 };
 
-const { g, scale, dt, animTime, points, rods } = initialState;
+const { scale } = initialState;
 
 function scl(dist) {
 	return Math.round(dist / scale);
@@ -57,8 +59,8 @@ function drawPoint(point, ctx) {
 	ctx.stroke();
 }
 
-function drawRod(rod, ctx) {
-	const { points } = initialState;
+function drawRod(rod, state, ctx) {
+	const { points } = state;
 	const { point1: i1, point2: i2 } = rod;
 	const { x: x1, y: y1 } = points[i1];
 	const { x: x2, y: y2 } = points[i2];
@@ -73,14 +75,33 @@ function draw() {
 	if (canvas.getContext) {
 		const ctx = canvas.getContext("2d");
 
-		const { points, rods } = initialState;
+		const state = simulate();
+
+		ctx.clearRect(0, 0, 600, 400);
+
+		const { points, rods } = state;
+		//console.log(state);
 		for (let i = 0; i < points.length; i++) {
 			drawPoint(points[i], ctx);
 		}
 		for (let i = 0; i < rods.length; i++) {
-			drawRod(rods[i], ctx);
+			drawRod(rods[i], state, ctx);
 		}
 	}
+
+	raf = window.requestAnimationFrame(draw);
 }
 
-window.addEventListener("load", draw);
+init(initialState);
+const startBtn = document.querySelector("#start");
+const stopBtn = document.querySelector("#stop");
+const resetBtn = document.querySelector("#reset");
+
+let raf;
+
+startBtn.addEventListener(
+	"click",
+	() => (raf = window.requestAnimationFrame(draw))
+);
+stopBtn.addEventListener("click", () => window.cancelAnimationFrame(raf));
+resetBtn.addEventListener("click", () => init(initialState));
