@@ -70,26 +70,28 @@ function drawRod(rod, state, ctx) {
 	ctx.stroke();
 }
 
-function draw() {
+function drawState(state, ctx) {
+	const { points, rods } = state;
+	for (let i = 0; i < points.length; i++) {
+		drawPoint(points[i], ctx);
+	}
+	for (let i = 0; i < rods.length; i++) {
+		drawRod(rods[i], state, ctx);
+	}
+}
+
+function draw(animate = true) {
 	const canvas = document.querySelector("canvas");
 	if (canvas.getContext) {
 		const ctx = canvas.getContext("2d");
-
-		const state = simulate();
-
+		let state;
+		if (animate) state = simulate();
+		else state = initialState;
 		ctx.clearRect(0, 0, 600, 400);
-
-		const { points, rods } = state;
-		//console.log(state);
-		for (let i = 0; i < points.length; i++) {
-			drawPoint(points[i], ctx);
-		}
-		for (let i = 0; i < rods.length; i++) {
-			drawRod(rods[i], state, ctx);
-		}
+		drawState(state, ctx);
 	}
 
-	raf = window.requestAnimationFrame(draw);
+	if (animate) raf = window.requestAnimationFrame(draw);
 }
 
 init(initialState);
@@ -99,9 +101,17 @@ const resetBtn = document.querySelector("#reset");
 
 let raf;
 
-startBtn.addEventListener(
-	"click",
-	() => (raf = window.requestAnimationFrame(draw))
-);
-stopBtn.addEventListener("click", () => window.cancelAnimationFrame(raf));
-resetBtn.addEventListener("click", () => init(initialState));
+window.addEventListener("load", draw(false));
+
+startBtn.addEventListener("click", () => {
+	if (!raf) raf = window.requestAnimationFrame(draw);
+});
+stopBtn.addEventListener("click", () => {
+	window.cancelAnimationFrame(raf);
+	raf = false;
+});
+resetBtn.addEventListener("click", () => {
+	init(initialState);
+	raf = false;
+	draw(false);
+});
