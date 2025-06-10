@@ -5,6 +5,10 @@ const initialState = {
 	scale: 0.01,
 	dt: 1e-6,
 	animTime: 1 / 60,
+	width: 600,
+	height: 400,
+	isTimeVisible: false,
+	isGridVisible: true,
 	points: [
 		{
 			x: 3,
@@ -37,6 +41,23 @@ const { scale } = initialState;
 
 function scl(dist) {
 	return Math.round(dist / scale);
+}
+
+function drawGrid(width, height, scale, ctx) {
+	const nx = width / scale;
+	const ny = height / scale;
+	ctx.beginPath();
+	ctx.strokeStyle = "darkgray";
+	for (let i = 0; i <= nx; i++) {
+		ctx.moveTo(i / scale, 0);
+		ctx.lineTo(i / scale, height);
+	}
+	for (let i = 0; i <= ny; i++) {
+		ctx.moveTo(0, i / scale);
+		ctx.lineTo(width, i / scale);
+	}
+	ctx.stroke();
+	ctx.strokeStyle = "black";
 }
 
 function drawPoint(point, ctx) {
@@ -87,7 +108,9 @@ function draw(animate = true) {
 		let state;
 		if (animate) state = simulate();
 		else state = initialState;
-		ctx.clearRect(0, 0, 600, 400);
+		const { width, height, scale, isGridVisible } = state;
+		ctx.clearRect(0, 0, width, height);
+		if (isGridVisible) drawGrid(width, height, scale, ctx);
 		drawState(state, ctx);
 	}
 
