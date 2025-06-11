@@ -115,9 +115,10 @@ function draw(animate = true) {
 			state = simulate();
 			copySimParams(state);
 		} else state = initialState;
-		const { width, height, scale, isGridVisible } = state;
+		const { width, height, scale, isGridVisible, isTimeVisible } = state;
 		ctx.clearRect(0, 0, width, height);
 		if (isGridVisible) drawGrid(width, height, scale, ctx);
+		if (isTimeVisible) ctx.fillText(Number(state.t).toFixed(3), 20, 20);
 		drawState(state, ctx);
 	}
 
