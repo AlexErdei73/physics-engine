@@ -158,3 +158,15 @@ zoomOutBtn.addEventListener("click", () => {
 	initialState.scale *= 1.2;
 	draw(false);
 });
+
+gridChkBox.checked = initialState.isGridVisible;
+timeChkBox.checked = initialState.isTimeVisible;
+
+gridChkBox.addEventListener("change", () => {
+	initialState.isGridVisible = gridChkBox.checked;
+	draw(false);
+});
+timeChkBox.addEventListener("change", () => {
+	initialState.isTimeVisible = timeChkBox.checked;
+	draw(false);
+});
