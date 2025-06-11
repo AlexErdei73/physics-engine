@@ -3,7 +3,8 @@ import { init, simulate } from "./simulation.js";
 const initialState = {
 	g: 9.8,
 	scale: 0.01,
-	dt: 1e-6,
+	dt: 1e-5,
+	t: 0,
 	animTime: 1 / 60,
 	width: 600,
 	height: 400,
@@ -36,6 +37,7 @@ const initialState = {
 		},
 	],
 };
+let state;
 
 function scl(dist) {
 	const { scale } = initialState;
@@ -110,11 +112,10 @@ function draw(animate = true) {
 	const canvas = document.querySelector("canvas");
 	if (canvas.getContext) {
 		const ctx = canvas.getContext("2d");
-		let state;
 		if (animate) {
 			state = simulate();
-			copySimParams(state);
-		} else state = initialState;
+		} else if (!state) state = initialState;
+		copySimParams(state);
 		const { width, height, scale, isGridVisible, isTimeVisible } = state;
 		ctx.clearRect(0, 0, width, height);
 		if (isGridVisible) drawGrid(width, height, scale, ctx);
@@ -149,6 +150,7 @@ stopBtn.addEventListener("click", () => {
 resetBtn.addEventListener("click", () => {
 	init(initialState);
 	raf = false;
+	state = null;
 	draw(false);
 });
 zoomInBtn.addEventListener("click", () => {
