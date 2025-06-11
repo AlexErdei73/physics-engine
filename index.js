@@ -1,7 +1,7 @@
 import { init, simulate } from "./simulation.js";
 
 const initialState = {
-	g: 9.8,
+	g: 0,
 	scale: 0.01,
 	dt: 1e-5,
 	t: 0,
@@ -12,16 +12,32 @@ const initialState = {
 	isGridVisible: true,
 	points: [
 		{
-			x: 3,
-			y: 1,
+			x: 2,
+			y: 2,
 			m: 1e6,
 			size: 0.2,
 			isFixed: true,
 		},
 		{
-			x: 3,
+			x: 2,
 			y: 3,
-			vx: 2,
+			vx: 1,
+			vy: 0,
+			m: 1,
+			size: 0.2,
+			isFixed: false,
+		},
+		{
+			x: 5,
+			y: 0,
+			m: 1e6,
+			size: 0.2,
+			isFixed: true,
+		},
+		{
+			x: 5,
+			y: 3,
+			vx: 0,
 			vy: 0,
 			m: 1,
 			size: 0.2,
@@ -33,7 +49,16 @@ const initialState = {
 			point1: 0,
 			point2: 1,
 			elast: 1e4,
+			length: 1,
+			isSpring: false,
+		},
+		{
+			point1: 2,
+			point2: 3,
+			elast: 1,
 			length: 2,
+			size: 0.2,
+			isSpring: true,
 		},
 	],
 };
@@ -88,7 +113,31 @@ function drawRod(rod, state, ctx) {
 	const { x: x2, y: y2 } = points[i2];
 	ctx.beginPath();
 	ctx.moveTo(scl(x1), scl(y1));
-	ctx.lineTo(scl(x2), scl(y2));
+	if (!rod.isSpring) {
+		ctx.lineTo(scl(x2), scl(y2));
+	} else {
+		const v = [scl(x2) - scl(x1), scl(y2) - scl(y1)];
+		const len = Math.sqrt(v[0] * v[0] + v[1] * v[1]);
+		const n = [
+			(0.5 * scl(rod.size) * v[1]) / len,
+			(-0.5 * scl(rod.size) * v[0]) / len,
+		];
+		v[0] /= 40;
+		v[1] /= 40;
+		let x = scl(x1);
+		let y = scl(y1);
+		for (let i = 0; i < 10; i++) {
+			x += v[0] + n[0];
+			y += v[1] + n[1];
+			ctx.lineTo(Math.round(x), Math.round(y));
+			x += 2 * v[0] - 2 * n[0];
+			y += 2 * v[1] - 2 * n[1];
+			ctx.lineTo(Math.round(x), Math.round(y));
+			x += v[0] + n[0];
+			y += v[1] + n[1];
+			ctx.lineTo(Math.round(x), Math.round(y));
+		}
+	}
 	ctx.stroke();
 }
 
