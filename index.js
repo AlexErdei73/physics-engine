@@ -37,9 +37,8 @@ const initialState = {
 	],
 };
 
-const { scale } = initialState;
-
 function scl(dist) {
+	const { scale } = initialState;
 	return Math.round(dist / scale);
 }
 
@@ -101,13 +100,21 @@ function drawState(state, ctx) {
 	}
 }
 
+function copySimParams(state) {
+	state.scale = initialState.scale;
+	state.isGridVisible = initialState.isGridVisible;
+	state.isTimeVisible = initialState.isTimeVisible;
+}
+
 function draw(animate = true) {
 	const canvas = document.querySelector("canvas");
 	if (canvas.getContext) {
 		const ctx = canvas.getContext("2d");
 		let state;
-		if (animate) state = simulate();
-		else state = initialState;
+		if (animate) {
+			state = simulate();
+			copySimParams(state);
+		} else state = initialState;
 		const { width, height, scale, isGridVisible } = state;
 		ctx.clearRect(0, 0, width, height);
 		if (isGridVisible) drawGrid(width, height, scale, ctx);
@@ -121,6 +128,11 @@ init(initialState);
 const startBtn = document.querySelector("#start");
 const stopBtn = document.querySelector("#stop");
 const resetBtn = document.querySelector("#reset");
+const zoomInBtn = document.querySelector("#zoom-in");
+const zoomOutBtn = document.querySelector("#zoom-out");
+
+const gridChkBox = document.querySelector("#grid");
+const timeChkBox = document.querySelector("#time");
 
 let raf;
 
@@ -136,5 +148,13 @@ stopBtn.addEventListener("click", () => {
 resetBtn.addEventListener("click", () => {
 	init(initialState);
 	raf = false;
+	draw(false);
+});
+zoomInBtn.addEventListener("click", () => {
+	initialState.scale /= 1.2;
+	draw(false);
+});
+zoomOutBtn.addEventListener("click", () => {
+	initialState.scale *= 1.2;
 	draw(false);
 });
