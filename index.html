@@ -1,33 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="styles.css" />
-		<script type="module" src="./index.js"></script>
-		<title>Physics-Engine</title>
-	</head>
-	<body>
-		<h1>2D Physics Engine</h1>
-		<canvas width="600" height="400"
-			>World for the physics-engine showing simulated animations</canvas
-		>
-		<div class="ctrl-container">
-			<button id="start">Start</button>
-			<button id="stop">Stop</button>
-			<button id="reset">Reset</button>
-			<button id="zoom-in">+ Zoom In</button>
-			<button id="zoom-out">- Zoom Out</button>
-		</div>
-		<div class="ctrl-container">
-			<div class="input-container">
-				<label for="grid">Show grid</label>
-				<input type="checkbox" id="grid" />
-			</div>
-			<div class="input-container">
-				<label for="time">Show time</label>
-				<input type="checkbox" id="time" />
-			</div>
-		</div>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="./index.js"></script>
+    <title>Physics-Engine</title>
+  </head>
+  <body>
+    <h1>2D Physics Engine</h1>
+    <canvas width="600" height="400"
+      >World for the physics-engine showing simulated animations</canvas
+    >
+    <fieldset class="ctrl-container">
+      <legend>Buttons</legend>
+      <div class="main-buttons">
+        <button id="start">Start</button>
+        <button id="stop">Stop</button>
+        <button id="reset">Reset</button>
+      </div>
+      <div class="zoom-buttons">
+        <button id="zoom-in">+ Zoom In</button>
+        <button id="zoom-out">- Zoom Out</button>
+      </div>
+    </fieldset>
+    <fieldset class="ctrl-container">
+      <legend>Show</legend>
+      <div class="input-container">
+        <label for="grid">Grid</label>
+        <input type="checkbox" id="grid" />
+      </div>
+      <div class="input-container">
+        <label for="time">Time</label>
+        <input type="checkbox" id="time" />
+      </div>
+    </fieldset>
+  </body>
 </html>
