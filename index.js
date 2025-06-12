@@ -21,8 +21,8 @@ const initialState = {
     },
     {
       x: 2,
-      y: 3,
-      vx: 1,
+      y: 1,
+      vx: -1,
       vy: 0,
       m: 1,
       size: 0.2,
@@ -36,7 +36,7 @@ const initialState = {
     },
     {
       x: 5,
-      y: 3,
+      y: 1,
       vx: 0,
       vy: 0,
       m: 1,
@@ -48,8 +48,8 @@ const initialState = {
     {
       point1: 0,
       point2: 1,
-      elast: 1e4,
-      beta: 1,
+      elast: 1e5,
+      beta: 0.1,
       length: 1,
       isSpring: false,
     },
@@ -291,6 +291,7 @@ const zoomOutBtn = document.querySelector("#zoom-out");
 const gridChkBox = document.querySelector("#grid");
 const timeChkBox = document.querySelector("#time");
 const forceChkBox = document.querySelector("#force");
+const energyChkBox = document.querySelector("#energy");
 
 let raf;
 
@@ -321,6 +322,7 @@ zoomOutBtn.addEventListener("click", () => {
 gridChkBox.checked = initialState.isGridVisible;
 timeChkBox.checked = initialState.isTimeVisible;
 forceChkBox.checked = initialState.isForcesVisible;
+energyChkBox.checked = initialState.isEnergyVisible;
 
 gridChkBox.addEventListener("change", () => {
   initialState.isGridVisible = gridChkBox.checked;
@@ -332,5 +334,9 @@ timeChkBox.addEventListener("change", () => {
 });
 forceChkBox.addEventListener("change", () => {
   initialState.isForcesVisible = forceChkBox.checked;
+  draw(false);
+});
+energyChkBox.addEventListener("change", () => {
+  initialState.isEnergyVisible = energyChkBox.checked;
   draw(false);
 });
