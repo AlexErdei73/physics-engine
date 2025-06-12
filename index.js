@@ -208,6 +208,7 @@ function copySimParams(state) {
   state.scale = initialState.scale;
   state.isGridVisible = initialState.isGridVisible;
   state.isTimeVisible = initialState.isTimeVisible;
+  state.isForcesVisible = initialState.isForcesVisible;
 }
 
 function draw(animate = true) {
@@ -245,6 +246,7 @@ const zoomOutBtn = document.querySelector("#zoom-out");
 
 const gridChkBox = document.querySelector("#grid");
 const timeChkBox = document.querySelector("#time");
+const forceChkBox = document.querySelector("#force");
 
 let raf;
 
@@ -274,6 +276,7 @@ zoomOutBtn.addEventListener("click", () => {
 
 gridChkBox.checked = initialState.isGridVisible;
 timeChkBox.checked = initialState.isTimeVisible;
+forceChkBox.checked = initialState.isForcesVisible;
 
 gridChkBox.addEventListener("change", () => {
   initialState.isGridVisible = gridChkBox.checked;
@@ -281,5 +284,9 @@ gridChkBox.addEventListener("change", () => {
 });
 timeChkBox.addEventListener("change", () => {
   initialState.isTimeVisible = timeChkBox.checked;
+  draw(false);
+});
+forceChkBox.addEventListener("change", () => {
+  initialState.isForcesVisible = forceChkBox.checked;
   draw(false);
 });
