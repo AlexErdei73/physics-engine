@@ -10,6 +10,7 @@ const initialState = {
   height: 400,
   isTimeVisible: false,
   isGridVisible: true,
+  isForcesVisible: true,
   points: [
     {
       x: 2,
@@ -49,6 +50,7 @@ const initialState = {
       point1: 0,
       point2: 1,
       elast: 1e4,
+      beta: 1,
       length: 1,
       isSpring: false,
     },
@@ -56,6 +58,7 @@ const initialState = {
       point1: 2,
       point2: 3,
       elast: 1,
+      beta: 0,
       length: 2,
       size: 0.2,
       isSpring: true,
@@ -153,6 +156,54 @@ function drawState(state, ctx) {
   }
 }
 
+function drawVector(vector, point, ctx) {
+  const ARROW_SIZE = 20;
+  const x0 = scl(point.x);
+  const y0 = scl(point.y);
+  const vx = scl(vector[0]);
+  const vy = scl(vector[1]);
+  const x1 = x0 + vx;
+  const y1 = y0 + vy;
+  const v = Math.sqrt(vx * vx + vy * vy);
+  const nx = vy / v;
+  const ny = -vx / v;
+  const x2 = x1 - (vx / v) * ARROW_SIZE + nx * 0.25 * ARROW_SIZE;
+  const y2 = y1 - (vy / v) * ARROW_SIZE + ny * 0.25 * ARROW_SIZE;
+  const x3 = x2 - nx * 0.5 * ARROW_SIZE;
+  const y3 = y2 - ny * 0.5 * ARROW_SIZE;
+  ctx.beginPath();
+  ctx.strokeStyle = "blue";
+  ctx.moveTo(Math.round(x0), Math.round(y0));
+  ctx.lineTo(Math.round(x1), Math.round(y1));
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.fillStyle = "blue";
+  ctx.moveTo(Math.round(x1), Math.round(y1));
+  ctx.lineTo(Math.round(x2), Math.round(y2));
+  ctx.lineTo(Math.round(x3), Math.round(y3));
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = "black";
+  ctx.fillStyle = "black";
+}
+
+function drawForces(state, ctx) {
+  const { g, points, rods } = state;
+
+  for (let i = 0; i < points.length; i++) {
+    const point = points[i];
+    const { m } = point;
+    drawVector([0, m * g], point, ctx);
+  }
+
+  for (let i = 0; i < rods.length; i++) {
+    const rod = rods[i];
+    const { point1, point2, Fx, Fy } = rod;
+    drawVector([Fx, Fy], points[point1], ctx);
+    drawVector([-Fx, -Fy], points[point2], ctx);
+  }
+}
+
 function copySimParams(state) {
   state.scale = initialState.scale;
   state.isGridVisible = initialState.isGridVisible;
@@ -167,11 +218,19 @@ function draw(animate = true) {
       state = simulate();
     } else if (!state) state = initialState;
     copySimParams(state);
-    const { width, height, scale, isGridVisible, isTimeVisible } = state;
+    const {
+      width,
+      height,
+      scale,
+      isGridVisible,
+      isTimeVisible,
+      isForcesVisible,
+    } = state;
     ctx.clearRect(0, 0, width, height);
     if (isGridVisible) drawGrid(width, height, scale, ctx);
     if (isTimeVisible) ctx.fillText(Number(state.t).toFixed(3), 20, 20);
     drawState(state, ctx);
+    if (isForcesVisible) drawForces(state, ctx);
   }
 
   if (animate) raf = window.requestAnimationFrame(draw);

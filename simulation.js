@@ -20,23 +20,46 @@ export function init(initialState) {
 
 function calcForce(rod, isMidpoint = false) {
   const { points } = state;
-  const { point1, point2, length: l0, elast: D } = rod;
-  let { x: x1, y: y1, isFixed: isFixed1 } = points[point1];
-  let { x: x2, y: y2, isFixed: isFixed2 } = points[point2];
+  const { point1, point2, length: l0, elast: D, beta } = rod;
+  let { x: x1, y: y1, vx: vx1, vy: vy1, isFixed: isFixed1 } = points[point1];
+  let { x: x2, y: y2, vx: vx2, vy: vy2, isFixed: isFixed2 } = points[point2];
   if (isMidpoint) {
     if (!isFixed1) {
-      const { xmid: xmid1, ymid: ymid1 } = points[point1];
+      const {
+        xmid: xmid1,
+        ymid: ymid1,
+        vxmid: vx1mid,
+        vymid: vy1mid,
+      } = points[point1];
       x1 = xmid1;
       y1 = ymid1;
+      vx1 = vx1mid;
+      vy1 = vy1mid;
     }
     if (!isFixed2) {
-      const { xmid: xmid2, ymid: ymid2 } = points[point2];
+      const {
+        xmid: xmid2,
+        ymid: ymid2,
+        vxmid: vx2mid,
+        vymid: vy2mid,
+      } = points[point2];
       x2 = xmid2;
       y2 = ymid2;
+      vx2 = vx2mid;
+      vy2 = vy2mid;
     }
   }
   const l = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-  const F = D * (l - l0);
+  let F = D * (l - l0);
+  if (beta > 0) {
+    vx1 = vx1 || 0;
+    vx2 = vx2 || 0;
+    vy1 = vy1 || 0;
+    vy2 = vy2 || 0;
+    const vr1 = (vx1 * (x2 - x1)) / l + (vy1 * (y2 - y1)) / l;
+    const vr2 = (vx2 * (x2 - x1)) / l + (vy2 * (y2 - y1)) / l;
+    F += beta * (vr2 - vr1);
+  }
   rod.Fx = (F * (x2 - x1)) / l;
   rod.Fy = (F * (y2 - y1)) / l;
 }
