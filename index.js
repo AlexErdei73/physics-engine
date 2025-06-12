@@ -10,12 +10,12 @@ const initialState = {
   height: 400,
   isTimeVisible: false,
   isGridVisible: true,
-  isForcesVisible: true,
+  isForcesVisible: false,
+  isEnergyVisible: true,
   points: [
     {
       x: 2,
       y: 2,
-      m: 1e6,
       size: 0.2,
       isFixed: true,
     },
@@ -31,7 +31,6 @@ const initialState = {
     {
       x: 5,
       y: 0,
-      m: 1e6,
       size: 0.2,
       isFixed: true,
     },
@@ -157,7 +156,7 @@ function drawState(state, ctx) {
 }
 
 function drawVector(vector, point, ctx) {
-  const ARROW_SIZE = 20;
+  const ARROW_SIZE = 10;
   const x0 = scl(point.x);
   const y0 = scl(point.y);
   const vx = scl(vector[0]);
@@ -209,6 +208,40 @@ function copySimParams(state) {
   state.isGridVisible = initialState.isGridVisible;
   state.isTimeVisible = initialState.isTimeVisible;
   state.isForcesVisible = initialState.isForcesVisible;
+  state.isEnergyVisible = initialState.isEnergyVisible;
+}
+
+function calcEnergy(state) {
+  let Ekin = 0;
+  let Egrav = 0;
+  let Eelastic = 0;
+
+  const { g, points, rods } = state;
+
+  for (let i = 0; i < points.length; i++) {
+    const point = points[i];
+    if (!point.isFixed) {
+      const { m, y, vx, vy } = point;
+      Egrav += -m * g * y;
+      Ekin += 0.5 * m * (vx * vx + vy * vy);
+    }
+  }
+
+  for (let i = 0; i < rods.length; i++) {
+    const rod = rods[i];
+    const { point1, point2, elast: D, length: l0 } = rod;
+    const { x: x1, y: y1 } = points[point1];
+    const { x: x2, y: y2 } = points[point2];
+    const l = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+    Eelastic += 0.5 * D * (l - l0) * (l - l0);
+  }
+  return {
+    kinetic: Ekin,
+    gravity: Egrav,
+    elastic: Eelastic,
+    potential: Egrav + Eelastic,
+    total: Ekin + Egrav + Eelastic,
+  };
 }
 
 function draw(animate = true) {
@@ -226,10 +259,21 @@ function draw(animate = true) {
       isGridVisible,
       isTimeVisible,
       isForcesVisible,
+      isEnergyVisible,
     } = state;
     ctx.clearRect(0, 0, width, height);
     if (isGridVisible) drawGrid(width, height, scale, ctx);
     if (isTimeVisible) ctx.fillText(Number(state.t).toFixed(3), 20, 20);
+    if (isEnergyVisible) {
+      const energy = calcEnergy(state);
+      const { kinetic, potential, total } = energy;
+      ctx.fillStyle = "green";
+      ctx.fillText(`kinetic: ${Number(kinetic).toFixed(3)}`, 20, 40);
+      ctx.fillStyle = "red";
+      ctx.fillText(`potential: ${Number(potential).toFixed(3)}`, 20, 60);
+      ctx.fillStyle = "black";
+      ctx.fillText(`total: ${Number(total).toFixed(3)}`, 20, 80);
+    }
     drawState(state, ctx);
     if (isForcesVisible) drawForces(state, ctx);
   }
