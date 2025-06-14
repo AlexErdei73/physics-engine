@@ -35,6 +35,8 @@ nav ul {
 	justify-content: space-between;
 	list-style: none;
 	color: inherit;
+	margin-left: 1em;
+	margin-right: 1em;
 }
 
 nav a {
@@ -65,4 +67,16 @@ canvas {
 button {
 	padding: 0.25em 0.5em;
 	min-width: 6em;
+}
+
+@media (max-width: 42em) {
+	h1 {
+		clip: rect(0 0 0 0);
+		clip-path: inset(50%);
+		height: 1px;
+		position: absolute;
+		white-space: nowrap;
+		overflow: hidden;
+		width: 1px;
+	}
 }
