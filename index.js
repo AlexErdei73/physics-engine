@@ -1,5 +1,7 @@
 import { init, simulate } from "./simulation.js";
 
+let projectName = "Uniform circular motion and simple harmonic oscillator"
+
 const initialState = {
   g: 0,
   scale: 0.01,
