@@ -1,151 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../styles.css" />
-    <script type="module" src="../index.js"></script>
-    <title>Physics-Engine</title>
-  </head>
-  <body>
-    <nav>
-      <a href="/">
-        <h1>2D Physics Engine</h1>
-      </a>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/project">Project</a></li>
-        <li><a href="/create">Create</a></li>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/signup">Sign Up</a></li>
-      </ul>
-    </nav>
-    <form>
-      <fieldset class="container">
-        <legend>Local storage</legend>
-        <div class="inp-container">
-          <label for="name">Name:</label>
-          <input type="text" id="name" />
-        </div>
-        <div class="inp-container">
-          <button type="button" id="btn-create">Create</button>
-          <button type="button" id="btn-save">Save</button>
-        </div>
-      </fieldset>
-      <fieldset class="container">
-        <legend>Parameters</legend>
-        <div class="inp-container">
-          <label for="inp-g">g:</label>
-          <input type="number" step="any" id="inp-g" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-scale">scale:</label>
-          <input type="number" step="any" id="inp-scale" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-dt">dt:</label>
-          <input type="number" scale="any" id="inp-dt" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-animTime">anim. t:</label>
-          <input type="number" scale="any" id="inp-animTime" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-show-time">show time:</label>
-          <input type="checkbox" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-show-grid">show grid:</label>
-          <input type="checkbox" id="inp-show-grid" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-show-force">show force:</label>
-          <input type="checkbox" id="inp-show-force" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-show-energy">show energy:</label>
-          <input type="checkbox" id="inp-show-energy" />
-        </div>
-      </fieldset>
-      <fieldset class="container">
-        <legend>Points</legend>
-        <div class="inp-container">
-          <label for="inp-index">index:</label>
-          <input type="number" id="inp-index" />
-        </div>
-        <div class="inp-container">
-          <button id="new">New</button>
-          <button id="delete">Delete</button>
-        </div>
-        <div class="inp-container">
-          <label for="inp-x">x:</label>
-          <input type="number" step="any" id="inp-x" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-y">y:</label>
-          <input type="number" scale="any" id="inp-y" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-vx">vx:</label>
-          <input type="number" step="any" id="inp-vx" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-vy">vy:</label>
-          <input type="number" scale="any" id="inp-vy" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-m">m:</label>
-          <input type="number" scale="any" id="inp-m" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-point-size">size:</label>
-          <input type="number" scale="any" id="inp-point-size" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-fixed">Point fixed:</label>
-          <input type="checkbox" id="inp-fixed" />
-        </div>
-      </fieldset>
-      <fieldset class="container">
-        <legend>Rods</legend>
-        <div class="inp-container">
-          <label for="inp-index">index:</label>
-          <input type="number" id="inp-index" />
-        </div>
-        <div class="inp-container">
-          <button id="new">New</button>
-          <button id="delete">Delete</button>
-        </div>
-        <div class="inp-container">
-          <label for="inp-point1">point1:</label>
-          <input type="number" id="inp-point1" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-point2">point2:</label>
-          <input type="number" id="inp-point2" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-elast">elasticity:</label>
-          <input type="number" step="any" id="inp-elast" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-beta">beta:</label>
-          <input type="number" scale="any" id="inp-beta" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-length">length:</label>
-          <input type="number" scale="any" id="inp-length" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-size">size:</label>
-          <input type="number" scale="any" id="inp-size" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-spring">Is spring:</label>
-          <input type="checkbox" id="inp-spring" />
-        </div>
-      </fieldset>
-    </form>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="../styles.css" />
+		<script type="module" src="./index.js"></script>
+		<title>Physics-Engine</title>
+	</head>
+	<body>
+		<nav>
+			<a href="/">
+				<h1>2D Physics Engine</h1>
+			</a>
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/about">About</a></li>
+				<li><a href="/project">Project</a></li>
+				<li><a href="/create">Create</a></li>
+				<li><a href="/login">Login</a></li>
+				<li><a href="/signup">Sign Up</a></li>
+			</ul>
+		</nav>
+		<form>
+			<fieldset class="container">
+				<legend>Local storage</legend>
+				<div class="inp-container">
+					<label for="inp-name">Name:</label>
+					<input type="text" id="inp-name" />
+				</div>
+				<div class="inp-container">
+					<button type="button" id="btn-create">Create</button>
+					<button type="button" id="btn-save">Save</button>
+				</div>
+			</fieldset>
+			<fieldset class="container">
+				<legend>Parameters</legend>
+				<div class="inp-container">
+					<label for="inp-g">g:</label>
+					<input type="number" step="any" id="inp-g" />
+				</div>
+				<div class="inp-container">
+					<label for="inp-scale">scale:</label>
+					<input type="number" step="any" id="inp-scale" />
+				</div>
+				<div class="inp-container">
+					<label for="inp-dt">dt:</label>
+					<input type="number" scale="any" id="inp-dt" />
+				</div>
+				<div class="inp-container">
+					<label for="inp-anim-time">anim time:</label>
+					<input type="number" scale="any" id="inp-anim-time" />
+				</div>
+				<div class="inp-container">
+					<label for="chkbox-show-time">show time:</label>
+					<input type="checkbox" id="chkbox-show-time" />
+				</div>
+				<div class="inp-container">
+					<label for="chkbox-show-grid">show grid:</label>
+					<input type="checkbox" id="chkbox-show-grid" />
+				</div>
+				<div class="inp-container">
+					<label for="chkbox-show-force">show force:</label>
+					<input type="checkbox" id="chkbox-show-force" />
+				</div>
+				<div class="inp-container">
+					<label for="chkbox-show-energy">show energy:</label>
+					<input type="checkbox" id="chkbox-show-energy" />
+				</div>
+			</fieldset>
+			<fieldset class="container">
+				<legend>Points</legend>
+				<div class="inp-container">
+					<label for="inp-point-index">index:</label>
+					<input type="number" id="inp-point-index" min="-1" max="-1" />
+				</div>
+				<div class="inp-container">
+					<button id="btn-new-point">New</button>
+					<button id="btn-delete-point">Delete</button>
+				</div>
+				<div class="inp-container">
+					<label for="inp-x">x:</label>
+					<input type="number" step="any" id="inp-x" />
+				</div>
+				<div class="inp-container">
+					<label for="inp-y">y:</label>
+					<input type="number" scale="any" id="inp-y" />
+				</div>
+				<div class="inp-container">
+					<label for="inp-vx">vx:</label>
+					<input type="number" step="any" id="inp-vx" />
+				</div>
+				<div class="inp-container">
+					<label for="inp-vy">vy:</label>
+					<input type="number" step="any" id="inp-vy" />
+				</div>
+				<div class="inp-container">
+					<label for="inp-m">m:</label>
+					<input type="number" step="any" id="inp-m" />
+				</div>
+				<div class="inp-container">
+					<label for="inp-point-size">size:</label>
+					<input type="number" step="any" id="inp-point-size" />
+				</div>
+				<div class="inp-container">
+					<label for="chkbox-fixed">Point fixed:</label>
+					<input type="checkbox" id="chkbox-fixed" />
+				</div>
+			</fieldset>
+			<fieldset class="container">
+				<legend>Rods</legend>
+				<div class="inp-container">
+					<label for="inp-rod-index">index:</label>
+					<input type="number" id="inp-rod-index" />
+				</div>
+				<div class="inp-container">
+					<button id="btn-new-rod">New</button>
+					<button id="btn-delete-rod">Delete</button>
+				</div>
+				<div class="inp-container">
+					<label for="inp-point1">point1:</label>
+					<input type="number" id="inp-point1" />
+				</div>
+				<div class="inp-container">
+					<label for="inp-point2">point2:</label>
+					<input type="number" id="inp-point2" />
+				</div>
+				<div class="inp-container">
+					<label for="inp-elast">elasticity:</label>
+					<input type="number" step="any" id="inp-elast" />
+				</div>
+				<div class="inp-container">
+					<label for="inp-beta">beta:</label>
+					<input type="number" scale="any" id="inp-beta" />
+				</div>
+				<div class="inp-container">
+					<label for="inp-length">length:</label>
+					<input type="number" scale="any" id="inp-length" />
+				</div>
+				<div class="inp-container">
+					<label for="inp-rod-size">size:</label>
+					<input type="number" scale="any" id="inp-rod-size" />
+				</div>
+				<div class="inp-container">
+					<label for="chkbox-spring">Is spring:</label>
+					<input type="checkbox" id="chkbox-spring" />
+				</div>
+			</fieldset>
+		</form>
+	</body>
 </html>

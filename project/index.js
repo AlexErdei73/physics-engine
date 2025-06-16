@@ -1,8 +1,7 @@
-import { init, simulate } from "./project/simulation.js";
+import { init, simulate } from "./simulation.js";
 
-let projectName = "Uniform circular motion and simple harmonic oscillator";
-
-const initialState = {
+const emptyWorld = {
+	name: "Empty World",
 	g: 0,
 	scale: 0.01,
 	dt: 1e-5,
@@ -10,62 +9,17 @@ const initialState = {
 	animTime: 1 / 30,
 	width: 600,
 	height: 400,
-	isTimeVisible: false,
+	isTimeVisible: true,
 	isGridVisible: true,
 	isForcesVisible: false,
-	isEnergyVisible: true,
-	points: [
-		{
-			x: 2,
-			y: 2,
-			size: 0.2,
-			isFixed: true,
-		},
-		{
-			x: 2,
-			y: 1,
-			vx: -1,
-			vy: 0,
-			m: 1,
-			size: 0.2,
-			isFixed: false,
-		},
-		{
-			x: 5,
-			y: 0,
-			size: 0.2,
-			isFixed: true,
-		},
-		{
-			x: 5,
-			y: 1,
-			vx: 0,
-			vy: 0,
-			m: 1,
-			size: 0.2,
-			isFixed: false,
-		},
-	],
-	rods: [
-		{
-			point1: 0,
-			point2: 1,
-			elast: 1e5,
-			beta: 0.1,
-			length: 1,
-			isSpring: false,
-		},
-		{
-			point1: 2,
-			point2: 3,
-			elast: 1,
-			beta: 0,
-			length: 2,
-			size: 0.2,
-			isSpring: true,
-		},
-	],
+	isEnergyVisible: false,
+	points: [],
+	rods: [],
 };
+
+const projects = JSON.parse(localStorage.getItem("projects"));
+
+const initialState = projects && projects.length > 0 ? projects[0] : emptyWorld;
 let state;
 
 function scl(dist) {
