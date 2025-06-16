@@ -135,6 +135,30 @@ function changePoint(i) {
 	}
 }
 
+function editParams() {
+	const {
+		name,
+		g,
+		dt,
+		animTime,
+		scale,
+		isTimeVisible,
+		isGridVisible,
+		isForcesVisible,
+		isEnergyVisible,
+	} = initialState;
+
+	inpName.value = name;
+	inpG.value = g;
+	inpDt.value = dt;
+	inpAnimTime.value = animTime;
+	inpScale.value = scale;
+	chkboxShowTime.checked = isTimeVisible;
+	chkboxShowGrid.checked = isGridVisible;
+	chkboxShowForce.checked = isForcesVisible;
+	chkboxShowEnergy.checked = isEnergyVisible;
+}
+
 inpPointIndex.addEventListener("change", () => editPoint(inpPointIndex.value));
 chkboxFixed.addEventListener("change", () => changePoint(inpPointIndex.value));
 inpX.addEventListener("change", () => changePoint(inpPointIndex.value));
@@ -150,3 +174,4 @@ btnDeletePoint.addEventListener("click", () =>
 
 const frm = document.querySelector("form");
 frm.addEventListener("submit", (event) => event.preventDefault());
+editParams();
