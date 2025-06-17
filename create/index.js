@@ -135,6 +135,69 @@ function changePoint(i) {
   }
 }
 
+function editRod(i) {
+  const { rods } = initialState;
+  if (i < 0 || i >= rods.length) return;
+  const rod = rods[i];
+  inpPoint1.value = rod.point1;
+  inpPoint2.value = rod.point2;
+  inpElast.value = rod.elast;
+  inpLength.value = rod.length;
+  inpBeta.value = rod.beta;
+  inpRodSize.value = rod.size;
+  chkboxSpring.checked = rod.isSpring;
+}
+
+function addRod() {
+  const { points, rods } = initialState;
+
+  if (points.length < 2) return;
+
+  rods.push({
+    point1: 0,
+    point2: 1,
+    elast: 1e4,
+    beta: 0,
+    length: 1,
+    size: 0.2,
+    isSpring: false,
+  });
+
+  inpRodIndex.min = 0;
+  inpRodIndex.max = rods.length - 1;
+  inpRodIndex.value = rods.length - 1;
+  editRod(rods.length - 1);
+}
+
+function deleteRod(i) {
+  const { rods } = initialState;
+  if (i < 0 || i >= rods.length) return;
+
+  if (rods.length > 1) rods.splice(i, 1);
+
+  inpRodIndex.max = rods.length - 1;
+  inpRodIndex.value = rods.length - 1;
+  editRod(points.length - 1);
+}
+
+function changeRod(i) {
+  const { points, rods } = initialState;
+  if (i < 0 || i >= rods.length) return;
+
+  const rod = rods[i];
+  const point1 = +inpPoint1.value || 0;
+  const point2 = +inpPoint2.value || 1;
+  if (0 <= point1 && point1 < points.length && point1 !== point2)
+    rod.point1 = point1;
+  if (0 <= point2 && point2 < points.length && point1 !== point2)
+    rod.point2 = point2;
+  rod.elast = +inpElast.value || 1e4;
+  rod.beta = +inpBeta.value || 0;
+  rod.length = +inpLength.value || 1;
+  rod.size = +inpRodSize.value || 0.2;
+  rod.isSpring = chkboxSpring.checked;
+}
+
 function editParams() {
   const {
     name,
@@ -200,6 +263,16 @@ btnDeletePoint.addEventListener("click", () =>
   deletePoint(inpPointIndex.value)
 );
 
+inpRodIndex.addEventListener("change", () => editRod(inpRodIndex.value));
+chkboxSpring.addEventListener("change", () => changeRod(inpRodIndex.value));
+inpPoint1.addEventListener("change", () => changeRod(inpRodIndex.value));
+inpPoint2.addEventListener("change", () => changeRod(inpRodIndex.value));
+inpElast.addEventListener("change", () => changeRod(inpRodIndex.value));
+inpBeta.addEventListener("change", () => changeRod(inpRodIndex.value));
+inpLength.addEventListener("change", () => changeRod(inpRodIndex.value));
+btnNewRod.addEventListener("click", addRod);
+btnDeleteRod.addEventListener("click", () => deleteRod(inpRodIndex.value));
+
 const frm = document.querySelector("form");
 frm.addEventListener("submit", (event) => event.preventDefault());
 editParams();
@@ -210,4 +283,11 @@ if (pointsLength > 0) {
   inpPointIndex.min = 0;
   inpPointIndex.max = pointsLength - 1;
   inpPointIndex.value = pointsLength - 1;
+}
+const rodsLength = initialState.rods.length;
+editRod(rodsLength - 1);
+if (rodsLength > 0) {
+  inpRodIndex.min = 0;
+  inpRodIndex.max = rodsLength - 1;
+  inpRodIndex.value = rodsLength - 1;
 }
