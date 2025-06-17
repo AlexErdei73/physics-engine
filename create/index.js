@@ -159,11 +159,33 @@ function editParams() {
   chkboxShowEnergy.checked = isEnergyVisible;
 }
 
+function changeParams() {
+  initialState.g = +inpG.value || 0;
+  initialState.dt = +inpDt.value || 1e-5;
+  initialState.animTime = +inpAnimTime.value || 1 / 30;
+  initialState.scale = +inpScale.value || 0.01;
+  initialState.isTimeVisible = chkboxShowTime.checked;
+  initialState.isGridVisible = chkboxShowGrid.checked;
+  initialState.isForcesVisible = chkboxShowForce.checked;
+  initialState.isEnergyVisible = chkboxShowEnergy.checked;
+
+  editParams();
+}
+
 function save() {
   initialState.name = inpName.value || initialState.name;
-  projects.push(initialState);
+  projects[0] = initialState;
   localStorage.setItem("projects", JSON.stringify(projects));
 }
+
+inpG.addEventListener("change", () => changeParams());
+inpDt.addEventListener("change", () => changeParams());
+inpAnimTime.addEventListener("change", () => changeParams());
+inpScale.addEventListener("change", () => changeParams());
+chkboxShowTime.addEventListener("change", () => changeParams());
+chkboxShowGrid.addEventListener("change", () => changeParams());
+chkboxShowForce.addEventListener("change", () => changeParams());
+chkboxShowEnergy.addEventListener("change", () => changeParams());
 
 inpPointIndex.addEventListener("change", () => editPoint(inpPointIndex.value));
 chkboxFixed.addEventListener("change", () => changePoint(inpPointIndex.value));
