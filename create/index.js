@@ -60,6 +60,7 @@ const chkboxSpring = document.querySelector("#chkbox-spring");
 
 const btnCreate = document.querySelector("#btn-create");
 const btnSave = document.querySelector("#btn-save");
+const btnDelete = document.querySelector("#btn-delete");
 const btnNewPoint = document.querySelector("#btn-new-point");
 const btnDeletePoint = document.querySelector("#btn-delete-point");
 const btnNewRod = document.querySelector("#btn-new-rod");
@@ -283,6 +284,41 @@ function create() {
   deletePointInputs();
   deleteRodInputs();
 }
+
+const dlg = document.querySelector("dialog");
+const btnCancel = document.querySelector("#btn-cancel");
+const btnProceed = document.querySelector("#btn-proceed");
+function handleClickDelete() {
+  dlg.showModal();
+}
+btnDelete.addEventListener("click", handleClickDelete);
+btnCancel.addEventListener("click", () => dlg.close());
+btnProceed.addEventListener("click", () => {
+  if (projectIndex < 0 || projectIndex >= projects.length) {
+    dlg.close();
+    return;
+  } else {
+    projects.splice(projectIndex, 1);
+    localStorage.setItem("projects", JSON.stringify(projects));
+    if (projectIndex === projects.length) projectIndex--;
+    initialState = projects[projectIndex];
+    editParams();
+    const { points, rods } = initialState;
+    if (points.length === 0) deletePointInputs();
+    else {
+      inpPointIndex.value = 0;
+      //editPoint(0);
+      inpPointIndex.max = points.length - 1;
+    }
+    if (rods.length === 0) deleteRodInputs();
+    else {
+      inpRodIndex.value = 0;
+      //editRod(0);
+      inpRodIndex.max = rods.length - 1;
+    }
+    dlg.close();
+  }
+});
 
 inpG.addEventListener("change", () => changeParams());
 inpDt.addEventListener("change", () => changeParams());
