@@ -1,29 +1,29 @@
 const pageURL = window.location.href;
 
 const emptyWorld = {
-	name: "Empty World",
-	g: 0,
-	scale: 0.01,
-	dt: 1e-5,
-	t: 0,
-	animTime: 1 / 30,
-	width: 600,
-	height: 400,
-	isTimeVisible: true,
-	isGridVisible: true,
-	isForcesVisible: false,
-	isEnergyVisible: false,
-	points: [],
-	rods: [],
+  name: "Empty World",
+  g: 0,
+  scale: 0.01,
+  dt: 1e-5,
+  t: 0,
+  animTime: 1 / 30,
+  width: 600,
+  height: 400,
+  isTimeVisible: true,
+  isGridVisible: true,
+  isForcesVisible: false,
+  isEnergyVisible: false,
+  points: [],
+  rods: [],
 };
 
 const projects = JSON.parse(localStorage.getItem("projects")) || [];
 
 function getProjectIndex(url) {
-	const array = url.split("#");
-	const len = array.length;
-	const index = +array[len - 1];
-	return isNaN(index) ? projects.length - 1 : index;
+  const array = url.split("#");
+  const len = array.length;
+  const index = +array[len - 1];
+  return isNaN(index) ? projects.length - 1 : index;
 }
 
 let projectIndex = getProjectIndex(pageURL);
@@ -66,219 +66,222 @@ const btnNewRod = document.querySelector("#btn-new-rod");
 const btnDeleteRod = document.querySelector("#btn-delete-rod");
 
 function editPoint(i) {
-	const { points } = initialState;
-	if (i < 0 || i >= points.length) return;
-	const point = points[i];
-	inpX.value = point.x;
-	inpY.value = point.y;
-	inpPointSize.value = point.size;
-	chkboxFixed.checked = point.isFixed;
-	if (point.isFixed) {
-		delete point.vx;
-		delete point.vy;
-		delete point.m;
-		inpVx.disabled = true;
-		inpVy.disabled = true;
-		inpM.disabled = true;
-	} else {
-		inpVx.value = point.vx;
-		inpVy.value = point.vy;
-		inpM.value = point.m;
-		inpVx.disabled = false;
-		inpVy.disabled = false;
-		inpM.disabled = false;
-	}
+  const { points } = initialState;
+  if (i < 0 || i >= points.length) return;
+  const point = points[i];
+  inpX.value = point.x;
+  inpY.value = point.y;
+  inpPointSize.value = point.size;
+  chkboxFixed.checked = point.isFixed;
+  if (point.isFixed) {
+    delete point.vx;
+    delete point.vy;
+    delete point.m;
+    inpVx.disabled = true;
+    inpVy.disabled = true;
+    inpM.disabled = true;
+  } else {
+    inpVx.value = point.vx;
+    inpVy.value = point.vy;
+    inpM.value = point.m;
+    inpVx.disabled = false;
+    inpVy.disabled = false;
+    inpM.disabled = false;
+  }
 }
 
 function addPoint() {
-	const { points } = initialState;
+  const { points } = initialState;
 
-	points.push({
-		x: 0,
-		y: 0,
-		vx: 0,
-		vy: 0,
-		m: 1,
-		size: 0.2,
-		isFixed: false,
-	});
+  points.push({
+    x: 0,
+    y: 0,
+    vx: 0,
+    vy: 0,
+    m: 1,
+    size: 0.2,
+    isFixed: false,
+  });
 
-	inpPointIndex.min = 0;
-	inpPointIndex.max = points.length - 1;
-	inpPointIndex.value = points.length - 1;
-	editPoint(points.length - 1);
+  inpPointIndex.min = 0;
+  inpPointIndex.max = points.length - 1;
+  inpPointIndex.value = points.length - 1;
+  editPoint(points.length - 1);
 }
 
 function deletePoint(i) {
-	const { points } = initialState;
-	if (i < 0 || i >= points.length) return;
+  const { points } = initialState;
+  if (i < 0 || i >= points.length) return;
 
-	if (points.length > 1) points.splice(i, 1);
+  points.splice(i, 1);
 
-	inpPointIndex.max = points.length - 1;
-	inpPointIndex.value = points.length - 1;
-	editPoint(points.length - 1);
+  inpPointIndex.max = points.length - 1;
+  inpPointIndex.value = points.length - 1;
+  points.length === 0 ? deletePointInputs() : editPoint(points.length - 1);
 }
 
 function changePoint(i) {
-	const { points } = initialState;
-	if (i < 0 || i >= points.length) return;
+  const { points } = initialState;
+  if (i < 0 || i >= points.length) return;
 
-	const point = points[i];
-	point.x = +inpX.value || 0;
-	point.y = +inpY.value || 0;
-	point.size = +inpPointSize.value || 0.2;
-	point.isFixed = chkboxFixed.checked;
-	if (!point.isFixed) {
-		point.vx = +inpVx.value || 0;
-		point.vy = +inpVy.value || 0;
-		point.m = +inpM.value || 1;
-		inpVx.disabled = false;
-		inpVy.disabled = false;
-		inpM.disabled = false;
-	} else {
-		delete point.vx;
-		delete point.vy;
-		delete point.m;
-		inpVx.disabled = true;
-		inpVy.disabled = true;
-		inpM.disabled = true;
-	}
+  const point = points[i];
+  point.x = +inpX.value || 0;
+  point.y = +inpY.value || 0;
+  point.size = +inpPointSize.value || 0.2;
+  point.isFixed = chkboxFixed.checked;
+  if (!point.isFixed) {
+    point.vx = +inpVx.value || 0;
+    point.vy = +inpVy.value || 0;
+    point.m = +inpM.value || 1;
+    inpVx.disabled = false;
+    inpVy.disabled = false;
+    inpM.disabled = false;
+  } else {
+    delete point.vx;
+    delete point.vy;
+    delete point.m;
+    inpVx.disabled = true;
+    inpVy.disabled = true;
+    inpM.disabled = true;
+  }
 }
 
 function editRod(i) {
-	const { rods } = initialState;
-	if (i < 0 || i >= rods.length) return;
-	const rod = rods[i];
-	inpPoint1.value = rod.point1;
-	inpPoint2.value = rod.point2;
-	inpElast.value = rod.elast;
-	inpLength.value = rod.length;
-	inpBeta.value = rod.beta;
-	inpRodSize.value = rod.size;
-	chkboxSpring.checked = rod.isSpring;
+  const { rods } = initialState;
+  if (i < 0 || i >= rods.length) return;
+  const rod = rods[i];
+  inpPoint1.value = rod.point1;
+  inpPoint2.value = rod.point2;
+  inpElast.value = rod.elast;
+  inpLength.value = rod.length;
+  inpBeta.value = rod.beta;
+  inpRodSize.value = rod.size;
+  chkboxSpring.checked = rod.isSpring;
 }
 
 function addRod() {
-	const { points, rods } = initialState;
+  const { points, rods } = initialState;
 
-	if (points.length < 2) return;
+  if (points.length < 2) return;
 
-	rods.push({
-		point1: 0,
-		point2: 1,
-		elast: 1e4,
-		beta: 0,
-		length: 1,
-		size: 0.2,
-		isSpring: false,
-	});
+  rods.push({
+    point1: 0,
+    point2: 1,
+    elast: 1e4,
+    beta: 0,
+    length: 1,
+    size: 0.2,
+    isSpring: false,
+  });
 
-	inpRodIndex.min = 0;
-	inpRodIndex.max = rods.length - 1;
-	inpRodIndex.value = rods.length - 1;
-	editRod(rods.length - 1);
+  inpRodIndex.min = 0;
+  inpRodIndex.max = rods.length - 1;
+  inpRodIndex.value = rods.length - 1;
+  editRod(rods.length - 1);
 }
 
 function deleteRod(i) {
-	const { rods } = initialState;
-	if (i < 0 || i >= rods.length) return;
+  const { rods } = initialState;
+  if (i < 0 || i >= rods.length) return;
 
-	if (rods.length > 1) rods.splice(i, 1);
+  rods.splice(i, 1);
 
-	inpRodIndex.max = rods.length - 1;
-	inpRodIndex.value = rods.length - 1;
-	editRod(points.length - 1);
+  inpRodIndex.max = rods.length - 1;
+  inpRodIndex.value = rods.length - 1;
+  rods.length === 0 ? deleteRodInputs() : editRod(rods.length - 1);
 }
 
 function changeRod(i) {
-	const { points, rods } = initialState;
-	if (i < 0 || i >= rods.length) return;
+  const { points, rods } = initialState;
+  if (i < 0 || i >= rods.length) return;
 
-	const rod = rods[i];
-	const point1 = +inpPoint1.value || 0;
-	const point2 = +inpPoint2.value || 1;
-	if (0 <= point1 && point1 < points.length && point1 !== point2)
-		rod.point1 = point1;
-	if (0 <= point2 && point2 < points.length && point1 !== point2)
-		rod.point2 = point2;
-	rod.elast = +inpElast.value || 1e4;
-	rod.beta = +inpBeta.value || 0;
-	rod.length = +inpLength.value || 1;
-	rod.size = +inpRodSize.value || 0.2;
-	rod.isSpring = chkboxSpring.checked;
+  const rod = rods[i];
+  const point1 = +inpPoint1.value || 0;
+  const point2 = +inpPoint2.value || 1;
+  if (0 <= point1 && point1 < points.length && point1 !== point2)
+    rod.point1 = point1;
+  if (0 <= point2 && point2 < points.length && point1 !== point2)
+    rod.point2 = point2;
+  rod.elast = +inpElast.value || 1e4;
+  rod.beta = +inpBeta.value || 0;
+  rod.length = +inpLength.value || 1;
+  rod.size = +inpRodSize.value || 0.2;
+  rod.isSpring = chkboxSpring.checked;
 }
 
 function editParams() {
-	const {
-		name,
-		g,
-		dt,
-		animTime,
-		scale,
-		isTimeVisible,
-		isGridVisible,
-		isForcesVisible,
-		isEnergyVisible,
-	} = initialState;
+  const {
+    name,
+    g,
+    dt,
+    animTime,
+    scale,
+    isTimeVisible,
+    isGridVisible,
+    isForcesVisible,
+    isEnergyVisible,
+  } = initialState;
 
-	inpName.value = name;
-	inpG.value = g;
-	inpDt.value = dt;
-	inpAnimTime.value = animTime;
-	inpScale.value = scale;
-	chkboxShowTime.checked = isTimeVisible;
-	chkboxShowGrid.checked = isGridVisible;
-	chkboxShowForce.checked = isForcesVisible;
-	chkboxShowEnergy.checked = isEnergyVisible;
+  inpName.value = name;
+  inpG.value = g;
+  inpDt.value = dt;
+  inpAnimTime.value = animTime;
+  inpScale.value = scale;
+  chkboxShowTime.checked = isTimeVisible;
+  chkboxShowGrid.checked = isGridVisible;
+  chkboxShowForce.checked = isForcesVisible;
+  chkboxShowEnergy.checked = isEnergyVisible;
 }
 
 function changeParams() {
-	initialState.g = +inpG.value || 0;
-	initialState.dt = +inpDt.value || 1e-5;
-	initialState.animTime = +inpAnimTime.value || 1 / 30;
-	initialState.scale = +inpScale.value || 0.01;
-	initialState.isTimeVisible = chkboxShowTime.checked;
-	initialState.isGridVisible = chkboxShowGrid.checked;
-	initialState.isForcesVisible = chkboxShowForce.checked;
-	initialState.isEnergyVisible = chkboxShowEnergy.checked;
+  initialState.g = +inpG.value || 0;
+  initialState.dt = +inpDt.value || 1e-5;
+  initialState.animTime = +inpAnimTime.value || 1 / 30;
+  initialState.scale = +inpScale.value || 0.01;
+  initialState.isTimeVisible = chkboxShowTime.checked;
+  initialState.isGridVisible = chkboxShowGrid.checked;
+  initialState.isForcesVisible = chkboxShowForce.checked;
+  initialState.isEnergyVisible = chkboxShowEnergy.checked;
 
-	editParams();
+  editParams();
 }
 
 function deletePointInputs() {
-	inpPointIndex.value = "";
-	inpX.value = "";
-	inpY.value = "";
-	inpVx.value = "";
-	inpVy.value = "";
-	inpM.value = "";
-	chkboxFixed.checked = false;
+  inpPointIndex.value = "";
+  inpX.value = "";
+  inpY.value = "";
+  inpVx.value = "";
+  inpVy.value = "";
+  inpM.value = "";
+  inpPointSize.value = "";
+  chkboxFixed.checked = false;
 }
 
 function deleteRodInputs() {
-	inpRodIndex.value = "";
-	inpPoint1.value = "";
-	inpPoint2.value = "";
-	inpElast.value = "";
-	inpBeta.value = "";
-	chkboxSpring.checked = false;
+  inpRodIndex.value = "";
+  inpPoint1.value = "";
+  inpPoint2.value = "";
+  inpElast.value = "";
+  inpBeta.value = "";
+  inpRodSize.value = "";
+  inpLength.value = "";
+  chkboxSpring.checked = false;
 }
 
 function save() {
-	initialState.name = inpName.value || initialState.name;
-	projects[projectIndex] = initialState;
-	localStorage.setItem("projects", JSON.stringify(projects));
+  initialState.name = inpName.value || initialState.name;
+  projects[projectIndex] = initialState;
+  localStorage.setItem("projects", JSON.stringify(projects));
 }
 
 function create() {
-	initialState = emptyWorld;
-	projects.push(initialState);
-	projectIndex = projects.length - 1;
-	localStorage.setItem("projects", JSON.stringify(projects));
-	editParams();
-	deletePointInputs();
-	deleteRodInputs();
+  initialState = emptyWorld;
+  projects.push(initialState);
+  projectIndex = projects.length - 1;
+  localStorage.setItem("projects", JSON.stringify(projects));
+  editParams();
+  deletePointInputs();
+  deleteRodInputs();
 }
 
 inpG.addEventListener("change", () => changeParams());
@@ -300,7 +303,7 @@ inpM.addEventListener("change", () => changePoint(inpPointIndex.value));
 inpPointSize.addEventListener("change", () => changePoint(inpPointIndex.value));
 btnNewPoint.addEventListener("click", addPoint);
 btnDeletePoint.addEventListener("click", () =>
-	deletePoint(inpPointIndex.value)
+  deletePoint(inpPointIndex.value)
 );
 
 inpRodIndex.addEventListener("change", () => editRod(inpRodIndex.value));
@@ -321,14 +324,14 @@ btnCreate.addEventListener("click", create);
 const pointsLength = initialState.points.length;
 editPoint(pointsLength - 1);
 if (pointsLength > 0) {
-	inpPointIndex.min = 0;
-	inpPointIndex.max = pointsLength - 1;
-	inpPointIndex.value = pointsLength - 1;
+  inpPointIndex.min = 0;
+  inpPointIndex.max = pointsLength - 1;
+  inpPointIndex.value = pointsLength - 1;
 }
 const rodsLength = initialState.rods.length;
 editRod(rodsLength - 1);
 if (rodsLength > 0) {
-	inpRodIndex.min = 0;
-	inpRodIndex.max = rodsLength - 1;
-	inpRodIndex.value = rodsLength - 1;
+  inpRodIndex.min = 0;
+  inpRodIndex.max = rodsLength - 1;
+  inpRodIndex.value = rodsLength - 1;
 }

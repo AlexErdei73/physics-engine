@@ -37,7 +37,10 @@ function getProjectIndex(url) {
 
 let projectIndex = getProjectIndex(pageURL);
 
-let initialState = projects.length > 0 ? projects[projectIndex] : emptyWorld;
+let initialState =
+  projects.length > 0 && projectIndex < projects.length
+    ? projects[projectIndex]
+    : emptyWorld;
 setInitialState(initialState);
 
 reset();
@@ -54,7 +57,7 @@ const energyChkBox = document.querySelector("#energy");
 
 startBtn.addEventListener("click", start);
 stopBtn.addEventListener("click", stop);
-resetBtn.addEventListener("click", reset);
+resetBtn.addEventListener("click", () => reset());
 zoomInBtn.addEventListener("click", () => zoom(true));
 zoomOutBtn.addEventListener("click", () => zoom(false));
 

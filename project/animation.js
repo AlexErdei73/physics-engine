@@ -12,11 +12,11 @@ export function stop() {
   raf = false;
 }
 
-export function reset() {
+export function reset(canvas) {
   init(initialState);
   raf = false;
   state = null;
-  draw(false);
+  !canvas ? draw(false) : draw(false, canvas);
 }
 
 export function zoom(isIn) {
@@ -210,8 +210,8 @@ function calcEnergy(state) {
   };
 }
 
-export function draw(animate = true) {
-  const canvas = document.querySelector("canvas");
+export function draw(animate = true, canvas) {
+  if (!canvas) canvas = document.querySelector("canvas");
   if (canvas.getContext) {
     const ctx = canvas.getContext("2d");
     if (animate) {

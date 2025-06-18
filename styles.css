@@ -117,6 +117,10 @@ figure canvas {
   width: 15em;
 }
 
+figcaption {
+  text-align: center;
+}
+
 @media (max-width: 42em) {
   h1 {
     clip: rect(0 0 0 0);
