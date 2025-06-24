@@ -307,13 +307,11 @@ btnProceed.addEventListener("click", () => {
     if (points.length === 0) deletePointInputs();
     else {
       inpPointIndex.value = 0;
-      //editPoint(0);
       inpPointIndex.max = points.length - 1;
     }
     if (rods.length === 0) deleteRodInputs();
     else {
       inpRodIndex.value = 0;
-      //editRod(0);
       inpRodIndex.max = rods.length - 1;
     }
     dlg.close();
