@@ -90,6 +90,11 @@ form fieldset {
   margin: auto;
 }
 
+#frm-login {
+  justify-content: center;
+  align-items: center;
+}
+
 .inp-container {
   display: flex;
   justify-content: flex-start;
