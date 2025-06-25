@@ -1,3 +1,5 @@
+import { postProject, putProject } from "../backend.js";
+
 const pageURL = window.location.href;
 
 const emptyWorld = {
@@ -269,13 +271,35 @@ function deleteRodInputs() {
   chkboxSpring.checked = false;
 }
 
-function save() {
+async function save() {
   initialState.name = inpName.value || initialState.name;
   projects[projectIndex] = initialState;
   localStorage.setItem("projects", JSON.stringify(projects));
+  const userStr = localStorage.getItem("user");
+  if (!userStr) return;
+  const user = JSON.parse(userStr);
+  const { projectID, userID } = initialState;
+  if (userID !== initialState.userID) return;
+  delete initialState.projectID;
+  delete initialState.userID;
+  delete initialState.isPublished;
+  const json = await putProject(
+    projectID,
+    { content: JSON.stringify(initialState) },
+    user.token
+  );
+  if (json.error) {
+    console.error(json.error);
+    //showError(node, json.error);
+  } else {
+    initialState.projectID = projectID;
+    initialState.userID = user.userID;
+    initialState.isPublished = false;
+    projects[projectIndex] = initialState;
+  }
 }
 
-function create() {
+async function create() {
   initialState = emptyWorld;
   projects.push(initialState);
   projectIndex = projects.length - 1;
@@ -283,6 +307,20 @@ function create() {
   editParams();
   deletePointInputs();
   deleteRodInputs();
+  const userStr = localStorage.getItem("user");
+  if (!userStr) return;
+  const user = JSON.parse(userStr);
+  const projectID = crypto.randomUUID();
+  const json = await postProject(initialState, projectID, 0, user);
+  if (json.error) {
+    console.error(json.error);
+    //showError(node, json.error);
+  } else {
+    initialState.projectID = projectID;
+    initialState.userID = user.userID;
+    initialState.isPublished = false;
+    projects[projectIndex] = initialState;
+  }
 }
 
 const dlg = document.querySelector("dialog");
