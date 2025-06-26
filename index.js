@@ -55,6 +55,7 @@ populateCanvases();
 
 const btnBack = document.querySelector("#btn-back");
 const btnNext = document.querySelector("#btn-next");
+const btnLogout = document.querySelector("#btn-logout");
 btnBack.addEventListener("click", () => {
 	if (page > 0) {
 		page--;
@@ -67,3 +68,11 @@ btnNext.addEventListener("click", () => {
 		populateCanvases();
 	}
 });
+btnLogout.addEventListener("click", () => {
+	localStorage.removeItem("user");
+	localStorage.removeItem("projects");
+	window.location.href = "/physics-engine/login/";
+});
+const user = JSON.parse(localStorage.getItem("user"));
+if (!user || !user.userID) btnLogout.disabled = true;
+else btnLogout.disabled = false;
