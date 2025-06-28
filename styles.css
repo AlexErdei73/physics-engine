@@ -95,6 +95,12 @@ form fieldset {
   align-items: center;
 }
 
+#frm-login fieldset {
+  width: auto;
+  height: auto;
+  min-height: none;
+}
+
 .inp-container {
   display: flex;
   justify-content: flex-start;
@@ -113,6 +119,12 @@ main {
   flex-wrap: wrap;
 }
 
+#main-login {
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 4em);
+}
+
 figure {
   flex: 1 1 0;
   min-width: 250px;
@@ -124,6 +136,10 @@ figure canvas {
 
 figcaption {
   text-align: center;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 @media (max-width: 42em) {
