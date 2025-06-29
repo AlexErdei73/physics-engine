@@ -1,4 +1,5 @@
 import { setInitialState, reset } from "./project/animation.js";
+import { fetchProjects } from "./backend.js";
 
 const BASE_URL = "/physics-engine/";
 
@@ -23,17 +24,22 @@ const NUMBER_OF_PROJECTS_ON_HOMEPAGE = 8;
 
 let page = 0;
 
-const projects = JSON.parse(localStorage.getItem("projects")) || [];
+let projects = JSON.parse(localStorage.getItem("projects")) || [];
 let len = projects.length;
 
 if (len === 0) {
-	projects.push(emptyWorld);
-	len++;
+	await fetchProjects();
+	projects = JSON.parse(localStorage.getItem("projects")) || [];
+	len = projects.length;
+	if (len === 0) {
+		projects.push(emptyWorld);
+		len++;
+	}
 }
 
 const maxPage = Math.floor((len - 1) / NUMBER_OF_PROJECTS_ON_HOMEPAGE);
 
-function populateCanvases() {
+async function populateCanvases() {
 	for (let i = 0; i < NUMBER_OF_PROJECTS_ON_HOMEPAGE; i++) {
 		const canvId = `canv-${i}`;
 		const figcapId = `figcap-${i}`;
