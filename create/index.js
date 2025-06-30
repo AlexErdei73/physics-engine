@@ -1,4 +1,4 @@
-import { postProject, putProject } from "../backend.js";
+import { deleteProject, postProject, putProject } from "../backend.js";
 
 const BASE_URL = "/physics-engine/";
 const pageURL = window.location.href;
@@ -276,15 +276,28 @@ function deleteRodInputs() {
   chkboxSpring.checked = false;
 }
 
+function updateLinks() {
+  const aCreate = document.querySelector("#a-create");
+  const aProject = document.querySelector("#a-project");
+  aCreate.href =
+    projectIndex < projects.length
+      ? `${BASE_URL}create#${projectIndex}`
+      : `${BASE_URL}create`;
+  aProject.href =
+    projectIndex < projects.length
+      ? `${BASE_URL}project#${projectIndex}`
+      : `${BASE_URL}project`;
+}
+
 async function save() {
   initialState.name = inpName.value || initialState.name;
   projects[projectIndex] = initialState;
   localStorage.setItem("projects", JSON.stringify(projects));
-  const userStr = localStorage.getItem("user");
-  if (!userStr) return;
-  const user = JSON.parse(userStr);
+  //const userStr = localStorage.getItem("user");
+  //if (!userStr) return;
+  //const user = JSON.parse(userStr);
   const { projectID, userID } = initialState;
-  if (userID !== initialState.userID) return;
+  if (userID !== user.userID) return;
   delete initialState.projectID;
   delete initialState.userID;
   delete initialState.isPublished;
@@ -325,6 +338,7 @@ async function create() {
     initialState.userID = user.userID;
     initialState.isPublished = false;
     projects[projectIndex] = initialState;
+    updateLinks();
   }
 }
 
@@ -336,11 +350,19 @@ function handleClickDelete() {
 }
 btnDelete.addEventListener("click", handleClickDelete);
 btnCancel.addEventListener("click", () => dlg.close());
-btnProceed.addEventListener("click", () => {
+btnProceed.addEventListener("click", async () => {
   if (projectIndex < 0 || projectIndex >= projects.length) {
     dlg.close();
     return;
   } else {
+    const json = await deleteProject(
+      projects[projectIndex].projectID,
+      user.token
+    );
+    if (json.error) {
+      console.error(json.error);
+      //showError(node, json.error);
+    }
     projects.splice(projectIndex, 1);
     localStorage.setItem("projects", JSON.stringify(projects));
     if (projectIndex === projects.length) projectIndex--;
@@ -357,6 +379,7 @@ btnProceed.addEventListener("click", () => {
       inpRodIndex.value = 0;
       inpRodIndex.max = rods.length - 1;
     }
+    updateLinks();
     dlg.close();
   }
 });
@@ -413,14 +436,11 @@ if (rodsLength > 0) {
   inpRodIndex.value = rodsLength - 1;
 }
 
-const aCreate = document.querySelector("#a-create");
-const aProject = document.querySelector("#a-project");
-aCreate.href = `${BASE_URL}create#${projectIndex}`;
-aProject.href = `${BASE_URL}project#${projectIndex}`;
+updateLinks();
 
 const chkboxPublished = document.querySelector("#chkbox-published");
 chkboxPublished.checked = initialState.isPublished;
-//chkboxPublished.disabled = !user.userID || initialState.userID !== user.userID;
+chkboxPublished.disabled = !user.userID || initialState.userID !== user.userID;
 chkboxPublished.addEventListener("change", async () => {
   const isPublished = +chkboxPublished.checked;
   const json = await putProject(
