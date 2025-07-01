@@ -31,17 +31,21 @@ export async function register(user) {
 
 export async function login(user) {
   const { email, password } = user;
-  const response = await fetch(
-    `${BASE_URL}login?email=${email}&password=${password}`,
-    {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  return await getJSON(response);
+  try {
+    const response = await fetch(
+      `${BASE_URL}login?email=${email}&password=${password}`,
+      {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return await getJSON(response);
+  } catch (error) {
+    return { error };
+  }
 }
 // end code from image-storage project
 
