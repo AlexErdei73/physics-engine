@@ -46,7 +46,7 @@ nav a {
 
 canvas {
   display: block;
-  margin: auto;
+  margin: 1em auto;
   background-color: lightgray;
   border: 1px solid black;
   width: 90%;
@@ -55,11 +55,24 @@ canvas {
 }
 
 .ctrl-container {
-  width: 600px;
-  max-width: 90%;
+  flex: 1 1 300px;
+  max-width: min(600px, 90%);
   margin: 1em auto;
   display: flex;
   justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5em;
+}
+
+.ctrl-container fieldset {
+  flex: 1 1 300px;
+  max-width: min(600px, 90%);
+  min-width: min(400px, 90%);
+  margin: 1em auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   flex-wrap: wrap;
   gap: 0.5em;
 }
@@ -120,6 +133,8 @@ main {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  gap: 0.5em;
+  padding: 0 0.5em;
 }
 
 #main-login,
