@@ -212,6 +212,15 @@ function calcEnergy(state) {
 	};
 }
 
+function showFreq(ctx, periodicExtForce, t, yPos) {
+	const { omega, isOn, tMin, tMax } = periodicExtForce;
+	if (isOn && t >= tMin && t <= tMax) {
+		ctx.fillStyle = "red";
+		ctx.fillText(`freq: ${Number(omega / 2 / Math.PI).toFixed(3)}`, 20, yPos);
+		ctx.fillStyle = "black";
+	}
+}
+
 export function draw(animate = true, canvas) {
 	if (!canvas) canvas = document.querySelector("canvas");
 	if (canvas.getContext) {
@@ -228,10 +237,12 @@ export function draw(animate = true, canvas) {
 			isTimeVisible,
 			isForcesVisible,
 			isEnergyVisible,
+			periodicExtForce,
+			t,
 		} = state;
 		ctx.clearRect(0, 0, width, height);
 		if (isGridVisible) drawGrid(width, height, scale, ctx);
-		if (isTimeVisible) ctx.fillText(Number(state.t).toFixed(3), 20, 20);
+		if (isTimeVisible) ctx.fillText(Number(t).toFixed(3), 20, 20);
 		if (isEnergyVisible) {
 			const energy = calcEnergy(state);
 			const { kinetic, potential, total } = energy;
@@ -241,6 +252,9 @@ export function draw(animate = true, canvas) {
 			ctx.fillText(`potential: ${Number(potential).toFixed(3)}`, 20, 60);
 			ctx.fillStyle = "black";
 			ctx.fillText(`total: ${Number(total).toFixed(3)}`, 20, 80);
+			showFreq(ctx, periodicExtForce, t, 100);
+		} else {
+			showFreq(ctx, periodicExtForce, t, 40);
 		}
 		drawState(state, ctx);
 		if (isForcesVisible) drawForces(state, ctx);

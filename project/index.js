@@ -93,7 +93,6 @@ rangeFreq.addEventListener("change", () => {
 	const rangeValue = rangeFreq.value;
 	const { freqMin, freqMax } = initialState.periodicExtForce;
 	const f = freqMin + ((freqMax - freqMin) / 100) * rangeValue;
-	const div = document.querySelector("fieldset.range div");
 	extForce.omega = 2 * Math.PI * f;
-	div.textContent = `f: ${f}`;
+	draw(false);
 });
