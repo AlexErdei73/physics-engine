@@ -85,3 +85,15 @@ const aCreate = document.querySelector("#a-create");
 const aProject = document.querySelector("#a-project");
 aCreate.href = `${BASE_URL}create#${projectIndex}`;
 aProject.href = `${BASE_URL}project#${projectIndex}`;
+
+const rangeFreq = document.querySelector("#range-freq");
+const { periodicExtForce: extForce } = initialState;
+rangeFreq.disabled = !extForce.isOn;
+rangeFreq.addEventListener("change", () => {
+	const rangeValue = rangeFreq.value;
+	const { freqMin, freqMax } = initialState.periodicExtForce;
+	const f = freqMin + ((freqMax - freqMin) / 100) * rangeValue;
+	const div = document.querySelector("fieldset.range div");
+	extForce.omega = 2 * Math.PI * f;
+	div.textContent = `f: ${f}`;
+});

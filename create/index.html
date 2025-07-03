@@ -1,164 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../styles.css" />
-    <script type="module" src="./index.js"></script>
-    <title>Physics-Engine</title>
-  </head>
-  <body>
-    <nav>
-      <a href="/physics-engine/">
-        <h1>2D Physics Engine</h1>
-      </a>
-      <ul>
-        <li><a href="/physics-engine/">Home</a></li>
-        <li><a href="/physics-engine/about">About</a></li>
-        <li><a href="/physics-engine/project" id="a-project">Project</a></li>
-        <li><a href="/physics-engine/create" id="a-create">Create</a></li>
-        <li><a href="/physics-engine/login">Login</a></li>
-        <li><a href="/physics-engine/signup">Sign Up</a></li>
-      </ul>
-    </nav>
-    <form>
-      <fieldset class="container">
-        <legend>Storage</legend>
-        <div class="inp-container">
-          <label for="inp-name">Name:</label>
-          <input type="text" id="inp-name" />
-        </div>
-        <div class="inp-container">
-          <button type="button" id="btn-create">Create</button>
-          <button type="button" id="btn-save">Save</button>
-          <button type="button" id="btn-delete">Delete</button>
-        </div>
-        <div class="inp-container">
-          <label for="published">Published</label>
-          <input type="checkbox" id="chkbox-published" name="published" />
-        </div>
-      </fieldset>
-      <fieldset class="container">
-        <legend>Parameters</legend>
-        <div class="inp-container">
-          <label for="inp-g">g:</label>
-          <input type="number" step="any" id="inp-g" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-scale">scale:</label>
-          <input type="number" step="any" id="inp-scale" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-dt">dt:</label>
-          <input type="number" step="any" id="inp-dt" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-anim-time">anim time:</label>
-          <input type="number" step="any" id="inp-anim-time" />
-        </div>
-        <div class="inp-container">
-          <label for="chkbox-show-time">show time:</label>
-          <input type="checkbox" id="chkbox-show-time" />
-        </div>
-        <div class="inp-container">
-          <label for="chkbox-show-grid">show grid:</label>
-          <input type="checkbox" id="chkbox-show-grid" />
-        </div>
-        <div class="inp-container">
-          <label for="chkbox-show-force">show force:</label>
-          <input type="checkbox" id="chkbox-show-force" />
-        </div>
-        <div class="inp-container">
-          <label for="chkbox-show-energy">show energy:</label>
-          <input type="checkbox" id="chkbox-show-energy" />
-        </div>
-      </fieldset>
-      <fieldset class="container">
-        <legend>Points</legend>
-        <div class="inp-container">
-          <label for="inp-point-index">index:</label>
-          <input type="number" id="inp-point-index" min="-1" max="-1" />
-        </div>
-        <div class="inp-container">
-          <button id="btn-new-point">New</button>
-          <button id="btn-delete-point">Delete</button>
-        </div>
-        <div class="inp-container">
-          <label for="inp-x">x:</label>
-          <input type="number" step="any" id="inp-x" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-y">y:</label>
-          <input type="number" step="any" id="inp-y" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-vx">vx:</label>
-          <input type="number" step="any" id="inp-vx" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-vy">vy:</label>
-          <input type="number" step="any" id="inp-vy" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-m">m:</label>
-          <input type="number" step="any" id="inp-m" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-point-size">size:</label>
-          <input type="number" step="any" id="inp-point-size" />
-        </div>
-        <div class="inp-container">
-          <label for="chkbox-fixed">Point fixed:</label>
-          <input type="checkbox" id="chkbox-fixed" />
-        </div>
-      </fieldset>
-      <fieldset class="container">
-        <legend>Rods</legend>
-        <div class="inp-container">
-          <label for="inp-rod-index">index:</label>
-          <input type="number" id="inp-rod-index" min="-1" max="-1" />
-        </div>
-        <div class="inp-container">
-          <button id="btn-new-rod">New</button>
-          <button id="btn-delete-rod">Delete</button>
-        </div>
-        <div class="inp-container">
-          <label for="inp-point1">point1:</label>
-          <input type="number" id="inp-point1" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-point2">point2:</label>
-          <input type="number" id="inp-point2" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-elast">elasticity:</label>
-          <input type="number" step="any" id="inp-elast" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-beta">beta:</label>
-          <input type="number" step="any" id="inp-beta" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-length">length:</label>
-          <input type="number" step="any" id="inp-length" />
-        </div>
-        <div class="inp-container">
-          <label for="inp-rod-size">size:</label>
-          <input type="number" step="any" id="inp-rod-size" />
-        </div>
-        <div class="inp-container">
-          <label for="chkbox-spring">Is spring:</label>
-          <input type="checkbox" id="chkbox-spring" />
-        </div>
-      </fieldset>
-    </form>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="../styles.css" />
+		<script type="module" src="./index.js"></script>
+		<title>Physics-Engine</title>
+	</head>
+	<body>
+		<nav>
+			<a href="/physics-engine/">
+				<h1>2D Physics Engine</h1>
+			</a>
+			<ul>
+				<li><a href="/physics-engine/">Home</a></li>
+				<li><a href="/physics-engine/about">About</a></li>
+				<li><a href="/physics-engine/project" id="a-project">Project</a></li>
+				<li><a href="/physics-engine/create" id="a-create">Create</a></li>
+				<li><a href="/physics-engine/login">Login</a></li>
+				<li><a href="/physics-engine/signup">Sign Up</a></li>
+			</ul>
+		</nav>
+		<form>
+			<fieldset class="container">
+				<legend>Storage</legend>
+				<label>
+					Name:
+					<input type="text" id="inp-name" />
+				</label>
 
-    <dialog>
-      <p>Are you sure you want to delete the project?</p>
-      <div class="ctrl-container">
-        <button type="button" id="btn-cancel">Cancel</button>
-        <button type="button" id="btn-proceed">Proceed</button>
-      </div>
-    </dialog>
-  </body>
+				<div class="inp-container">
+					<button type="button" id="btn-create">Create</button>
+					<button type="button" id="btn-save">Save</button>
+					<button type="button" id="btn-delete">Delete</button>
+				</div>
+
+				<label for="published">
+					Published:
+					<input type="checkbox" id="chkbox-published" name="published" />
+				</label>
+			</fieldset>
+
+			<fieldset class="container">
+				<legend>Parameters</legend>
+				<label>
+					g:
+					<input type="number" step="any" id="inp-g" />
+				</label>
+
+				<label>
+					scale:
+					<input type="number" step="any" id="inp-scale" />
+				</label>
+
+				<label>
+					dt:
+					<input type="number" step="any" id="inp-dt" />
+				</label>
+
+				<label for="inp-anim-time">
+					anim time:
+					<input type="number" step="any" id="inp-anim-time" />
+				</label>
+
+				<label for="show-time">
+					show time:
+					<input type="checkbox" id="chkbox-show-time" name="show-time" />
+				</label>
+
+				<label for="show-grid">
+					show grid:
+					<input type="checkbox" id="chkbox-show-grid" name="show-grid" />
+				</label>
+
+				<label for="show-force">
+					show force:
+					<input type="checkbox" id="chkbox-show-force" name="show-force" />
+				</label>
+
+				<label for="show-energy">
+					show energy:
+					<input type="checkbox" id="chkbox-show-energy" name="show-energy" />
+				</label>
+			</fieldset>
+
+			<fieldset class="container">
+				<legend>Points</legend>
+
+				<label>
+					index:
+					<input type="number" id="inp-point-index" min="-1" max="-1" />
+				</label>
+
+				<div class="inp-container">
+					<button id="btn-new-point">New</button>
+					<button id="btn-delete-point">Delete</button>
+				</div>
+
+				<label>
+					x:
+					<input type="number" step="any" id="inp-x" />
+				</label>
+
+				<label>
+					y:
+					<input type="number" step="any" id="inp-y" />
+				</label>
+
+				<label>
+					vx:
+					<input type="number" step="any" id="inp-vx" />
+				</label>
+
+				<label>
+					vy:
+					<input type="number" step="any" id="inp-vy" />
+				</label>
+
+				<label>
+					m:
+					<input type="number" step="any" id="inp-m" />
+				</label>
+
+				<label>
+					size:
+					<input type="number" step="any" id="inp-point-size" />
+				</label>
+
+				<label>
+					Point fixed:
+					<input type="checkbox" id="chkbox-fixed" />
+				</label>
+			</fieldset>
+
+			<fieldset>
+				<legend>Rods</legend>
+
+				<label>
+					index:
+					<input type="number" id="inp-rod-index" min="-1" max="-1" />
+				</label>
+
+				<div class="inp-container">
+					<button id="btn-new-rod">New</button>
+					<button id="btn-delete-rod">Delete</button>
+				</div>
+
+				<label for="inp-point1">
+					point1:
+					<input type="number" id="inp-point1" />
+				</label>
+
+				<label>
+					point2:
+					<input type="number" id="inp-point2" />
+				</label>
+
+				<label>
+					elasticity:
+					<input type="number" step="any" id="inp-elast" />
+				</label>
+
+				<label for="inp-beta">
+					beta:
+					<input type="number" step="any" id="inp-beta" />
+				</label>
+
+				<label>
+					length:
+					<input type="number" step="any" id="inp-length" />
+				</label>
+
+				<label>
+					size:
+					<input type="number" step="any" id="inp-rod-size" />
+				</label>
+
+				<label>
+					Is spring:
+					<input type="checkbox" id="chkbox-spring" />
+				</label>
+			</fieldset>
+
+			<fieldset class="container">
+				<legend>Periodic External Force</legend>
+
+				<label>
+					point:
+					<input
+						type="number"
+						id="inp-ext-force-point-index"
+						min="-1"
+						max="-1"
+					/>
+				</label>
+
+				<label>
+					t min:
+					<input type="number" step="any" id="inp-t-min" />
+				</label>
+
+				<label>
+					t max:
+					<input type="number" step="any" id="inp-t-max" />
+				</label>
+
+				<label>
+					freq min:
+					<input type="number" step="any" id="inp-freq-min" />
+				</label>
+
+				<label>
+					freq max:
+					<input type="number" step="any" id="inp-freq-max" />
+				</label>
+
+				<label>
+					F0x:
+					<input type="number" step="any" id="inp-F0x" />
+				</label>
+
+				<label>
+					fix:
+					<input type="number" step="any" id="inp-fix" />
+				</label>
+
+				<label>
+					F0y:
+					<input type="number" step="any" id="inp-F0y" />
+				</label>
+
+				<label>
+					fiy:
+					<input type="number" step="any" id="inp-fiy" />
+				</label>
+
+				<label>
+					Is on:
+					<input type="checkbox" id="chkbox-on" />
+				</label>
+			</fieldset>
+		</form>
+
+		<dialog>
+			<p>Are you sure you want to delete the project?</p>
+			<div class="ctrl-container">
+				<button type="button" id="btn-cancel">Cancel</button>
+				<button type="button" id="btn-proceed">Proceed</button>
+			</div>
+		</dialog>
+	</body>
 </html>

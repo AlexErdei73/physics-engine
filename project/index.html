@@ -1,70 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../styles.css" />
-    <script type="module" src="./index.js"></script>
-    <title>Physics-Engine</title>
-  </head>
-  <body>
-    <nav>
-      <a href="/physics-engine/">
-        <h1>2D Physics Engine</h1>
-      </a>
-      <ul>
-        <li><a href="/physics-engine/">Home</a></li>
-        <li><a href="/physics-engine/about">About</a></li>
-        <li><a href="/physics-engine/project" id="a-project">Project</a></li>
-        <li><a href="/physics-engine/create" id="a-create">Create</a></li>
-        <li><a href="/physics-engine/login">Login</a></li>
-        <li><a href="/physics-engine/signup">Sign Up</a></li>
-      </ul>
-    </nav>
-    <main>
-      <canvas width="600" height="400">
-        World for the physics-engine showing simulated animations
-      </canvas>
-      <div class="ctrl-container">
-        <fieldset>
-          <legend>Range</legend>
-          <div class="inp-container">
-            <label for="freq">Frequency</label>
-            <input type="range" id="range-freq" disabled />
-          </div>
-        </fieldset>
-        <fieldset>
-          <legend>Buttons</legend>
-          <div class="main-buttons">
-            <button id="start">Start</button>
-            <button id="stop">Stop</button>
-            <button id="reset">Reset</button>
-          </div>
-          <div class="zoom-buttons">
-            <button id="zoom-in">+ Zoom In</button>
-            <button id="zoom-out">- Zoom Out</button>
-          </div>
-        </fieldset>
-        <fieldset>
-          <legend>Show</legend>
-          <div>
-            <label for="grid">Grid</label>
-            <input type="checkbox" id="grid" />
-          </div>
-          <div>
-            <label for="time">Time</label>
-            <input type="checkbox" id="time" />
-          </div>
-          <div>
-            <label for="force">Force</label>
-            <input type="checkbox" id="force" />
-          </div>
-          <div>
-            <label for="energy">Energy</label>
-            <input type="checkbox" id="energy" />
-          </div>
-        </fieldset>
-      </div>
-    </main>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="../styles.css" />
+		<script type="module" src="./index.js"></script>
+		<title>Physics-Engine</title>
+	</head>
+	<body>
+		<nav>
+			<a href="/physics-engine/">
+				<h1>2D Physics Engine</h1>
+			</a>
+			<ul>
+				<li><a href="/physics-engine/">Home</a></li>
+				<li><a href="/physics-engine/about">About</a></li>
+				<li><a href="/physics-engine/project" id="a-project">Project</a></li>
+				<li><a href="/physics-engine/create" id="a-create">Create</a></li>
+				<li><a href="/physics-engine/login">Login</a></li>
+				<li><a href="/physics-engine/signup">Sign Up</a></li>
+			</ul>
+		</nav>
+		<main>
+			<canvas width="600" height="400">
+				World for the physics-engine showing simulated animations
+			</canvas>
+			<div class="ctrl-container">
+				<fieldset class="range">
+					<legend>Frequency range</legend>
+					<label>
+						frequency:
+						<input type="range" id="range-freq" disabled />
+					</label>
+          <div></div>
+				</fieldset>
+				<fieldset>
+					<legend>Buttons</legend>
+					<div class="main-buttons">
+						<button id="start">Start</button>
+						<button id="stop">Stop</button>
+						<button id="reset">Reset</button>
+					</div>
+					<div class="zoom-buttons">
+						<button id="zoom-in">+ Zoom In</button>
+						<button id="zoom-out">- Zoom Out</button>
+					</div>
+				</fieldset>
+				<fieldset>
+					<legend>Show</legend>
+					<div>
+						<label for="grid">Grid</label>
+						<input type="checkbox" id="grid" />
+					</div>
+					<div>
+						<label for="time">Time</label>
+						<input type="checkbox" id="time" />
+					</div>
+					<div>
+						<label for="force">Force</label>
+						<input type="checkbox" id="force" />
+					</div>
+					<div>
+						<label for="energy">Energy</label>
+						<input type="checkbox" id="energy" />
+					</div>
+				</fieldset>
+			</div>
+		</main>
+	</body>
 </html>
