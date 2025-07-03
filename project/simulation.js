@@ -92,8 +92,11 @@ function calcPeriodicExtForce(state, isMidpoint = false) {
 		(!pointIndex && pointIndex !== 0) ||
 		pointIndex < 0 ||
 		pointIndex >= points.length
-	)
+	) {
+		periodicExtForce.Fx = 0;
+		periodicExtForce.Fy = 0;
 		return;
+	}
 	const point = points[pointIndex];
 	let t = t0;
 	if (isMidpoint) t += dt / 2;
@@ -103,6 +106,8 @@ function calcPeriodicExtForce(state, isMidpoint = false) {
 		point.axmid += Fx / point.m;
 		point.aymid += Fy / point.m;
 	} else {
+		periodicExtForce.Fx = Fx;
+		periodicExtForce.Fy = Fy;
 		point.ax += Fx / point.m;
 		point.ay += Fy / point.m;
 	}

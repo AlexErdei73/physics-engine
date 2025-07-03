@@ -269,6 +269,7 @@ function changeParams() {
 
 function editPeriodicExternalForce() {
 	const { periodicExtForce } = initialState;
+	if (!periodicExtForce) return;
 	const { point, tMin, tMax, freqMin, freqMax, F0x, fix, F0y, fiy, isOn } =
 		periodicExtForce;
 	inpExtForcePointIndex.value = point;
@@ -361,7 +362,7 @@ async function save() {
 	} else {
 		initialState.projectID = projectID;
 		initialState.userID = user.userID;
-		initialState.isPublished = false;
+		//initialState.isPublished = false;
 		projects[projectIndex] = initialState;
 	}
 }

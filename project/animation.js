@@ -121,7 +121,7 @@ function drawState(state, ctx) {
 	}
 }
 
-function drawVector(vector, point, ctx) {
+function drawVector(vector, point, ctx, color = "blue") {
 	const ARROW_SIZE = 10;
 	const x0 = scl(point.x);
 	const y0 = scl(point.y);
@@ -137,12 +137,12 @@ function drawVector(vector, point, ctx) {
 	const x3 = x2 - nx * 0.5 * ARROW_SIZE;
 	const y3 = y2 - ny * 0.5 * ARROW_SIZE;
 	ctx.beginPath();
-	ctx.strokeStyle = "blue";
+	ctx.strokeStyle = color;
 	ctx.moveTo(Math.round(x0), Math.round(y0));
 	ctx.lineTo(Math.round(x1), Math.round(y1));
 	ctx.stroke();
 	ctx.beginPath();
-	ctx.fillStyle = "blue";
+	ctx.fillStyle = color;
 	ctx.moveTo(Math.round(x1), Math.round(y1));
 	ctx.lineTo(Math.round(x2), Math.round(y2));
 	ctx.lineTo(Math.round(x3), Math.round(y3));
@@ -167,6 +167,15 @@ function drawForces(state, ctx) {
 		drawVector([Fx, Fy], points[point1], ctx);
 		drawVector([-Fx, -Fy], points[point2], ctx);
 	}
+}
+
+function drawPeriodicExtForce(state, ctx) {
+	const { periodicExtForce, points } = state;
+	if (!periodicExtForce) return;
+	const { Fx, Fy, point: i, isOn } = periodicExtForce;
+	const point = points[i];
+	if (!isOn) return;
+	drawVector([Fx, Fy], point, ctx, "red");
 }
 
 function copySimParams(state) {
@@ -213,6 +222,7 @@ function calcEnergy(state) {
 }
 
 function showFreq(ctx, periodicExtForce, t, yPos) {
+	if (!periodicExtForce) return;
 	const { omega, isOn, tMin, tMax } = periodicExtForce;
 	if (isOn && t >= tMin && t <= tMax) {
 		ctx.fillStyle = "red";
@@ -257,6 +267,7 @@ export function draw(animate = true, canvas) {
 			showFreq(ctx, periodicExtForce, t, 40);
 		}
 		drawState(state, ctx);
+		drawPeriodicExtForce(state, ctx);
 		if (isForcesVisible) drawForces(state, ctx);
 	}
 
