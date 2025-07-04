@@ -43,7 +43,6 @@ let initialState =
 		? projects[projectIndex]
 		: emptyWorld;
 initialState.isPathsVisible = true;
-initialState.points[0].isPathVisible = true;
 setInitialState(initialState);
 
 reset();

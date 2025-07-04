@@ -188,7 +188,6 @@ function drawTrajectories(state, ctx) {
 	let len = trajectories.length;
 	if (len === 0) {
 		for (let i = 0; i < points.length; i++) {
-			const point = points[i];
 			if (points[i].isPathVisible) {
 				trajectories.push([]);
 				pointWithVisiblePathIndexes.push(i);
