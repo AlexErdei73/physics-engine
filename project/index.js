@@ -42,6 +42,8 @@ let initialState =
 	projects.length > 0 && projectIndex < projects.length
 		? projects[projectIndex]
 		: emptyWorld;
+initialState.isPathsVisible = true;
+initialState.points[0].isPathVisible = true;
 setInitialState(initialState);
 
 reset();
@@ -88,7 +90,7 @@ aProject.href = `${BASE_URL}project#${projectIndex}`;
 
 const rangeFreq = document.querySelector("#range-freq");
 const { periodicExtForce: extForce } = initialState;
-rangeFreq.disabled = !extForce.isOn;
+rangeFreq.disabled = !extForce || !extForce.isOn;
 rangeFreq.addEventListener("change", () => {
 	const rangeValue = rangeFreq.value;
 	const { freqMin, freqMax } = initialState.periodicExtForce;

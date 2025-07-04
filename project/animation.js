@@ -3,6 +3,9 @@ import { simulate, init } from "./simulation.js";
 let initialState;
 let raf;
 
+let trajectories = [];
+let pointWithVisiblePathIndexes = [];
+
 export function start() {
 	if (!raf) raf = window.requestAnimationFrame(draw);
 }
@@ -16,6 +19,8 @@ export function reset(canvas) {
 	init(initialState);
 	raf = false;
 	state = null;
+	trajectories = [];
+	pointWithVisiblePathIndexes = [];
 	!canvas ? draw(false) : draw(false, canvas);
 }
 
@@ -178,6 +183,38 @@ function drawPeriodicExtForce(state, ctx) {
 	drawVector([Fx, Fy], point, ctx, "red");
 }
 
+function drawTrajectories(state, ctx) {
+	const { points } = state;
+	let len = trajectories.length;
+	if (len === 0) {
+		for (let i = 0; i < points.length; i++) {
+			const point = points[i];
+			if (points[i].isPathVisible) {
+				trajectories.push([]);
+				pointWithVisiblePathIndexes.push(i);
+				len++;
+			}
+		}
+	}
+	ctx.beginPath();
+	ctx.strokeStyle = "green";
+	const positions = pointWithVisiblePathIndexes.map((i) => {
+		return { x: scl(points[i].x), y: scl(points[i].y) };
+	});
+	for (let i = 0; i < len; i++) {
+		trajectories[i].push(positions[i]);
+		console.log(positions[i]);
+		const { x, y } = trajectories[i][0];
+		ctx.moveTo(x, y);
+		for (let j = 1; j < trajectories[i].length; j++) {
+			const { x, y } = trajectories[i][j];
+			ctx.lineTo(x, y);
+		}
+		ctx.stroke();
+	}
+	ctx.strokeStyle = "black";
+}
+
 function copySimParams(state) {
 	state.scale = initialState.scale;
 	state.isGridVisible = initialState.isGridVisible;
@@ -249,9 +286,11 @@ export function draw(animate = true, canvas) {
 			isEnergyVisible,
 			periodicExtForce,
 			t,
+			isPathsVisible,
 		} = state;
 		ctx.clearRect(0, 0, width, height);
 		if (isGridVisible) drawGrid(width, height, scale, ctx);
+		if (isPathsVisible) drawTrajectories(state, ctx);
 		if (isTimeVisible) ctx.fillText(Number(t).toFixed(3), 20, 20);
 		if (isEnergyVisible) {
 			const energy = calcEnergy(state);
