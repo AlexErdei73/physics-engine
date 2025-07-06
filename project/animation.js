@@ -198,16 +198,16 @@ function drawTrajectories(state, ctx) {
 	ctx.beginPath();
 	ctx.strokeStyle = "green";
 	const positions = pointWithVisiblePathIndexes.map((i) => {
-		return { x: scl(points[i].x), y: scl(points[i].y) };
+		return { x: points[i].x, y: points[i].y };
 	});
 	for (let i = 0; i < len; i++) {
 		trajectories[i].push(positions[i]);
 		console.log(positions[i]);
 		const { x, y } = trajectories[i][0];
-		ctx.moveTo(x, y);
+		ctx.moveTo(scl(x), scl(y));
 		for (let j = 1; j < trajectories[i].length; j++) {
 			const { x, y } = trajectories[i][j];
-			ctx.lineTo(x, y);
+			ctx.lineTo(scl(x), scl(y));
 		}
 		ctx.stroke();
 	}
