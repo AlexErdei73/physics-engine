@@ -1,75 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="../styles.css" />
-		<script type="module" src="./index.js"></script>
-		<title>Physics-Engine</title>
-	</head>
-	<body>
-		<nav>
-			<a href="/physics-engine/">
-				<h1>2D Physics Engine</h1>
-			</a>
-			<ul>
-				<li><a href="/physics-engine/">Home</a></li>
-				<li><a href="/physics-engine/about">About</a></li>
-				<li><a href="/physics-engine/project" id="a-project">Project</a></li>
-				<li><a href="/physics-engine/create" id="a-create">Create</a></li>
-				<li><a href="/physics-engine/login">Login</a></li>
-				<li><a href="/physics-engine/signup">Sign Up</a></li>
-			</ul>
-		</nav>
-		<main>
-			<canvas width="600" height="400">
-				World for the physics-engine showing simulated animations
-			</canvas>
-			<div class="ctrl-container">
-				<fieldset class="range">
-					<legend>Range</legend>
-					<label>
-						frequency:
-						<input type="range" id="range-freq" disabled />
-					</label>
-				</fieldset>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles.css" />
+    <script type="module" src="./index.js"></script>
+    <title>Physics-Engine</title>
+  </head>
+  <body>
+    <nav>
+      <a href="/physics-engine/">
+        <h1>2D Physics Engine</h1>
+      </a>
+      <ul>
+        <li><a href="/physics-engine/">Home</a></li>
+        <li><a href="/physics-engine/about">About</a></li>
+        <li><a href="/physics-engine/project" id="a-project">Project</a></li>
+        <li><a href="/physics-engine/create" id="a-create">Create</a></li>
+        <li><a href="/physics-engine/login">Login</a></li>
+        <li><a href="/physics-engine/signup">Sign Up</a></li>
+      </ul>
+    </nav>
+    <main>
+      <canvas width="600" height="400">
+        World for the physics-engine showing simulated animations
+      </canvas>
+      <div class="ctrl-container" id="sim-running">
+        <fieldset class="range">
+          <legend>Range</legend>
+          <label>
+            frequency:
+            <input type="range" id="range-freq" disabled />
+          </label>
+        </fieldset>
 
-				<fieldset>
-					<legend>Buttons</legend>
-					<div class="main-buttons">
-						<button id="start">Start</button>
-						<button id="stop">Stop</button>
-						<button id="reset">Reset</button>
-					</div>
-					<div class="zoom-buttons">
-						<button id="zoom-in">+ Zoom In</button>
-						<button id="zoom-out">- Zoom Out</button>
-					</div>
-				</fieldset>
+        <fieldset>
+          <legend>Buttons</legend>
+          <div class="main-buttons">
+            <button id="start">Start</button>
+            <button id="stop">Stop</button>
+            <button id="reset">Reset</button>
+          </div>
+          <div class="zoom-buttons">
+            <button id="zoom-in">+ Zoom In</button>
+            <button id="zoom-out">- Zoom Out</button>
+          </div>
+        </fieldset>
 
-				<fieldset>
-					<legend>Show</legend>
-					<label>
-						Grid
-						<input type="checkbox" id="grid" />
-					</label>
+        <fieldset>
+          <legend>Show</legend>
+          <label>
+            Grid
+            <input type="checkbox" id="grid" />
+          </label>
 
-					<label>
-						Time
-						<input type="checkbox" id="time" />
-					</label>
+          <label>
+            Time
+            <input type="checkbox" id="time" />
+          </label>
 
-					<label>
-						Force
-						<input type="checkbox" id="force" />
-					</label>
+          <label>
+            Force
+            <input type="checkbox" id="force" />
+          </label>
 
-					<label>
-						Energy
-						<input type="checkbox" id="energy" />
-					</label>
-				</fieldset>
-			</div>
-		</main>
-	</body>
+          <label>
+            Energy
+            <input type="checkbox" id="energy" />
+          </label>
+
+          <label>
+            Results
+            <input type="checkbox" id="results" />
+          </label>
+        </fieldset>
+      </div>
+      <div class="ctrl-container hidden" id="res-peeking">
+        <fieldset id="results">
+          <legend>Results</legend>
+          <div>
+            <button type="button" id="btn-switch-back">switch back</button>
+            <select id="sel-points-or-rods">
+              <option value="points">points</option>
+              <option value="rods">rods</option>
+            </select>
+            <label>
+              index:
+              <input type="number" min="-1" max="-1" id="inp-res-index" />
+            </label>
+          </div>
+
+          <div>
+            <div id="res-params">
+              <div id="res-t">t:</div>
+              <div id="res-g">g:</div>
+              <div class="hidden" id="res-periodic-ext-force">
+                <div>Fx = F0x * sin(omega*t + fix)</div>
+                <div>Fy = F0y * sin(omega*t + fiy)</div>
+                <div id="res-F0x">F0x:</div>
+                <div id="res-F0y">F0y:</div>
+                <div id="res-omega">omega:</div>
+                <div id="res-fix">fix:</div>
+                <div id="res-fiy">fiy:</div>
+                <div id="res-Fx">Fx:</div>
+                <div id="res-Fy">Fy:</div>
+              </div>
+            </div>
+
+            <div id="res-point">
+              <div id="res-point-m">m:</div>
+              <div id="res-point-grav">m*g:</div>
+              <div id="res-point-x">x:</div>
+              <div id="res-point-y">y:</div>
+              <div id="res-point-vx">vx:</div>
+              <div id="res-point-vy">vy:</div>
+              <div id="res-point-ax">ax:</div>
+              <div id="res-point-ay">ay:</div>
+            </div>
+
+            <div class="hidden" id="res-rod">
+              <div id="res-rod-k">k:</div>
+              <div id="res-rod-l0">l0:</div>
+              <div id="res-rod-beta">beta:</div>
+              <div id="res-rod-l">l:</div>
+              <div id="res-rod-F">F:</div>
+              <div id="res-rod-Fx">Fx:</div>
+              <div id="res-rod-Fy">Fy:</div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </main>
+  </body>
 </html>

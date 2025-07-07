@@ -1,47 +1,48 @@
 import {
-	draw,
-	setInitialState,
-	start,
-	stop,
-	reset,
-	zoom,
+  draw,
+  setInitialState,
+  start,
+  stop,
+  reset,
+  zoom,
 } from "./animation.js";
+import { getState } from "./simulation.js";
 
 const BASE_URL = "/physics-engine/";
 const pageURL = window.location.href;
 
 const emptyWorld = {
-	name: "Empty World",
-	g: 0,
-	scale: 0.01,
-	dt: 1e-5,
-	t: 0,
-	animTime: 1 / 30,
-	width: 600,
-	height: 400,
-	isTimeVisible: true,
-	isGridVisible: true,
-	isForcesVisible: false,
-	isEnergyVisible: false,
-	points: [],
-	rods: [],
+  name: "Empty World",
+  g: 0,
+  scale: 0.01,
+  dt: 1e-5,
+  t: 0,
+  animTime: 1 / 30,
+  width: 600,
+  height: 400,
+  isTimeVisible: true,
+  isGridVisible: true,
+  isForcesVisible: false,
+  isEnergyVisible: false,
+  points: [],
+  rods: [],
 };
 
 const projects = JSON.parse(localStorage.getItem("projects")) || [];
 
 function getProjectIndex(url) {
-	const array = url.split("#");
-	const len = array.length;
-	const index = +array[len - 1];
-	return isNaN(index) ? projects.length - 1 : index;
+  const array = url.split("#");
+  const len = array.length;
+  const index = +array[len - 1];
+  return isNaN(index) ? projects.length - 1 : index;
 }
 
 let projectIndex = getProjectIndex(pageURL);
 
 let initialState =
-	projects.length > 0 && projectIndex < projects.length
-		? projects[projectIndex]
-		: emptyWorld;
+  projects.length > 0 && projectIndex < projects.length
+    ? projects[projectIndex]
+    : emptyWorld;
 initialState.isPathsVisible = true;
 setInitialState(initialState);
 
@@ -51,36 +52,191 @@ const stopBtn = document.querySelector("#stop");
 const resetBtn = document.querySelector("#reset");
 const zoomInBtn = document.querySelector("#zoom-in");
 const zoomOutBtn = document.querySelector("#zoom-out");
+const switchBackBtn = document.querySelector("#btn-switch-back");
 
 const gridChkBox = document.querySelector("#grid");
 const timeChkBox = document.querySelector("#time");
 const forceChkBox = document.querySelector("#force");
 const energyChkBox = document.querySelector("#energy");
+const resultsChkBox = document.querySelector("#results");
+
+function handleShowResultsChange() {
+  const divResPeeking = document.querySelector("#res-peeking");
+  const divSimuRunning = document.querySelector("#sim-running");
+  const checked = resultsChkBox.checked;
+  if (checked) {
+    divResPeeking.classList.remove("hidden");
+    divSimuRunning.classList.add("hidden");
+    initResPeeking(getState());
+  } else {
+    divResPeeking.classList.add("hidden");
+    divSimuRunning.classList.remove("hidden");
+  }
+}
+
+const selPointsOrRods = document.querySelector("#sel-points-or-rods");
+const inpResIndex = document.querySelector("#inp-res-index");
+
+function handlePointsOrRodsChange() {
+  const divResPoint = document.querySelector("#res-point");
+  const divResRod = document.querySelector("#res-rod");
+  const option = selPointsOrRods.value;
+  if (option === "points") {
+    divResPoint.classList.remove("hidden");
+    divResRod.classList.add("hidden");
+    const len = initialState.points.length;
+    inpResIndex.max = (len - 1).toString();
+    if (len > 0) {
+      inpResIndex.value = "0";
+      inpResIndex.min = "0";
+    } else {
+      inpResIndex.value = "-1";
+      inpResIndex.min = "-1";
+    }
+  } else {
+    divResPoint.classList.add("hidden");
+    divResRod.classList.remove("hidden");
+    const len = initialState.rods.length;
+    inpResIndex.max = (len - 1).toString();
+    if (len > 0) {
+      inpResIndex.value = "0";
+      inpResIndex.min = "0";
+    } else {
+      inpResIndex.value = "-1";
+      inpResIndex.min = "-1";
+    }
+  }
+}
+selPointsOrRods.addEventListener("change", handlePointsOrRodsChange);
+
+function initResPeriodicExtForce(state) {
+  const { periodicExtForce } = state;
+  if (!periodicExtForce) return;
+  const { isOn, F0x, F0y, omega, fix, fiy, Fx, Fy } = periodicExtForce;
+  if (!isOn) return;
+  const divF0x = document.querySelector("#res-F0x");
+  const divF0y = document.querySelector("#res-F0y");
+  const divOmega = document.querySelector("#res-omega");
+  const divFix = document.querySelector("#res-fix");
+  const divFiy = document.querySelector("#res-fiy");
+  const divFx = document.querySelector("#res-Fx");
+  const divFy = document.querySelector("#res-Fy");
+  divF0x.textContent = `F0x: ${Number(F0x).toFixed(4)}`;
+  divF0y.textContent = `F0y: ${Number(F0y).toFixed(4)}`;
+  divOmega.textContent = `Omega: ${Number(omega).toFixed(4)}`;
+  divFix.textContent = `fix: ${Number(fix).toFixed(4)}`;
+  divFiy.textContent = `fiy: ${Number(fiy).toFixed(4)}`;
+  divFx.textContent = `Fx: ${Number(Fx).toFixed(4)}`;
+  divFy.textContent = `Fy: ${Number(Fy).toFixed(4)}`;
+  const divResPeriodicExtForce = document.querySelector(
+    "#res-periodic-ext-force"
+  );
+  divResPeriodicExtForce.classList.remove("hidden");
+}
+
+function initResPoint(state, index) {
+  const { points, g } = state;
+  const point = points[index] || null;
+  if (!point) return;
+  const divResM = document.querySelector("#res-point-m");
+  const divResGrav = document.querySelector("#res-point-grav");
+  const divResX = document.querySelector("#res-point-x");
+  const divResY = document.querySelector("#res-point-y");
+  const divResVx = document.querySelector("#res-point-vx");
+  const divResVy = document.querySelector("#res-point-vy");
+  const divResAx = document.querySelector("#res-point-ax");
+  const divResAy = document.querySelector("#res-point-ay");
+  const { m, x, y, vx, vy, ax, ay } = point;
+  divResM.textContent = `m: ${Number(m).toFixed(4)}`;
+  divResGrav.textContent = `m*g: ${Number(m * g).toFixed(4)}`;
+  divResX.textContent = `x: ${Number(x).toFixed(4)}`;
+  divResY.textContent = `y: ${Number(y).toFixed(4)}`;
+  divResVx.textContent = `vx: ${Number(vx).toFixed(4)}`;
+  divResVy.textContent = `vy: ${Number(vy).toFixed(4)}`;
+  divResAx.textContent = `ax: ${Number(ax).toFixed(4)}`;
+  divResAy.textContent = `ay: ${Number(ay).toFixed(4)}`;
+}
+
+function initResRod(state, index) {
+  const { points, rods } = state;
+  const rod = rods[index] || null;
+  if (!rod) return;
+  const { point1, point2, elast: k, beta, length: l0, Fx, Fy } = rods[index];
+  const { x: x1, y: y1 } = points[point1];
+  const { x: x2, y: y2 } = points[point2];
+  const l = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+  const divResK = document.querySelector("#res-rod-k");
+  const divResL0 = document.querySelector("#res-rod-l0");
+  const divResBeta = document.querySelector("#res-rod-beta");
+  const divResL = document.querySelector("#res-rod-l");
+  const divResF = document.querySelector("#res-rod-F");
+  const divResFx = document.querySelector("#res-rod-Fx");
+  const divResFy = document.querySelector("#res-rod-Fy");
+  divResK.textContent = `k: ${Number(k).toFixed(4)}`;
+  divResL0.textContent = `l0: ${Number(l0).toFixed(4)}`;
+  divResBeta.textContent = `beta: ${Number(beta).toFixed(4)}`;
+  divResL.textContent = `l: ${Number(l).toFixed(4)}`;
+  const F =
+    Fx === "undefined" && Fy === "undefined"
+      ? ""
+      : Math.sqrt(Fx * Fx + Fy * Fy);
+  divResF.textContent = `F: ${Number(F).toFixed(4)}`;
+  divResFx.textContent = `Fx: ${Number(Fx).toFixed(4)}`;
+  divResFy.textContent = `Fy: ${Number(Fy).toFixed(4)}`;
+}
+
+function handleResIndexChange(state) {
+  const option = selPointsOrRods.value;
+  const index = +inpResIndex.value;
+  if (index === -1) return;
+  if (option === "points") initResPoint(state, index);
+  else initResRod(state, index);
+}
+
+function initResPeeking(state) {
+  const divResT = document.querySelector("#res-t");
+  const divResG = document.querySelector("#res-g");
+  const { t, g } = state;
+  divResT.textContent = `t: ${Number(t).toFixed(4)}`;
+  divResG.textContent = `g: ${Number(g).toFixed(4)}`;
+  initResPeriodicExtForce(state);
+  handlePointsOrRodsChange();
+  handleResIndexChange(state);
+}
+
+inpResIndex.addEventListener("change", () => handleResIndexChange(getState()));
+initResPeeking(getState());
 
 startBtn.addEventListener("click", start);
 stopBtn.addEventListener("click", stop);
 resetBtn.addEventListener("click", () => reset());
 zoomInBtn.addEventListener("click", () => zoom(true));
 zoomOutBtn.addEventListener("click", () => zoom(false));
+switchBackBtn.addEventListener("click", () => {
+  resultsChkBox.checked = false;
+  handleShowResultsChange();
+});
 
 gridChkBox.checked = initialState.isGridVisible;
 timeChkBox.checked = initialState.isTimeVisible;
 forceChkBox.checked = initialState.isForcesVisible;
 energyChkBox.checked = initialState.isEnergyVisible;
+resultsChkBox.checked = false;
 
 function handleChkboxChange() {
-	initialState.isGridVisible = gridChkBox.checked;
-	initialState.isTimeVisible = timeChkBox.checked;
-	initialState.isForcesVisible = forceChkBox.checked;
-	initialState.isEnergyVisible = energyChkBox.checked;
-	setInitialState(initialState);
-	draw(false);
+  initialState.isGridVisible = gridChkBox.checked;
+  initialState.isTimeVisible = timeChkBox.checked;
+  initialState.isForcesVisible = forceChkBox.checked;
+  initialState.isEnergyVisible = energyChkBox.checked;
+  setInitialState(initialState);
+  draw(false);
 }
 
 gridChkBox.addEventListener("change", handleChkboxChange);
 timeChkBox.addEventListener("change", handleChkboxChange);
 forceChkBox.addEventListener("change", handleChkboxChange);
 energyChkBox.addEventListener("change", handleChkboxChange);
+resultsChkBox.addEventListener("change", handleShowResultsChange);
 
 const aCreate = document.querySelector("#a-create");
 const aProject = document.querySelector("#a-project");
@@ -91,9 +247,9 @@ const rangeFreq = document.querySelector("#range-freq");
 const { periodicExtForce: extForce } = initialState;
 rangeFreq.disabled = !extForce || !extForce.isOn;
 rangeFreq.addEventListener("change", () => {
-	const rangeValue = rangeFreq.value;
-	const { freqMin, freqMax } = initialState.periodicExtForce;
-	const f = freqMin + ((freqMax - freqMin) / 100) * rangeValue;
-	extForce.omega = 2 * Math.PI * f;
-	draw(false);
+  const rangeValue = rangeFreq.value;
+  const { freqMin, freqMax } = initialState.periodicExtForce;
+  const f = freqMin + ((freqMax - freqMin) / 100) * rangeValue;
+  extForce.omega = 2 * Math.PI * f;
+  draw(false);
 });
