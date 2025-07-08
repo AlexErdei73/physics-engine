@@ -196,12 +196,14 @@ function handleResIndexChange(state) {
 function initResPeeking(state) {
   const divResT = document.querySelector("#res-t");
   const divResG = document.querySelector("#res-g");
-  const { t, g } = state;
+  const { t, g, rods } = state;
   divResT.textContent = `t: ${Number(t).toFixed(4)}`;
   divResG.textContent = `g: ${Number(g).toFixed(4)}`;
   initResPeriodicExtForce(state);
   handlePointsOrRodsChange();
   handleResIndexChange(state);
+  const len = rods.length;
+  if (len > 0) initResRod(state, 0);
 }
 
 inpResIndex.addEventListener("change", () => handleResIndexChange(getState()));

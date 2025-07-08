@@ -173,22 +173,20 @@ dialog::backdrop {
 }
 
 #res-peeking {
-  width: 100%;
-  justify-content: start;
+  justify-content: center;
   align-items: start;
-  max-width: none;
+  flex-grow: 0;
 }
 
 #results {
   flex-direction: column;
   max-width: max-content;
-  width: max-content;
+  align-items: start;
   margin: 0;
 }
 
 #results > div {
-  width: 100%;
-  max-width: none;
+  max-width: max-content;
   display: flex;
   align-items: start;
   gap: 0.5em;
