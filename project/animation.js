@@ -6,6 +6,9 @@ let raf;
 let trajectories = [];
 let pointWithVisiblePathIndexes = [];
 
+let graphs;
+let graphDetails;
+
 export function start() {
 	if (!raf) raf = window.requestAnimationFrame(draw);
 }
@@ -21,6 +24,13 @@ export function reset(canvas) {
 	state = null;
 	trajectories = [];
 	pointWithVisiblePathIndexes = [];
+	graphs = [[], [], []];
+	graphDetails = {
+		option: "points",
+		index: 0,
+		field: "y",
+		origin: "bottom-left",
+	};
 	!canvas ? draw(false) : draw(false, canvas);
 }
 
@@ -42,7 +52,7 @@ function scl(dist) {
 	return Math.round(dist / scale);
 }
 
-function drawGrid(width, height, scale, ctx) {
+function drawGrid(width, height, scale, ctx, isGraph = false) {
 	const nx = width / scale;
 	const ny = height / scale;
 	ctx.beginPath();
@@ -52,8 +62,10 @@ function drawGrid(width, height, scale, ctx) {
 		ctx.lineTo(i / scale, height);
 	}
 	for (let i = 0; i <= ny; i++) {
-		ctx.moveTo(0, i / scale);
-		ctx.lineTo(width, i / scale);
+		let y = i / scale;
+		if (isGraph) y = height - y;
+		ctx.moveTo(0, y);
+		ctx.lineTo(width, y);
 	}
 	ctx.stroke();
 	ctx.strokeStyle = "black";
@@ -202,7 +214,6 @@ function drawTrajectories(state, ctx) {
 	});
 	for (let i = 0; i < len; i++) {
 		trajectories[i].push(positions[i]);
-		console.log(positions[i]);
 		const { x, y } = trajectories[i][0];
 		ctx.moveTo(scl(x), scl(y));
 		for (let j = 1; j < trajectories[i].length; j++) {
@@ -220,6 +231,7 @@ function copySimParams(state) {
 	state.isTimeVisible = initialState.isTimeVisible;
 	state.isForcesVisible = initialState.isForcesVisible;
 	state.isEnergyVisible = initialState.isEnergyVisible;
+	state.isGraphsVisible = initialState.isGraphsVisible;
 	const extForce = initialState.periodicExtForce;
 	if (extForce && extForce.isOn) state.periodicExtForce.omega = extForce.omega;
 }
@@ -267,6 +279,24 @@ function showFreq(ctx, periodicExtForce, t, yPos) {
 	}
 }
 
+function addGraphPoint(state) {
+	const x = state.t;
+	const { option, index, field } = graphDetails;
+	let y = state[option][index][field];
+	graphs[0].push({ x, y });
+}
+
+function drawGraphs(graphs, state, ctx) {
+	const { x, y } = graphs[0][0];
+	ctx.beginPath();
+	ctx.moveTo(scl(x), state.height - scl(y));
+	for (let j = 1; j < graphs[0].length; j++) {
+		const { x, y } = graphs[0][j];
+		ctx.lineTo(scl(x), state.height - scl(y));
+	}
+	ctx.stroke();
+}
+
 export function draw(animate = true, canvas) {
 	if (!canvas) canvas = document.querySelector("canvas");
 	if (canvas.getContext) {
@@ -283,30 +313,37 @@ export function draw(animate = true, canvas) {
 			isTimeVisible,
 			isForcesVisible,
 			isEnergyVisible,
+			isGraphsVisible,
 			periodicExtForce,
 			t,
 			isPathsVisible,
 		} = state;
 		ctx.clearRect(0, 0, width, height);
-		if (isGridVisible) drawGrid(width, height, scale, ctx);
-		if (isPathsVisible) drawTrajectories(state, ctx);
-		if (isTimeVisible) ctx.fillText(Number(t).toFixed(3), 20, 20);
-		if (isEnergyVisible) {
-			const energy = calcEnergy(state);
-			const { kinetic, potential, total } = energy;
-			ctx.fillStyle = "green";
-			ctx.fillText(`kinetic: ${Number(kinetic).toFixed(3)}`, 20, 40);
-			ctx.fillStyle = "blue";
-			ctx.fillText(`potential: ${Number(potential).toFixed(3)}`, 20, 60);
-			ctx.fillStyle = "black";
-			ctx.fillText(`total: ${Number(total).toFixed(3)}`, 20, 80);
-			showFreq(ctx, periodicExtForce, t, 100);
+		if (!isGraphsVisible) {
+			if (isGridVisible) drawGrid(width, height, scale, ctx);
+			if (isPathsVisible) drawTrajectories(state, ctx);
+			if (isTimeVisible) ctx.fillText(Number(t).toFixed(3), 20, 20);
+			if (isEnergyVisible) {
+				const energy = calcEnergy(state);
+				const { kinetic, potential, total } = energy;
+				ctx.fillStyle = "green";
+				ctx.fillText(`kinetic: ${Number(kinetic).toFixed(3)}`, 20, 40);
+				ctx.fillStyle = "blue";
+				ctx.fillText(`potential: ${Number(potential).toFixed(3)}`, 20, 60);
+				ctx.fillStyle = "black";
+				ctx.fillText(`total: ${Number(total).toFixed(3)}`, 20, 80);
+				showFreq(ctx, periodicExtForce, t, 100);
+			} else {
+				showFreq(ctx, periodicExtForce, t, 40);
+			}
+			drawState(state, ctx);
+			drawPeriodicExtForce(state, ctx);
+			if (isForcesVisible) drawForces(state, ctx);
 		} else {
-			showFreq(ctx, periodicExtForce, t, 40);
+			drawGrid(width, height, scale, ctx, true);
+			addGraphPoint(state);
+			drawGraphs(graphs, state, ctx);
 		}
-		drawState(state, ctx);
-		drawPeriodicExtForce(state, ctx);
-		if (isForcesVisible) drawForces(state, ctx);
 	}
 
 	if (animate) raf = window.requestAnimationFrame(draw);
