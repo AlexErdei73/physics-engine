@@ -5,6 +5,7 @@ import {
 	stop,
 	reset,
 	zoom,
+	setGraphDetails,
 } from "./animation.js";
 import { getState } from "./simulation.js";
 
@@ -47,6 +48,8 @@ initialState.isPathsVisible = true;
 initialState.isPathsVisible = false;
 setInitialState(initialState);
 
+let graphDetails = null;
+
 reset();
 const startBtn = document.querySelector("#start");
 const stopBtn = document.querySelector("#stop");
@@ -78,14 +81,72 @@ function handleShowResultsChange() {
 
 const selPointsOrRods = document.querySelector("#sel-points-or-rods");
 const inpResIndex = document.querySelector("#inp-res-index");
+const chkboxAddedToGraph = document.querySelector("#chkbox-added-to-graphs");
+let selField;
+const selFieldPoint = document.querySelector("#sel-field-point");
+const selFieldRod = document.querySelector("#sel-field-rod");
+const selFieldPerExtForce = document.querySelector(
+	"#sel-field-periodic-ext-force"
+);
+const labFieldPoint = document.querySelector("#lab-field-point");
+const labFieldRod = document.querySelector("#lab-field-rod");
+const labFieldPerExtForce = document.querySelector(
+	"#lab-field-periodic-ext-force"
+);
+selField = selFieldPoint;
+
+function pickSelField(option) {
+	if (!labFieldPerExtForce.classList.contains("hidden"))
+		labFieldPerExtForce.classList.add("hidden");
+	if (!labFieldPoint.classList.contains("hidden"))
+		labFieldPoint.classList.add("hidden");
+	if (!labFieldRod.classList.contains("hidden"))
+		labFieldRod.classList.add("hidden");
+	if (option === "points") {
+		labFieldPoint.classList.remove("hidden");
+		selField = selFieldPoint;
+	} else if (option === "rods") {
+		labFieldRod.classList.remove("hidden");
+		selField = selFieldRod;
+	} else {
+		labFieldPerExtForce.classList.remove("hidden");
+		selField = selFieldPerExtForce;
+	}
+}
+
+function areEqual(obj1, obj2) {
+	let equal = true;
+	for (let key in obj1) {
+		if (obj1[key] !== obj2[key]) equal = false;
+	}
+	return equal;
+}
+
+function enableCheckboxAddedToGraphs() {
+	const disabled = !areEqual(graphDetails, {
+		option: selPointsOrRods.value,
+		field: selField.value,
+		index: +inpResIndex.value,
+		origin: "bottom-left",
+	});
+	chkboxAddedToGraph.disabled = disabled;
+	const checked = graphDetails && !disabled;
+	chkboxAddedToGraph.checked = checked;
+}
+selFieldPoint.addEventListener("change", enableCheckboxAddedToGraphs);
+selFieldRod.addEventListener("change", enableCheckboxAddedToGraphs);
+selFieldPerExtForce.addEventListener("change", enableCheckboxAddedToGraphs);
 
 function handlePointsOrRodsChange() {
 	const divResPoint = document.querySelector("#res-point");
 	const divResRod = document.querySelector("#res-rod");
 	const option = selPointsOrRods.value;
+	pickSelField(option);
+	enableCheckboxAddedToGraphs();
 	if (option === "points") {
 		divResPoint.classList.remove("hidden");
-		divResRod.classList.add("hidden");
+		if (!divResRod.classList.contains("hidden"))
+			divResRod.classList.add("hidden");
 		const len = initialState.points.length;
 		inpResIndex.max = (len - 1).toString();
 		if (len > 0) {
@@ -95,8 +156,9 @@ function handlePointsOrRodsChange() {
 			inpResIndex.value = "-1";
 			inpResIndex.min = "-1";
 		}
-	} else {
-		divResPoint.classList.add("hidden");
+	} else if (option === "rods") {
+		if (!divResPoint.classList.contains("hidden"))
+			divResPoint.classList.add("hidden");
 		divResRod.classList.remove("hidden");
 		const len = initialState.rods.length;
 		inpResIndex.max = (len - 1).toString();
@@ -107,6 +169,14 @@ function handlePointsOrRodsChange() {
 			inpResIndex.value = "-1";
 			inpResIndex.min = "-1";
 		}
+	} else {
+		if (!divResPoint.classList.contains("hidden"))
+			divResPoint.classList.add("hidden");
+		if (!divResRod.classList.contains("hidden"))
+			divResRod.classList.add("hidden");
+		inpResIndex.value = "-1";
+		inpResIndex.min = "-1";
+		inpResIndex.max = "-1";
 	}
 }
 selPointsOrRods.addEventListener("change", handlePointsOrRodsChange);
@@ -193,6 +263,33 @@ function handleResIndexChange(state) {
 	if (index === -1) return;
 	if (option === "points") initResPoint(state, index);
 	else initResRod(state, index);
+	enableCheckboxAddedToGraphs();
+}
+
+function handleChangeChkboxAddedToGraphs() {
+	const checked = chkboxAddedToGraph.checked;
+	if (checked) {
+		if (graphDetails) return;
+		graphDetails = {
+			option: selPointsOrRods.value,
+			index: +inpResIndex.value,
+			field: selField.value,
+			origin: "bottom-left",
+		};
+		setGraphDetails(graphDetails);
+	} else {
+		if (
+			areEqual(graphDetails, {
+				option: selPointsOrRods.value,
+				index: +inpResIndex.value,
+				field: selField.value,
+				origin: "bottom-left",
+			})
+		) {
+			graphDetails = null;
+			setGraphDetails(null);
+		}
+	}
 }
 
 function initResPeeking(state) {
@@ -206,6 +303,10 @@ function initResPeeking(state) {
 	handleResIndexChange(state);
 	const len = rods.length;
 	if (len > 0) initResRod(state, 0);
+	chkboxAddedToGraph.addEventListener(
+		"change",
+		handleChangeChkboxAddedToGraphs
+	);
 }
 
 inpResIndex.addEventListener("change", () => handleResIndexChange(getState()));

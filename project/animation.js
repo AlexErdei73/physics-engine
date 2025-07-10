@@ -25,12 +25,6 @@ export function reset(canvas) {
 	trajectories = [];
 	pointWithVisiblePathIndexes = [];
 	graphs = [[], [], []];
-	graphDetails = {
-		option: "points",
-		index: 0,
-		field: "y",
-		origin: "bottom-left",
-	};
 	!canvas ? draw(false) : draw(false, canvas);
 }
 
@@ -43,6 +37,10 @@ export function zoom(isIn) {
 
 export function setInitialState(initState) {
 	initialState = initState;
+}
+
+export function setGraphDetails(graphDet) {
+	graphDetails = graphDet;
 }
 
 let state;
@@ -282,7 +280,7 @@ function showFreq(ctx, periodicExtForce, t, yPos) {
 function addGraphPoint(state) {
 	const x = state.t;
 	const { option, index, field } = graphDetails;
-	let y = state[option][index][field];
+	let y = index === -1 ? state[option][field] : state[option][index][field];
 	graphs[0].push({ x, y });
 }
 
