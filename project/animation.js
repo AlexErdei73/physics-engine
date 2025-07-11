@@ -7,7 +7,8 @@ let trajectories = [];
 let pointWithVisiblePathIndexes = [];
 
 let graphs;
-let graphDetails;
+let graphDetails = [];
+const MAX_NUMBER_OF_GRAPHS = 4;
 
 export function start() {
   if (!raf) raf = window.requestAnimationFrame(draw);
@@ -24,7 +25,7 @@ export function reset(canvas) {
   state = null;
   trajectories = [];
   pointWithVisiblePathIndexes = [];
-  graphs = [[], [], []];
+  graphs = [[], [], [], []];
   !canvas ? draw(false) : draw(false, canvas);
 }
 
@@ -40,7 +41,12 @@ export function setInitialState(initState) {
 }
 
 export function setGraphDetails(graphDet) {
-  graphDetails = graphDet;
+  const len = graphDetails.length;
+  if (len < MAX_NUMBER_OF_GRAPHS) graphDetails.push(graphDet);
+}
+
+export function removeGraphDetails(index) {
+  graphDetails.splice(index, 1);
 }
 
 let state;
@@ -294,27 +300,33 @@ function showFreq(ctx, periodicExtForce, t, yPos) {
   }
 }
 
-function addGraphPoint(state) {
-  if (!graphDetails) return;
+function addGraphPoint(state, i) {
+  if (graphDetails.length === 0 || i < 0 || i >= graphDetails.length) return;
   const x = state.t;
-  const { option, index, field } = graphDetails;
+  const { option, index, field } = graphDetails[i];
   let y = index === -1 ? state[option][field] : state[option][index][field];
-  graphs[0].push({ x, y });
+  graphs[i].push({ x, y });
 }
 
 function drawGraphs(graphs, state, ctx, isOriginCenter = false) {
-  if (graphs[0].length === 0) return;
-  const { x, y } = graphs[0][0];
-  const { height } = state;
-  const shift = isOriginCenter ? Math.floor(height / 2) : 0;
-  ctx.beginPath();
-  ctx.moveTo(scl(x), state.height - shift - scl(y));
-  for (let j = 1; j < graphs[0].length; j++) {
-    const { x, y } = graphs[0][j];
+  const colours = ["red", "green", "blue", "black"];
+  if (graphDetails.length === 0) return;
+  for (let i = 0; i < MAX_NUMBER_OF_GRAPHS; i++) {
+    if (graphs[i].length === 0) return;
+    const { x, y } = graphs[i][0];
+    const { height } = state;
+    const shift = isOriginCenter ? Math.floor(height / 2) : 0;
+    ctx.strokeStyle = colours[i];
+    ctx.beginPath();
+    ctx.moveTo(scl(x), state.height - shift - scl(y));
+    for (let j = 1; j < graphs[i].length; j++) {
+      const { x, y } = graphs[i][j];
 
-    ctx.lineTo(scl(x), state.height - shift - scl(y));
+      ctx.lineTo(scl(x), state.height - shift - scl(y));
+    }
+    ctx.stroke();
+    ctx.strokeStyle = "black";
   }
-  ctx.stroke();
 }
 
 export function draw(animate = true, canvas) {
@@ -361,9 +373,12 @@ export function draw(animate = true, canvas) {
       if (isForcesVisible) drawForces(state, ctx);
     } else {
       let isOriginCentered = false;
-      if (graphDetails) isOriginCentered = graphDetails.isOriginCentered;
+      const len = graphDetails.length;
+      if (len > 0) isOriginCentered = graphDetails[0].isOriginCentered;
       drawGrid(width, height, scale, ctx, true, isOriginCentered);
-      addGraphPoint(state);
+      for (let i = 0; i < len; i++) {
+        addGraphPoint(state, i);
+      }
       drawGraphs(graphs, state, ctx, isOriginCentered);
     }
   }
