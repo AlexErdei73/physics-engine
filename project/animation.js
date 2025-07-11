@@ -217,7 +217,7 @@ function drawPeriodicExtForce(state, ctx) {
 }
 
 function drawTrajectories(state, ctx) {
-	const { points } = state;
+	const { points, isPathsVisible } = state;
 	let len = trajectories.length;
 	if (len === 0) {
 		for (let i = 0; i < points.length; i++) {
@@ -236,12 +236,14 @@ function drawTrajectories(state, ctx) {
 	for (let i = 0; i < len; i++) {
 		trajectories[i].push(positions[i]);
 		const { x, y } = trajectories[i][0];
-		ctx.moveTo(scl(x), scl(y));
-		for (let j = 1; j < trajectories[i].length; j++) {
-			const { x, y } = trajectories[i][j];
-			ctx.lineTo(scl(x), scl(y));
+		if (isPathsVisible) {
+			ctx.moveTo(scl(x), scl(y));
+			for (let j = 1; j < trajectories[i].length; j++) {
+				const { x, y } = trajectories[i][j];
+				ctx.lineTo(scl(x), scl(y));
+			}
+			ctx.stroke();
 		}
-		ctx.stroke();
 	}
 	ctx.strokeStyle = "black";
 }
@@ -252,6 +254,7 @@ function copySimParams(state) {
 	state.isTimeVisible = initialState.isTimeVisible;
 	state.isForcesVisible = initialState.isForcesVisible;
 	state.isEnergyVisible = initialState.isEnergyVisible;
+	state.isPathsVisible = initialState.isPathsVisible;
 	state.isGraphsVisible = initialState.isGraphsVisible;
 	const extForce = initialState.periodicExtForce;
 	if (extForce && extForce.isOn) state.periodicExtForce.omega = extForce.omega;
@@ -368,7 +371,7 @@ export function draw(animate = true, canvas) {
 		ctx.clearRect(0, 0, width, height);
 		if (!isGraphsVisible) {
 			if (isGridVisible) drawGrid(width, height, scale, ctx);
-			if (isPathsVisible) drawTrajectories(state, ctx);
+			drawTrajectories(state, ctx);
 			if (isTimeVisible) ctx.fillText(Number(t).toFixed(3), 20, 20);
 			if (isEnergyVisible) {
 				const energy = calcEnergy(state);
