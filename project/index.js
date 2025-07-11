@@ -45,7 +45,6 @@ let initialState =
 		? projects[projectIndex]
 		: emptyWorld;
 initialState.isPathsVisible = true;
-initialState.isPathsVisible = false;
 setInitialState(initialState);
 
 let graphDetails = null;
@@ -82,6 +81,7 @@ function handleShowResultsChange() {
 const selPointsOrRods = document.querySelector("#sel-points-or-rods");
 const inpResIndex = document.querySelector("#inp-res-index");
 const chkboxAddedToGraph = document.querySelector("#chkbox-added-to-graphs");
+const chkboxOriginCenter = document.querySelector("#chkbox-origin-center");
 let selField;
 const selFieldPoint = document.querySelector("#sel-field-point");
 const selFieldRod = document.querySelector("#sel-field-rod");
@@ -127,7 +127,7 @@ function enableCheckboxAddedToGraphs() {
 		option: selPointsOrRods.value,
 		field: selField.value,
 		index: +inpResIndex.value,
-		origin: "bottom-left",
+		isOriginCentered: chkboxOriginCenter.checked,
 	});
 	chkboxAddedToGraph.disabled = disabled;
 	const checked = graphDetails && !disabled;
@@ -180,6 +180,12 @@ function handlePointsOrRodsChange() {
 	}
 }
 selPointsOrRods.addEventListener("change", handlePointsOrRodsChange);
+
+function handleChangeChhkboxOriginCenter() {
+	if (!graphDetails) return;
+	graphDetails.isOriginCentered = chkboxOriginCenter.checked;
+}
+chkboxOriginCenter.addEventListener("change", handleChangeChhkboxOriginCenter);
 
 function initResPeriodicExtForce(state) {
 	const { periodicExtForce } = state;
@@ -268,13 +274,14 @@ function handleResIndexChange(state) {
 
 function handleChangeChkboxAddedToGraphs() {
 	const checked = chkboxAddedToGraph.checked;
+	const isOriginCentered = chkboxOriginCenter.checked;
 	if (checked) {
 		if (graphDetails) return;
 		graphDetails = {
 			option: selPointsOrRods.value,
 			index: +inpResIndex.value,
 			field: selField.value,
-			origin: "bottom-left",
+			isOriginCentered,
 		};
 		setGraphDetails(graphDetails);
 	} else {
@@ -283,7 +290,7 @@ function handleChangeChkboxAddedToGraphs() {
 				option: selPointsOrRods.value,
 				index: +inpResIndex.value,
 				field: selField.value,
-				origin: "bottom-left",
+				isOriginCentered,
 			})
 		) {
 			graphDetails = null;
