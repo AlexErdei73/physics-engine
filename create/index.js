@@ -84,6 +84,7 @@ const chkboxOn = document.querySelector("#chkbox-on");
 
 const btnCreate = document.querySelector("#btn-create");
 const btnSave = document.querySelector("#btn-save");
+const btnCopy = document.querySelector("#btn-copy");
 const btnDelete = document.querySelector("#btn-delete");
 const btnNewPoint = document.querySelector("#btn-new-point");
 const btnDeletePoint = document.querySelector("#btn-delete-point");
@@ -257,7 +258,7 @@ function editParams() {
 	} = initialState;
 
 	inpName.value = name;
-	txtaDescription.value = description || EMPTY_WORLD_DESCRIPTION;
+	txtaDescription.value = description || "";
 	inpG.value = g;
 	inpDt.value = dt;
 	inpAnimTime.value = animTime;
@@ -408,6 +409,17 @@ async function create() {
 	}
 }
 
+async function copy() {
+	const oldInitialState = initialState;
+	await create();
+	delete oldInitialState.projectID;
+	oldInitialState.userID = initialState.userID;
+	const newProjectID = initialState.projectID;
+	initialState = oldInitialState;
+	initialState.projectID = newProjectID;
+	await save();
+}
+
 const dlg = document.querySelector("dialog");
 const btnCancel = document.querySelector("#btn-cancel");
 const btnProceed = document.querySelector("#btn-proceed");
@@ -504,6 +516,7 @@ editParams();
 editPeriodicExternalForce();
 btnSave.addEventListener("click", save);
 btnCreate.addEventListener("click", create);
+btnCopy.addEventListener("click", copy);
 const pointsLength = initialState.points.length;
 editPoint(pointsLength - 1);
 if (pointsLength > 0) {
