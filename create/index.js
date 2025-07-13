@@ -6,6 +6,7 @@ const pageURL = window.location.href;
 
 const emptyWorld = {
 	name: "Empty World",
+	description: "World for the physics-engine showing simulated animations",
 	g: 0,
 	scale: 0.01,
 	dt: 1e-5,
@@ -39,6 +40,7 @@ let projectIndex = getProjectIndex(pageURL);
 let initialState = projects.length > 0 ? projects[projectIndex] : emptyWorld;
 
 const inpName = document.querySelector("#inp-name");
+const txtaDescription = document.querySelector("#txta-description");
 const inpG = document.querySelector("#inp-g");
 const inpScale = document.querySelector("#inp-scale");
 const inpDt = document.querySelector("#inp-dt");
@@ -239,8 +241,11 @@ function changeRod(i) {
 }
 
 function editParams() {
+	const EMPTY_WORLD_DESCRIPTION =
+		"World for the physics-engine showing simulated animations";
 	const {
 		name,
+		description,
 		g,
 		dt,
 		animTime,
@@ -252,6 +257,7 @@ function editParams() {
 	} = initialState;
 
 	inpName.value = name;
+	txtaDescription.value = description || EMPTY_WORLD_DESCRIPTION;
 	inpG.value = g;
 	inpDt.value = dt;
 	inpAnimTime.value = animTime;
@@ -353,6 +359,7 @@ btnOk.addEventListener("click", () => removeError(dlgError));
 
 async function save() {
 	initialState.name = inpName.value || initialState.name;
+	initialState.description = txtaDescription.value || initialState.description;
 	projects[projectIndex] = initialState;
 	localStorage.setItem("projects", JSON.stringify(projects));
 	const { projectID, userID } = initialState;

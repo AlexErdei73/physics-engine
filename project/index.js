@@ -15,6 +15,7 @@ const pageURL = window.location.href;
 
 const emptyWorld = {
 	name: "Empty World",
+	description: "World for the physics-engine showing simulated animations",
 	g: 0,
 	scale: 0.01,
 	dt: 1e-5,
@@ -389,3 +390,6 @@ rangeFreq.addEventListener("change", () => {
 	extForce.omega = 2 * Math.PI * f;
 	draw(false);
 });
+
+const canvas = document.querySelector("canvas");
+canvas.textContent = initialState.description;

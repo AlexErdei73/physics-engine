@@ -207,15 +207,14 @@ dialog::backdrop {
 	flex: 1 1;
 }
 
+#lbl-description {
+	display: flex;
+	flex-direction: column;
+}
+
 @media (max-width: 42em) {
-	h1 {
-		clip: rect(0 0 0 0);
-		clip-path: inset(50%);
-		height: 1px;
-		position: absolute;
-		white-space: nowrap;
-		overflow: hidden;
-		width: 1px;
+	a.logo {
+		display: none;
 	}
 
 	form fieldset {
