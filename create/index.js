@@ -1,4 +1,5 @@
 import { deleteProject, postProject, putProject } from "../backend.js";
+import { removeError, showError } from "../helper.js";
 
 const BASE_URL = "/physics-engine/";
 const pageURL = window.location.href;
@@ -346,6 +347,10 @@ function updateLinks() {
 			: `${BASE_URL}project`;
 }
 
+const dlgError = document.querySelector("#dlg-error");
+const btnOk = document.querySelector("#btn-ok");
+btnOk.addEventListener("click", () => removeError(dlgError));
+
 async function save() {
 	initialState.name = inpName.value || initialState.name;
 	projects[projectIndex] = initialState;
@@ -362,7 +367,7 @@ async function save() {
 	);
 	if (json.error) {
 		console.error(json.error);
-		//showError(node, json.error);
+		showError(dlgError, json.error);
 	} else {
 		initialState.projectID = projectID;
 		initialState.userID = user.userID;
@@ -386,7 +391,7 @@ async function create() {
 	const json = await postProject(initialState, projectID, 0, user);
 	if (json.error) {
 		console.error(json.error);
-		//showError(node, json.error);
+		showError(dlgError, json.error);
 	} else {
 		initialState.projectID = projectID;
 		initialState.userID = user.userID;
@@ -415,7 +420,7 @@ btnProceed.addEventListener("click", async () => {
 		);
 		if (json.error) {
 			console.error(json.error);
-			//showError(node, json.error);
+			showError(dlgError, json.error);
 		}
 		projects.splice(projectIndex, 1);
 		localStorage.setItem("projects", JSON.stringify(projects));
