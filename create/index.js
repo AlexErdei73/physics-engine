@@ -18,6 +18,7 @@ const emptyWorld = {
 	isGridVisible: true,
 	isForcesVisible: false,
 	isEnergyVisible: false,
+	bodyRodCollisionsOn: false,
 	points: [],
 	rods: [],
 };
@@ -49,6 +50,9 @@ const chkboxShowTime = document.querySelector("#chkbox-show-time");
 const chkboxShowGrid = document.querySelector("#chkbox-show-grid");
 const chkboxShowForce = document.querySelector("#chkbox-show-force");
 const chkboxShowEnergy = document.querySelector("#chkbox-show-energy");
+const chkboxBodyRodCollisions = document.querySelector(
+	"#chkbox-body-rod-collisions"
+);
 
 const inpPointIndex = document.querySelector("#inp-point-index");
 const inpX = document.querySelector("#inp-x");
@@ -255,6 +259,7 @@ function editParams() {
 		isGridVisible,
 		isForcesVisible,
 		isEnergyVisible,
+		bodyRodCollisionsOn,
 	} = initialState;
 
 	inpName.value = name;
@@ -267,6 +272,7 @@ function editParams() {
 	chkboxShowGrid.checked = isGridVisible;
 	chkboxShowForce.checked = isForcesVisible;
 	chkboxShowEnergy.checked = isEnergyVisible;
+	chkboxBodyRodCollisions.checked = bodyRodCollisionsOn;
 }
 
 function changeParams() {
@@ -278,6 +284,7 @@ function changeParams() {
 	initialState.isGridVisible = chkboxShowGrid.checked;
 	initialState.isForcesVisible = chkboxShowForce.checked;
 	initialState.isEnergyVisible = chkboxShowEnergy.checked;
+	initialState.bodyRodCollisionsOn = chkboxBodyRodCollisions.checked;
 
 	editParams();
 }
@@ -470,6 +477,7 @@ chkboxShowTime.addEventListener("change", () => changeParams());
 chkboxShowGrid.addEventListener("change", () => changeParams());
 chkboxShowForce.addEventListener("change", () => changeParams());
 chkboxShowEnergy.addEventListener("change", () => changeParams());
+chkboxBodyRodCollisions.addEventListener("change", () => changeParams());
 
 inpExtForcePointIndex.addEventListener("change", () =>
 	changePeriodicExtForce()

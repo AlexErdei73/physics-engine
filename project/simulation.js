@@ -231,10 +231,12 @@ function calcAccelerations(isMidpoint = false) {
 	}
 
 	for (let i = 0; i < points.length; i++) {
-		if (!points[i].isFixed) {
-			for (let j = 0; j < rods.length; j++) {
-				if (!rods[j].isSpring)
-					calcCollisionForce(rods[j], points[i], isMidpoint);
+		if (state.bodyRodCollisionsOn) {
+			if (!points[i].isFixed) {
+				for (let j = 0; j < rods.length; j++) {
+					if (!rods[j].isSpring)
+						calcCollisionForce(rods[j], points[i], isMidpoint);
+				}
 			}
 		}
 		calcGrav(points[i], isMidpoint);
