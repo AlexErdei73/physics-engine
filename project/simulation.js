@@ -18,12 +18,95 @@ export function init(initialState) {
 	deleteAcceleration();
 }
 
-function calcCollisionForce(rod, pointIndex, isMidpoint = false) {
-	const D = 10000;
+function calcDistDot(rod, pointIndex, isMidpoint) {
 	const { points } = state;
 	const point = points[pointIndex];
 	const { point1, point2 } = rod;
-	const { x: x0, y: y0, m, size: pointSize } = point;
+	let { x: x0, y: y0, vx: vx0, vy: vy0 } = point;
+	let { x: x1, y: y1, vx: vx1, vy: vy1, isFixed: isFixed1 } = points[point1];
+	let { x: x2, y: y2, vx: vx2, vy: vy2, isFixed: isFixed2 } = points[point2];
+	vx1 = vx1 || 0;
+	vy1 = vy1 || 0;
+	vx2 = vx2 || 0;
+	vy2 = vy2 || 0;
+	if (isMidpoint) {
+		if (!isFixed1) {
+			const {
+				xmid: xmid1,
+				ymid: ymid1,
+				vxmid: vx1mid,
+				vymid: vy1mid,
+			} = points[point1];
+			x1 = xmid1;
+			y1 = ymid1;
+			vx1 = vx1mid;
+			vy1 = vy1mid;
+		}
+		if (!isFixed2) {
+			const {
+				xmid: xmid2,
+				ymid: ymid2,
+				vxmid: vx2mid,
+				vymid: vy2mid,
+			} = points[point2];
+			x2 = xmid2;
+			y2 = ymid2;
+			vx2 = vx2mid;
+			vy2 = vy2mid;
+		}
+		const { xmid: xmid0, ymid: ymid0, vxmid: vx0mid, vymid: vy0mid } = point;
+		x0 = xmid0;
+		y0 = ymid0;
+		vx0 = vx0mid;
+		vy0 = vy0mid;
+	}
+	const v = {
+		x: x2 - x1,
+		y: y2 - y1,
+		len: 0,
+	};
+	v.len = Math.sqrt(v.x * v.x + v.y * v.y);
+	const V = v.len * v.len;
+	const vDot = {
+		x: vx2 - vx1,
+		y: vy2 - vy1,
+	};
+	const VDot = 2 * (v.x * vDot.x + v.y * vDot.y);
+	const Ux = v.x * v.x * x0 + v.y * v.y * x1 + v.x * v.y * (y0 - y1);
+	const Uy = v.x * v.x * y1 + v.y * v.y * y0 + v.x * v.y * (x0 - x1);
+	const xM = Ux / V;
+	const yM = Uy / V;
+	const n = {
+		x: x0 - xM,
+		y: y0 - yM,
+	};
+	n.len = Math.sqrt(n.x * n.x + n.y * n.y);
+	const UxDot =
+		2 * (v.x * vDot.x * x0 + v.y * vDot.y * x1) +
+		(v.x * v.x * vx0 + v.y * v.y * vx1) +
+		(vDot.x * v.y + v.x * vDot.y) * (y0 - y1) +
+		v.x * v.y * (vy0 - vy1);
+	const UyDot =
+		2 * (v.x * vDot.x * y1 + v.y * vDot.y * y0) +
+		(v.x * v.x * vy1 + v.y * v.y * vy0) +
+		(vDot.x * v.y + v.x * vDot.y) * (x0 - x1) +
+		v.x * v.y * (vx0 - vx1);
+	const vxM = (V * UxDot - Ux * VDot) / V / V;
+	const vyM = (V * UyDot - Uy * VDot) / V / V;
+	const nDot = {
+		x: vx0 - vxM,
+		y: vy0 - vyM,
+	};
+	return (n.x * nDot.x + n.y * nDot.y) / n.len;
+}
+
+function calcCollisionForce(rod, pointIndex, isMidpoint = false) {
+	const D = 10000;
+	const beta = 100;
+	const { points } = state;
+	const point = points[pointIndex];
+	const { point1, point2 } = rod;
+	let { x: x0, y: y0, m, size: pointSize } = point;
 	if (point === points[point1] || point === points[point2]) return;
 	let { x: x1, y: y1, m: m1, isFixed: isFixed1 } = points[point1];
 	let { x: x2, y: y2, m: m2, isFixed: isFixed2 } = points[point2];
@@ -32,8 +115,8 @@ function calcCollisionForce(rod, pointIndex, isMidpoint = false) {
 			const {
 				xmid: xmid1,
 				ymid: ymid1,
-				//vxmid: vx1mid,
-				//vymid: vy1mid,
+				vxmid: vx1mid,
+				vymid: vy1mid,
 			} = points[point1];
 			x1 = xmid1;
 			y1 = ymid1;
@@ -44,14 +127,19 @@ function calcCollisionForce(rod, pointIndex, isMidpoint = false) {
 			const {
 				xmid: xmid2,
 				ymid: ymid2,
-				//vxmid: vx2mid,
-				//vymid: vy2mid,
+				vxmid: vx2mid,
+				vymid: vy2mid,
 			} = points[point2];
 			x2 = xmid2;
 			y2 = ymid2;
 			//vx2 = vx2mid;
 			//vy2 = vy2mid;
 		}
+		const { xmid: xmid0, ymid: ymid0, vxmid: vx0mid, vymid: vy0mid } = point;
+		x0 = xmid0;
+		y0 = ymid0;
+		//vx0 = vx0mid;
+		//vy0 = vy0mid;
 	}
 	const v = {
 		x: x2 - x1,
@@ -89,7 +177,7 @@ function calcCollisionForce(rod, pointIndex, isMidpoint = false) {
 		}
 		return;
 	}
-	const K = D * (r - dist);
+	const K = D * (r - dist) - beta * calcDistDot(rod, pointIndex, isMidpoint);
 	const K1 =
 		(K * Math.sqrt((x2 - xM) * (x2 - xM) + (y2 - yM) * (y2 - yM))) / v.len;
 	const K2 = K - K1;
