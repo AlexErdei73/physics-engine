@@ -18,9 +18,10 @@ export function init(initialState) {
 	deleteAcceleration();
 }
 
-function calcCollisionForce(rod, point, isMidpoint = false) {
+function calcCollisionForce(rod, pointIndex, isMidpoint = false) {
 	const D = 10000;
 	const { points } = state;
+	const point = points[pointIndex];
 	const { point1, point2 } = rod;
 	const { x: x0, y: y0, m, size: pointSize } = point;
 	if (point === points[point1] || point === points[point2]) return;
@@ -63,7 +64,15 @@ function calcCollisionForce(rod, point, isMidpoint = false) {
 	const xM =
 		(v.x * v.x * x0 + v.y * v.y * x1 - v.x * v.y * (y1 - y0)) / (v.len * v.len);
 	let lambda = v.y !== 0 ? (yM - y1) / v.y : (xM - x1) / v.x;
-	if (lambda <= 0 || lambda >= 1) return;
+	if (lambda <= 0 || lambda >= 1) {
+		if (rod.collisions && rod.collisions.length > 0) {
+			const index = rod.collisions.findIndex(
+				(col) => col.pointIndex === pointIndex
+			);
+			if (index > -1) rod.collisions.splice(index, 1);
+		}
+		return;
+	}
 	const n = {
 		x: x0 - xM,
 		y: y0 - yM,
@@ -71,34 +80,73 @@ function calcCollisionForce(rod, point, isMidpoint = false) {
 	const dist = Math.sqrt(n.x * n.x + n.y * n.y);
 	n.len = dist;
 	const r = pointSize / 2;
-	if (dist >= r) return;
+	if (dist >= r) {
+		if (rod.collisions && rod.collisions.length > 0) {
+			const index = rod.collisions.findIndex(
+				(col) => col.pointIndex === pointIndex
+			);
+			if (index > -1) rod.collisions.splice(index, 1);
+		}
+		return;
+	}
 	const K = D * (r - dist);
 	const K1 =
 		(K * Math.sqrt((x2 - xM) * (x2 - xM) + (y2 - yM) * (y2 - yM))) / v.len;
 	const K2 = K - K1;
 	const Kx = (K * n.x) / n.len;
 	const Ky = (K * n.y) / n.len;
+	const K1x = -(K1 * n.x) / n.len;
+	const K1y = -(K1 * n.y) / n.len;
+	const K2x = -(K2 * n.x) / n.len;
+	const K2y = -(K2 * n.y) / n.len;
+	const collision = {
+		pointIndex,
+		Kx,
+		Ky,
+		K1x,
+		K1y,
+		K2x,
+		K2y,
+	};
 	if (isMidpoint) {
 		point.axmid += Kx / m;
 		point.aymid += Ky / m;
 		if (!isFixed1) {
-			points[point1].axmid -= (K1 * n.x) / n.len / m1;
-			points[point1].aymid -= (K1 * n.y) / n.len / m1;
+			points[point1].axmid += K1x / m1;
+			points[point1].aymid += K1y / m1;
 		}
 		if (!isFixed2) {
-			points[point2].axmid -= (K2 * n.x) / n.len / m2;
-			points[point2].aymid -= (K2 * n.y) / n.len / m2;
+			points[point2].axmid += K2x / m2;
+			points[point2].aymid += K2y / m2;
 		}
 	} else {
 		point.ax += Kx / m;
 		point.ay += Ky / m;
 		if (!isFixed1) {
-			points[point1].ax -= (K1 * n.x) / n.len / m1;
-			points[point1].ay -= (K1 * n.y) / n.len / m1;
+			points[point1].ax += K1x / m1;
+			points[point1].ay += K1y / m1;
 		}
 		if (!isFixed2) {
-			points[point2].ax -= (K2 * n.x) / n.len / m2;
-			points[point2].ay -= (K2 * n.y) / n.len / m2;
+			points[point2].ax += K2x / m2;
+			points[point2].ay += K2y / m2;
+		}
+		if (!rod.collisions) {
+			rod.collisions = [];
+			rod.collisions.push(collision);
+		} else {
+			const index = rod.collisions.findIndex(
+				(col) => col.pointIndex === pointIndex
+			);
+			if (index === -1) rod.collisions.push(collision);
+			else {
+				const col = rod.collisions[index];
+				col.Kx = Kx;
+				col.Ky = Ky;
+				col.K1x = K1x;
+				col.K1y = K1y;
+				col.K2x = K2x;
+				col.K2y = K2y;
+			}
 		}
 	}
 }
@@ -234,8 +282,7 @@ function calcAccelerations(isMidpoint = false) {
 		if (state.bodyRodCollisionsOn) {
 			if (!points[i].isFixed) {
 				for (let j = 0; j < rods.length; j++) {
-					if (!rods[j].isSpring)
-						calcCollisionForce(rods[j], points[i], isMidpoint);
+					if (!rods[j].isSpring) calcCollisionForce(rods[j], i, isMidpoint);
 				}
 			}
 		}

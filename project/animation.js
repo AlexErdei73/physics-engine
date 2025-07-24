@@ -201,9 +201,17 @@ function drawForces(state, ctx) {
 
 	for (let i = 0; i < rods.length; i++) {
 		const rod = rods[i];
-		const { point1, point2, Fx, Fy } = rod;
+		const { point1, point2, Fx, Fy, collisions } = rod;
 		drawVector([Fx, Fy], points[point1], ctx);
 		drawVector([-Fx, -Fy], points[point2], ctx);
+		if (collisions && collisions.length > 0) {
+			collisions.forEach((col) => {
+				const { pointIndex, Kx, Ky, K1x, K1y, K2x, K2y } = col;
+				drawVector([Kx, Ky], points[pointIndex], ctx);
+				drawVector([K1x, K1y], points[point1], ctx);
+				drawVector([K2x, K2y], points[point2], ctx);
+			});
+		}
 	}
 }
 
