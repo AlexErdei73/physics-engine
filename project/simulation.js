@@ -214,12 +214,15 @@ function calcCollisionForce(rod, pointIndex, isMidpoint = false) {
 			if (index === -1) rod.collisions.push(collision);
 			else {
 				const col = rod.collisions[index];
+				col.K = K;
+				col.dist = dist;
 				col.Kx = Kx;
 				col.Ky = Ky;
 				col.K1x = K1x;
 				col.K1y = K1y;
 				col.K2x = K2x;
 				col.K2y = K2y;
+				col.E = E;
 			}
 		}
 	}

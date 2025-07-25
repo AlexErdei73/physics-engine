@@ -291,6 +291,11 @@ function calcEnergy(state) {
 		const { x: x2, y: y2 } = points[point2];
 		const l = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 		Eelastic += 0.5 * D * (l - l0) * (l - l0);
+		if (rod.collisions) {
+			rod.collisions.forEach((col) => {
+				Eelastic += col.E;
+			});
+		}
 	}
 	return {
 		kinetic: Ekin,
@@ -374,7 +379,6 @@ export function draw(animate = true, canvas) {
 			isGraphsVisible,
 			periodicExtForce,
 			t,
-			isPathsVisible,
 		} = state;
 		ctx.clearRect(0, 0, width, height);
 		if (!isGraphsVisible) {
