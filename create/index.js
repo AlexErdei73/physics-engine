@@ -12,6 +12,8 @@ const emptyWorld = {
 	dt: 1e-5,
 	t: 0,
 	animTime: 1 / 30,
+	collisionK: 10000,
+	pointRodBeta: 100,
 	width: 600,
 	height: 400,
 	isTimeVisible: true,
@@ -46,6 +48,8 @@ const inpG = document.querySelector("#inp-g");
 const inpScale = document.querySelector("#inp-scale");
 const inpDt = document.querySelector("#inp-dt");
 const inpAnimTime = document.querySelector("#inp-anim-time");
+const inpCollStiff = document.querySelector("#inp-coll-stiff");
+const inpPointRodBeta = document.querySelector("#inp-point-rod-beta");
 const chkboxShowTime = document.querySelector("#chkbox-show-time");
 const chkboxShowGrid = document.querySelector("#chkbox-show-grid");
 const chkboxShowForce = document.querySelector("#chkbox-show-force");
@@ -254,6 +258,8 @@ function editParams() {
 		g,
 		dt,
 		animTime,
+		collisionK,
+		pointRodBeta,
 		scale,
 		isTimeVisible,
 		isGridVisible,
@@ -268,6 +274,8 @@ function editParams() {
 	inpDt.value = dt;
 	inpAnimTime.value = animTime;
 	inpScale.value = scale;
+	inpCollStiff.value = collisionK;
+	inpPointRodBeta.value = pointRodBeta;
 	chkboxShowTime.checked = isTimeVisible;
 	chkboxShowGrid.checked = isGridVisible;
 	chkboxShowForce.checked = isForcesVisible;
@@ -280,6 +288,8 @@ function changeParams() {
 	initialState.dt = +inpDt.value || 1e-5;
 	initialState.animTime = +inpAnimTime.value || 1 / 30;
 	initialState.scale = +inpScale.value || 0.01;
+	initialState.collisionK = +inpCollStiff.value || 10000;
+	initialState.pointRodBeta = +inpPointRodBeta.value || 0;
 	initialState.isTimeVisible = chkboxShowTime.checked;
 	initialState.isGridVisible = chkboxShowGrid.checked;
 	initialState.isForcesVisible = chkboxShowForce.checked;
