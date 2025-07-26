@@ -1,3 +1,4 @@
+import { fetchProjects } from "../backend.js";
 import {
 	draw,
 	setInitialState,
@@ -31,7 +32,7 @@ const emptyWorld = {
 	rods: [],
 };
 
-const projects = JSON.parse(localStorage.getItem("projects")) || [];
+let projects = JSON.parse(localStorage.getItem("projects")) || [];
 
 function getProjectIndex(url) {
 	const array = url.split("#");
@@ -40,19 +41,83 @@ function getProjectIndex(url) {
 	return isNaN(index) ? projects.length - 1 : index;
 }
 
+function getProjectID(url) {
+	const array = url.split("#");
+	const len = array.length;
+	const str = array[len - 1];
+	return len > 1 && isNaN(str) ? str : null;
+}
+
+async function getPublicProjects() {
+	await fetchProjects();
+	projects = JSON.parse(localStorage.getItem("projects"));
+}
+
+let projectID = getProjectID(pageURL);
 let projectIndex = getProjectIndex(pageURL);
 
-let initialState =
-	projects.length > 0 && projectIndex < projects.length
-		? projects[projectIndex]
-		: emptyWorld;
-initialState.isPathsVisible = true;
-setInitialState(initialState);
+async function getProjectIdx(projectID) {
+	if (!projectID) return;
+	let projectIndex = projects.findIndex((pr) => pr.projectID === projectID);
+	if (projectIndex === -1) {
+		await getPublicProjects();
+		projectIndex = projects.findIndex((pr) => pr.projectID === projectID);
+	}
+	return projectIndex;
+}
+
+async function getInitialState() {
+	const projectIdx = await getProjectIdx(projectID);
+	projectIndex = projectIdx && projectIdx > -1 ? projectIdx : projectIndex;
+	const initialState =
+		projects.length > 0 && projectIndex < projects.length
+			? projects[projectIndex]
+			: emptyWorld;
+	initialState.isPathsVisible = true;
+	setInitialState(initialState);
+	return initialState;
+}
+
+let initialState;
+
+async function initialize() {
+	initialState = await getInitialState();
+	reset();
+	initResPeeking(getState());
+
+	gridChkBox.checked = initialState.isGridVisible;
+	timeChkBox.checked = initialState.isTimeVisible;
+	forceChkBox.checked = initialState.isForcesVisible;
+	energyChkBox.checked = initialState.isEnergyVisible;
+	pathChkBox.checked = initialState.isPathsVisible;
+	graphsChkBox.checked = false;
+	resultsChkBox.checked = false;
+
+	const aCreate = document.querySelector("#a-create");
+	const aProject = document.querySelector("#a-project");
+	aCreate.href = `${BASE_URL}create#${projectIndex}`;
+	aProject.href = `${BASE_URL}project#${projectIndex}`;
+
+	const rangeFreq = document.querySelector("#range-freq");
+	const { periodicExtForce: extForce } = initialState;
+	rangeFreq.disabled = !extForce || !extForce.isOn;
+	rangeFreq.addEventListener("change", () => {
+		const rangeValue = rangeFreq.value;
+		const { freqMin, freqMax } = initialState.periodicExtForce;
+		const f = freqMin + ((freqMax - freqMin) / 100) * rangeValue;
+		extForce.omega = 2 * Math.PI * f;
+		draw(false);
+	});
+
+	const canvas = document.querySelector("canvas");
+	canvas.textContent = initialState.description;
+}
+
+initialize();
 
 let graphDetails = [];
 const MAX_NUMBER_OF_GRAPHS = 4;
 
-reset();
 const startBtn = document.querySelector("#start");
 const stopBtn = document.querySelector("#stop");
 const resetBtn = document.querySelector("#reset");
@@ -336,7 +401,6 @@ function initResPeeking(state) {
 }
 
 inpResIndex.addEventListener("change", () => handleResIndexChange(getState()));
-initResPeeking(getState());
 
 startBtn.addEventListener("click", start);
 stopBtn.addEventListener("click", stop);
@@ -347,14 +411,6 @@ switchBackBtn.addEventListener("click", () => {
 	resultsChkBox.checked = false;
 	handleShowResultsChange();
 });
-
-gridChkBox.checked = initialState.isGridVisible;
-timeChkBox.checked = initialState.isTimeVisible;
-forceChkBox.checked = initialState.isForcesVisible;
-energyChkBox.checked = initialState.isEnergyVisible;
-pathChkBox.checked = initialState.isPathsVisible;
-graphsChkBox.checked = false;
-resultsChkBox.checked = false;
 
 function handleChkboxChange() {
 	initialState.isGridVisible = gridChkBox.checked;
@@ -374,22 +430,3 @@ energyChkBox.addEventListener("change", handleChkboxChange);
 pathChkBox.addEventListener("change", handleChkboxChange);
 graphsChkBox.addEventListener("change", handleChkboxChange);
 resultsChkBox.addEventListener("change", handleShowResultsChange);
-
-const aCreate = document.querySelector("#a-create");
-const aProject = document.querySelector("#a-project");
-aCreate.href = `${BASE_URL}create#${projectIndex}`;
-aProject.href = `${BASE_URL}project#${projectIndex}`;
-
-const rangeFreq = document.querySelector("#range-freq");
-const { periodicExtForce: extForce } = initialState;
-rangeFreq.disabled = !extForce || !extForce.isOn;
-rangeFreq.addEventListener("change", () => {
-	const rangeValue = rangeFreq.value;
-	const { freqMin, freqMax } = initialState.periodicExtForce;
-	const f = freqMin + ((freqMax - freqMin) / 100) * rangeValue;
-	extForce.omega = 2 * Math.PI * f;
-	draw(false);
-});
-
-const canvas = document.querySelector("canvas");
-canvas.textContent = initialState.description;
