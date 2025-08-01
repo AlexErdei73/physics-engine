@@ -228,6 +228,74 @@ function calcCollisionForce(rod, pointIndex, isMidpoint = false) {
 	}
 }
 
+function calcCollForce(point1, point2, isMidpoint = false) {
+	const { points, collisionK: D } = state;
+	let { collisions } = state;
+	const pointOne = points[point1];
+	const pointTwo = points[point2];
+	const { isFixed: isFixed1 } = pointOne;
+	const { isFixed: isFixed2 } = pointTwo;
+	if (isFixed1 || isFixed2) return;
+	let { x: x1, y: y1, vx: v1x, vy: v1y, size: size1, m: m1 } = pointOne;
+	let { x: x2, y: y2, vx: v2x, vy: v2y, size: size2, m: m2 } = pointTwo;
+	const r = (size1 + size2) / 2;
+	if (isMidpoint) {
+		x1 = pointOne.xmid;
+		y1 = pointOne.ymid;
+		x2 = pointTwo.xmid;
+		y2 = pointTwo.ymid;
+	}
+	const v = {
+		x: x2 - x1,
+		y: y2 - y1,
+	};
+	v.len = Math.sqrt(v.x * v.x + v.y * v.y);
+	if (v.len > r) {
+		if (!collisions) return;
+		const index = collisions.findIndex(
+			(col) => col.point1 === point1 && col.point2 === point2
+		);
+		if (index === -1) return;
+		collisions.splice(index, 1);
+		return;
+	}
+	const K = D * (r - v.len);
+	const Kx = (-K * v.x) / v.len;
+	const Ky = (-K * v.y) / v.len;
+	if (!collisions) {
+		state.collisions = [];
+		collisions = state.collisions;
+	}
+	const index = collisions.findIndex(
+		(col) => col.point1 === point1 && col.point2 === point2
+	);
+	if (index === -1) {
+		collisions.push({
+			point1,
+			point2,
+			K,
+			Kx,
+			Ky,
+		});
+	} else {
+		const col = collisions[index];
+		col.K = K;
+		col.Kx = Kx;
+		col.Ky = Ky;
+	}
+	if (isMidpoint) {
+		pointOne.axmid += Kx / m1;
+		pointOne.aymid += Ky / m1;
+		pointTwo.axmid -= Kx / m2;
+		pointTwo.aymid -= Ky / m2;
+	} else {
+		pointOne.ax += Kx / m1;
+		pointOne.ay += Ky / m1;
+		pointTwo.ax -= Kx / m2;
+		pointTwo.ay -= Ky / m2;
+	}
+}
+
 function calcForce(rod, isMidpoint = false) {
 	const { points } = state;
 	const { point1, point2, length: l0, elast: D, beta } = rod;
@@ -361,6 +429,11 @@ function calcAccelerations(isMidpoint = false) {
 				for (let j = 0; j < rods.length; j++) {
 					if (!rods[j].isSpring) calcCollisionForce(rods[j], i, isMidpoint);
 				}
+			}
+		}
+		if (state.collisionsOn && !points[i].isFixed) {
+			for (let j = i + 1; j < points.length; j++) {
+				if (!points[j].isFixed) calcCollForce(i, j, isMidpoint);
 			}
 		}
 		calcGrav(points[i], isMidpoint);
