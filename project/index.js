@@ -74,7 +74,6 @@ async function getInitialState() {
 			? projects[projectIndex]
 			: emptyWorld;
 	initialState.isPathsVisible = true;
-	if (projectIndex > 21) initialState.collisionsOn = true;
 	setInitialState(initialState);
 	return initialState;
 }

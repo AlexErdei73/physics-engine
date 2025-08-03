@@ -229,8 +229,7 @@ function calcCollisionForce(rod, pointIndex, isMidpoint = false) {
 }
 
 function calcCollForce(point1, point2, isMidpoint = false) {
-	const beta = 0;
-	const { points, collisionK: D } = state;
+	const { points, collisionK: D, pointPointBeta: beta } = state;
 	let { collisions } = state;
 	const pointOne = points[point1];
 	const pointTwo = points[point2];

@@ -50,12 +50,16 @@ const inpDt = document.querySelector("#inp-dt");
 const inpAnimTime = document.querySelector("#inp-anim-time");
 const inpCollStiff = document.querySelector("#inp-coll-stiff");
 const inpPointRodBeta = document.querySelector("#inp-point-rod-beta");
+const inpPointPointBeta = document.querySelector("#inp-point-point-beta");
 const chkboxShowTime = document.querySelector("#chkbox-show-time");
 const chkboxShowGrid = document.querySelector("#chkbox-show-grid");
 const chkboxShowForce = document.querySelector("#chkbox-show-force");
 const chkboxShowEnergy = document.querySelector("#chkbox-show-energy");
 const chkboxBodyRodCollisions = document.querySelector(
 	"#chkbox-body-rod-collisions"
+);
+const chkboxBodyBodyCollisions = document.querySelector(
+	"#chkbox-body-body-collisions"
 );
 
 const inpPointIndex = document.querySelector("#inp-point-index");
@@ -260,12 +264,14 @@ function editParams() {
 		animTime,
 		collisionK,
 		pointRodBeta,
+		pointPointBeta,
 		scale,
 		isTimeVisible,
 		isGridVisible,
 		isForcesVisible,
 		isEnergyVisible,
 		bodyRodCollisionsOn,
+		collisionsOn,
 	} = initialState;
 
 	inpName.value = name;
@@ -276,11 +282,13 @@ function editParams() {
 	inpScale.value = scale;
 	inpCollStiff.value = collisionK;
 	inpPointRodBeta.value = pointRodBeta;
+	inpPointPointBeta.value = pointPointBeta;
 	chkboxShowTime.checked = isTimeVisible;
 	chkboxShowGrid.checked = isGridVisible;
 	chkboxShowForce.checked = isForcesVisible;
 	chkboxShowEnergy.checked = isEnergyVisible;
 	chkboxBodyRodCollisions.checked = bodyRodCollisionsOn;
+	chkboxBodyBodyCollisions.checked = collisionsOn;
 }
 
 function changeParams() {
@@ -290,11 +298,13 @@ function changeParams() {
 	initialState.scale = +inpScale.value || 0.01;
 	initialState.collisionK = +inpCollStiff.value || 10000;
 	initialState.pointRodBeta = +inpPointRodBeta.value || 0;
+	initialState.pointPointBeta = +inpPointPointBeta.value || 0;
 	initialState.isTimeVisible = chkboxShowTime.checked;
 	initialState.isGridVisible = chkboxShowGrid.checked;
 	initialState.isForcesVisible = chkboxShowForce.checked;
 	initialState.isEnergyVisible = chkboxShowEnergy.checked;
 	initialState.bodyRodCollisionsOn = chkboxBodyRodCollisions.checked;
+	initialState.collisionsOn = chkboxBodyBodyCollisions.checked;
 
 	editParams();
 }
@@ -485,11 +495,13 @@ inpAnimTime.addEventListener("change", () => changeParams());
 inpScale.addEventListener("change", () => changeParams());
 inpCollStiff.addEventListener("change", () => changeParams());
 inpPointRodBeta.addEventListener("change", () => changeParams());
+inpPointPointBeta.addEventListener("change", () => changeParams());
 chkboxShowTime.addEventListener("change", () => changeParams());
 chkboxShowGrid.addEventListener("change", () => changeParams());
 chkboxShowForce.addEventListener("change", () => changeParams());
 chkboxShowEnergy.addEventListener("change", () => changeParams());
 chkboxBodyRodCollisions.addEventListener("change", () => changeParams());
+chkboxBodyBodyCollisions.addEventListener("change", () => changeParams());
 
 inpExtForcePointIndex.addEventListener("change", () =>
 	changePeriodicExtForce()
