@@ -297,6 +297,11 @@ function calcEnergy(state) {
 			});
 		}
 	}
+	if (state.collisions) {
+		state.collisions.forEach((col) => {
+			Eelastic += col.E;
+		});
+	}
 	return {
 		kinetic: Ekin,
 		gravity: Egrav,
