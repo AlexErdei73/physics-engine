@@ -229,6 +229,7 @@ function calcCollisionForce(rod, pointIndex, isMidpoint = false) {
 }
 
 function calcCollForce(point1, point2, isMidpoint = false) {
+	const beta = 10;
 	const { points, collisionK: D } = state;
 	let { collisions } = state;
 	const pointOne = points[point1];
@@ -259,9 +260,15 @@ function calcCollForce(point1, point2, isMidpoint = false) {
 		collisions.splice(index, 1);
 		return;
 	}
-	const K = D * (r - v.len);
+	const vDot = {
+		x: v2x - v1x,
+		y: v2y - v1y,
+	};
+	const distDot = (vDot.x * v.x + vDot.y * v.y) / v.len;
+	const K = D * (r - v.len) - beta * distDot;
 	const Kx = (-K * v.x) / v.len;
 	const Ky = (-K * v.y) / v.len;
+	const E = 0.5 * D * (r - v.len) * (r - v.len);
 	if (!collisions) {
 		state.collisions = [];
 		collisions = state.collisions;
@@ -276,6 +283,7 @@ function calcCollForce(point1, point2, isMidpoint = false) {
 			K,
 			Kx,
 			Ky,
+			E,
 		});
 	} else {
 		const col = collisions[index];
