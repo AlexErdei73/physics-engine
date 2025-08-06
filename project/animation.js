@@ -191,12 +191,22 @@ function drawVector(vector, point, ctx, color = "blue") {
 }
 
 function drawForces(state, ctx) {
-	const { g, points, rods } = state;
+	const { g, points, rods, collisions } = state;
 
 	for (let i = 0; i < points.length; i++) {
 		const point = points[i];
 		const { m } = point;
 		drawVector([0, m * g], point, ctx);
+		if (collisions && collisions.length > 0) {
+			collisions
+				.filter((col) => col.point1 === i)
+				.forEach((col) => {
+					const { Kx, Ky, point2 } = col;
+					const otherPoint = points[point2];
+					drawVector([Kx, Ky], point, ctx);
+					drawVector([-Kx, -Ky], otherPoint, ctx);
+				});
+		}
 	}
 
 	for (let i = 0; i < rods.length; i++) {
