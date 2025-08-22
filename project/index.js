@@ -257,11 +257,11 @@ function handlePointsOrRodsChange() {
 }
 selPointsOrRods.addEventListener("change", handlePointsOrRodsChange);
 
-function handleChangeChhkboxOriginCenter() {
+function handleChangeChkboxOriginCenter() {
 	if (graphDetails.length === 0) return;
 	graphDetails[0].isOriginCentered = chkboxOriginCenter.checked;
 }
-chkboxOriginCenter.addEventListener("change", handleChangeChhkboxOriginCenter);
+chkboxOriginCenter.addEventListener("change", handleChangeChkboxOriginCenter);
 
 function initResPeriodicExtForce(state) {
 	const { periodicExtForce } = state;
@@ -377,6 +377,8 @@ function initResRod(state, index) {
 
 	inpResRodCollPointIndex.min = 0;
 	inpResRodCollPointIndex.max = points.length - 1;
+	inpResRodCollPointIndex.value = 0;
+	handlePointIndexChange({target: inpResRodCollPointIndex});
 
 	const divResK = document.querySelector("#res-rod-k");
 	const divResL0 = document.querySelector("#res-rod-l0");
