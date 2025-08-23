@@ -8,6 +8,8 @@ import {
 	zoom,
 	setGraphDetails,
 	removeGraphDetails,
+	select,
+	removeSelection,
 } from "./animation.js";
 import { getState } from "./simulation.js";
 
@@ -219,6 +221,7 @@ function handlePointsOrRodsChange() {
 	const option = selPointsOrRods.value;
 	pickSelField(option);
 	enableCheckboxAddedToGraphs();
+	removeSelection();
 	if (option === "points") {
 		divResPoint.classList.remove("hidden");
 		if (!divResRod.classList.contains("hidden"))
@@ -227,6 +230,7 @@ function handlePointsOrRodsChange() {
 		inpResIndex.max = (len - 1).toString();
 		if (len > 0) {
 			inpResIndex.value = "0";
+			select(option, 0);
 			inpResIndex.min = "0";
 		} else {
 			inpResIndex.value = "-1";
@@ -240,6 +244,7 @@ function handlePointsOrRodsChange() {
 		inpResIndex.max = (len - 1).toString();
 		if (len > 0) {
 			inpResIndex.value = "0";
+			select(option, 0);
 			inpResIndex.min = "0";
 		} else {
 			inpResIndex.value = "-1";
@@ -378,7 +383,7 @@ function initResRod(state, index) {
 	inpResRodCollPointIndex.min = 0;
 	inpResRodCollPointIndex.max = points.length - 1;
 	inpResRodCollPointIndex.value = 0;
-	handlePointIndexChange({target: inpResRodCollPointIndex});
+	handlePointIndexChange({ target: inpResRodCollPointIndex });
 
 	const divResK = document.querySelector("#res-rod-k");
 	const divResL0 = document.querySelector("#res-rod-l0");
@@ -401,11 +406,13 @@ function initResRod(state, index) {
 }
 
 function handleResIndexChange(state) {
+	removeSelection();
 	const option = selPointsOrRods.value;
 	const index = +inpResIndex.value;
 	if (index === -1) return;
 	if (option === "points") initResPoint(state, index);
 	else initResRod(state, index);
+	select(option, index);
 	enableCheckboxAddedToGraphs();
 }
 
@@ -471,6 +478,7 @@ zoomOutBtn.addEventListener("click", () => zoom(false));
 switchBackBtn.addEventListener("click", () => {
 	resultsChkBox.checked = false;
 	handleShowResultsChange();
+	removeSelection();
 });
 
 function handleChkboxChange() {

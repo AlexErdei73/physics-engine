@@ -50,6 +50,7 @@ export function removeGraphDetails(index) {
 }
 
 let state;
+let context;
 
 function scl(dist) {
 	const { scale } = initialState;
@@ -92,7 +93,7 @@ function drawGrid(
 	}
 }
 
-function drawPoint(point, ctx) {
+function drawPoint(point, ctx, color = "black", lineWidth = 1) {
 	ctx.beginPath();
 	const { x, y, size, isFixed } = point;
 	if (isFixed) {
@@ -109,10 +110,14 @@ function drawPoint(point, ctx) {
 		ctx.moveTo(scl(x) + r, scl(y));
 		ctx.arc(scl(x), scl(y), r, 0, Math.PI * 2, true);
 	}
+	ctx.lineWidth = lineWidth;
+	ctx.strokeStyle = color;
 	ctx.stroke();
+	ctx.lineWidth = 1;
+	ctx.strokeStyle = "black";
 }
 
-function drawRod(rod, state, ctx) {
+function drawRod(rod, state, ctx, color = "black", lineWidth = 1) {
 	const { points } = state;
 	const { point1: i1, point2: i2 } = rod;
 	const { x: x1, y: y1 } = points[i1];
@@ -146,7 +151,11 @@ function drawRod(rod, state, ctx) {
 			ctx.lineTo(Math.round(x), Math.round(y));
 		}
 	}
+	ctx.lineWidth = lineWidth;
+	ctx.strokeStyle = color;
 	ctx.stroke();
+	ctx.lineWidth = 1;
+	ctx.strokeStyle = "black";
 }
 
 function drawState(state, ctx) {
@@ -156,6 +165,22 @@ function drawState(state, ctx) {
 	}
 	for (let i = 0; i < rods.length; i++) {
 		drawRod(rods[i], state, ctx);
+	}
+}
+
+export function removeSelection() {
+	if (!context) return;
+	draw(false);
+}
+
+export function select(option, index) {
+	if (!context) return;
+	if (option === "points") {
+		const point = state.points[index];
+		drawPoint(point, context, "red", 2);
+	} else if (option === "rods") {
+		const rod = state.rods[index];
+		drawRod(rod, state, context, "red", 2);
 	}
 }
 
@@ -387,6 +412,7 @@ export function draw(animate = true, canvas) {
 	if (!canvas) canvas = document.querySelector("canvas");
 	if (canvas.getContext) {
 		const ctx = canvas.getContext("2d");
+		if (!context) context = ctx;
 		if (animate) {
 			state = simulate();
 		} else if (!state) state = initialState;
