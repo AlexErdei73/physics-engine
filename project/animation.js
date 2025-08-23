@@ -215,12 +215,20 @@ function drawForces(state, ctx) {
 		drawVector([Fx, Fy], points[point1], ctx);
 		drawVector([-Fx, -Fy], points[point2], ctx);
 		if (collisions && collisions.length > 0) {
+			let K1xSum = 0;
+			let K1ySum = 0;
+			let K2xSum = 0;
+			let K2ySum = 0;
 			collisions.forEach((col) => {
 				const { pointIndex, Kx, Ky, K1x, K1y, K2x, K2y } = col;
 				drawVector([Kx, Ky], points[pointIndex], ctx);
-				drawVector([K1x, K1y], points[point1], ctx);
-				drawVector([K2x, K2y], points[point2], ctx);
+				K1xSum += K1x;
+				K1ySum += K1y;
+				K2xSum += K2x;
+				K2ySum += K2y;
 			});
+			drawVector([K1xSum, K1ySum], points[point1], ctx);
+			drawVector([K2xSum, K2ySum], points[point2], ctx);
 		}
 	}
 }
