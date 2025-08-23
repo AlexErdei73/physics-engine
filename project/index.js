@@ -113,6 +113,8 @@ async function initialize() {
 
 	const canvas = document.querySelector("canvas");
 	canvas.textContent = initialState.description;
+
+	removeSelection();
 }
 
 initialize();
