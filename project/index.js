@@ -295,10 +295,100 @@ function initResPeriodicExtForce(state) {
 	divResPeriodicExtForce.classList.remove("hidden");
 }
 
+let currentRod = null;
+function handlePointIndexChange(event, state = null) {
+	const inpPointIndex = event.target;
+	const id = inpPointIndex.id;
+	const option = id.split("-")[1];
+
+	console.log(state);
+
+	const divDist = document.querySelector(`#res-${option}-coll-dist`);
+	const divK = document.querySelector(`#res-${option}-coll-K`);
+	const divK1 = document.querySelector("#res-rod-coll-K1");
+	const divK2 = document.querySelector("#res-rod-coll-K2");
+
+	const pointIndex = Number(inpPointIndex.value);
+
+	const { collisions } = option === "rod" ? currentRod : state;
+	let index = -1;
+	if (collisions && option === "point") {
+		const currentPointIndex = +inpResIndex.value || 0;
+		index = collisions.findIndex(
+			(col) =>
+				(col.point1 === currentPointIndex && col.point2 === pointIndex) ||
+				(col.point1 === pointIndex && col.point2 === currentPointIndex)
+		);
+	} else if (collisions && option === "rod")
+		index = collisions.findIndex((col) => col.pointIndex === pointIndex);
+	if (index === -1) {
+		divDist.textContent = "dist:";
+		divK.textContent = "K:";
+		if (option === "rod") {
+			divK1.textContent = "K1:";
+			divK2.textContent = "K2:";
+		}
+	} else {
+		const { K, K1x, K1y, dist } = collisions[index];
+		divDist.textContent = `dist: ${Number(dist).toFixed(4)}`;
+		divK.textContent = `K: ${Number(K).toFixed(4)}`;
+		if (option === "rod") {
+			const K1 = Math.sqrt(K1x * K1x + K1y * K1y);
+			const K2 = K - K1;
+			divK1.textContent = `K1: ${Number(K1).toFixed(4)}`;
+			divK2.textContent = `K2: ${Number(K2).toFixed(4)}`;
+		}
+	}
+}
+const inpResRodCollPointIndex = document.querySelector(
+	"#res-rod-coll-point-index"
+);
+inpResRodCollPointIndex.addEventListener("change", handlePointIndexChange);
+const inpResPointCollPointIndex = document.querySelector(
+	"#res-point-coll-point-index"
+);
+inpResPointCollPointIndex.addEventListener("change", (event) =>
+	handlePointIndexChange(event, getState())
+);
+
+const chkboxResRodCollisions = document.querySelector(
+	"#chkbox-res-rod-collisions"
+);
+
+const chkboxResPointCollisions = document.querySelector(
+	"#chkbox-res-point-collisions"
+);
+
+function handleChkboxResCollChange(event) {
+	const chkbox = event.target;
+	const chkboxId = chkbox.id;
+	const option = chkboxId.split("-")[2];
+	const divResParams = document.querySelector(`#res-${option}-params`);
+	const divResCollision = document.querySelector(`#res-${option}-collision`);
+	if (chkbox.checked) {
+		divResCollision.classList.remove("hidden");
+		divResParams.classList.add("hidden");
+	} else {
+		divResCollision.classList.add("hidden");
+		divResParams.classList.remove("hidden");
+	}
+}
+chkboxResRodCollisions.addEventListener("change", handleChkboxResCollChange);
+chkboxResPointCollisions.addEventListener("change", handleChkboxResCollChange);
+
 function initResPoint(state, index) {
 	const { points, g } = state;
 	const point = points[index] || null;
 	if (!point) return;
+
+	chkboxResPointCollisions.checked = false;
+	handleChkboxResCollChange({ target: chkboxResPointCollisions });
+
+	inpResPointCollPointIndex.min = 0;
+	inpResPointCollPointIndex.max = points.length - 1;
+	inpResPointCollPointIndex.value = 0;
+	handlePointIndexChange({ target: inpResPointCollPointIndex }, state);
+
 	const divResM = document.querySelector("#res-point-m");
 	const divResGrav = document.querySelector("#res-point-grav");
 	const divResX = document.querySelector("#res-point-x");
@@ -318,57 +408,6 @@ function initResPoint(state, index) {
 	divResAy.textContent = `ay: ${Number(ay).toFixed(4)}`;
 }
 
-let currentRod = null;
-function handlePointIndexChange(event) {
-	const divDist = document.querySelector("#res-rod-coll-dist");
-	const divK = document.querySelector("#res-rod-coll-K");
-	const divK1 = document.querySelector("#res-rod-coll-K1");
-	const divK2 = document.querySelector("#res-rod-coll-K2");
-
-	const pointIndex = Number(event.target.value);
-
-	const { collisions } = currentRod;
-	const index = collisions
-		? collisions.findIndex((col) => col.pointIndex === pointIndex)
-		: -1;
-	if (index === -1) {
-		divDist.textContent = "dist:";
-		divK.textContent = "K:";
-		divK1.textContent = "K1:";
-		divK2.textContent = "K2:";
-	} else {
-		const { K, K1x, K1y, dist } = collisions[index];
-		const K1 = Math.sqrt(K1x * K1x + K1y * K1y);
-		const K2 = K - K1;
-		divDist.textContent = `dist: ${Number(dist).toFixed(4)}`;
-		divK.textContent = `K: ${Number(K).toFixed(4)}`;
-		divK1.textContent = `K1: ${Number(K1).toFixed(4)}`;
-		divK2.textContent = `K2: ${Number(K2).toFixed(4)}`;
-	}
-}
-const inpResRodCollPointIndex = document.querySelector(
-	"#res-rod-coll-point-index"
-);
-inpResRodCollPointIndex.addEventListener("change", handlePointIndexChange);
-
-const chkboxResRodCollisions = document.querySelector(
-	"#chkbox-res-rod-collisions"
-);
-
-function handleChkboxResRodCollChange(event) {
-	const chkbox = event.target;
-	const divResRodParams = document.querySelector("#res-rod-params");
-	const divResRodCollision = document.querySelector("#res-rod-collision");
-	if (chkbox.checked) {
-		divResRodCollision.classList.remove("hidden");
-		divResRodParams.classList.add("hidden");
-	} else {
-		divResRodCollision.classList.add("hidden");
-		divResRodParams.classList.remove("hidden");
-	}
-}
-chkboxResRodCollisions.addEventListener("change", handleChkboxResRodCollChange);
-
 function initResRod(state, index) {
 	const { points, rods } = state;
 	const rod = rods[index] || null;
@@ -380,7 +419,7 @@ function initResRod(state, index) {
 	const l = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 
 	chkboxResRodCollisions.checked = false;
-	handleChkboxResRodCollChange({ target: chkboxResRodCollisions });
+	handleChkboxResCollChange({ target: chkboxResRodCollisions });
 
 	inpResRodCollPointIndex.min = 0;
 	inpResRodCollPointIndex.max = points.length - 1;

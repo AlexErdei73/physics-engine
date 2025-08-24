@@ -283,6 +283,7 @@ function calcCollForce(point1, point2, isMidpoint = false) {
 			Kx,
 			Ky,
 			E,
+			dist: v.len,
 		});
 	} else {
 		const col = collisions[index];
