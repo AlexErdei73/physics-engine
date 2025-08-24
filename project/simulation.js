@@ -105,7 +105,7 @@ function calcCollisionForce(rod, pointIndex, isMidpoint = false) {
 	const point = points[pointIndex];
 	const { point1, point2 } = rod;
 	let { x: x0, y: y0, m, size: pointSize } = point;
-	if (point === points[point1] || point === points[point2]) return;
+	if (pointIndex === point1 || pointIndex === point2) return;
 	let { x: x1, y: y1, m: m1, isFixed: isFixed1 } = points[point1];
 	let { x: x2, y: y2, m: m2, isFixed: isFixed2 } = points[point2];
 	if (isMidpoint) {
