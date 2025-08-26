@@ -239,7 +239,7 @@ function handlePointsOrRodsChange() {
 		inpResIndex.max = (len - 1).toString();
 		if (len > 0) {
 			inpResIndex.value = "0";
-			select(option, 0);
+			if (!graphsChkBox.checked) select(option, 0);
 			inpResIndex.min = "0";
 		} else {
 			inpResIndex.value = "-1";
@@ -253,7 +253,7 @@ function handlePointsOrRodsChange() {
 		inpResIndex.max = (len - 1).toString();
 		if (len > 0) {
 			inpResIndex.value = "0";
-			select(option, 0);
+			if (!graphsChkBox.checked) select(option, 0);
 			inpResIndex.min = "0";
 		} else {
 			inpResIndex.value = "-1";
@@ -459,7 +459,7 @@ function handleResIndexChange(state) {
 	if (index === -1) return;
 	if (option === "points") initResPoint(state, index);
 	else initResRod(state, index);
-	select(option, index);
+	if (!graphsChkBox.checked) select(option, index);
 	enableCheckboxAddedToGraphs();
 }
 
