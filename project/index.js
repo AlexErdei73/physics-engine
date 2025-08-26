@@ -204,6 +204,13 @@ function enableCheckboxAddedToGraphs() {
 				field: selField.value,
 				index: +inpResIndex.value,
 				isOriginCentered: chkboxOriginCenter.checked,
+			}) ||
+			areEqual(graphDetails[i], {
+				option: selPointsOrRods.value,
+				field: selField.value,
+				index: +inpResIndex.value,
+				isOriginCentered: chkboxOriginCenter.checked,
+				pointIndex: +inpResPointCollPointIndex.value,
 			})
 		)
 			checked = true;
@@ -301,8 +308,6 @@ function handlePointIndexChange(event, state = null) {
 	const id = inpPointIndex.id;
 	const option = id.split("-")[1];
 
-	console.log(state);
-
 	const divDist = document.querySelector(`#res-${option}-coll-dist`);
 	const divK = document.querySelector(`#res-${option}-coll-K`);
 	const divK1 = document.querySelector("#res-rod-coll-K1");
@@ -339,6 +344,7 @@ function handlePointIndexChange(event, state = null) {
 			divK2.textContent = `K2: ${Number(K2).toFixed(4)}`;
 		}
 	}
+	enableCheckboxAddedToGraphs();
 }
 const inpResRodCollPointIndex = document.querySelector(
 	"#res-rod-coll-point-index"
@@ -468,6 +474,8 @@ function handleChangeChkboxAddedToGraphs() {
 			field: selField.value,
 			isOriginCentered,
 		};
+		if (nextGraphDetails.option === "points" && nextGraphDetails.field === "K")
+			nextGraphDetails.pointIndex = +inpResPointCollPointIndex.value;
 		graphDetails.push(nextGraphDetails);
 		setGraphDetails(nextGraphDetails);
 	} else {
@@ -480,6 +488,13 @@ function handleChangeChkboxAddedToGraphs() {
 					index: +inpResIndex.value,
 					field: selField.value,
 					isOriginCentered,
+				}) ||
+				areEqual(graphDetails[j], {
+					option: selPointsOrRods.value,
+					index: +inpResIndex.value,
+					field: selField.value,
+					isOriginCentered,
+					pointIndex: +inpResPointCollPointIndex.value,
 				})
 			)
 				i = j;

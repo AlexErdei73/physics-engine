@@ -367,7 +367,7 @@ function showFreq(ctx, periodicExtForce, t, yPos) {
 function addGraphPoint(state, i) {
 	if (graphDetails.length === 0 || i < 0 || i >= graphDetails.length) return;
 	const x = state.t;
-	const { option, index, field } = graphDetails[i];
+	const { option, index, field, pointIndex } = graphDetails[i];
 	let y = index === -1 ? state[option][field] : state[option][index][field];
 	if (option === "rods") {
 		const { points, rods } = state;
@@ -382,6 +382,19 @@ function addGraphPoint(state, i) {
 			const { Fx, Fy } = rod;
 			const F = Math.sqrt(Fx * Fx + Fy * Fy);
 			y = F;
+		}
+	} else if (option === "points") {
+		if (field === "K") {
+			const { collisions } = state;
+			const collIndex = collisions
+				? collisions.findIndex(
+						(col) =>
+							(col.point1 === index && col.point2 === pointIndex) ||
+							(col.point1 === pointIndex && col.point2 === index)
+				  )
+				: -1;
+			if (collIndex === -1) y = 0;
+			else y = collisions[collIndex].K;
 		}
 	}
 	graphs[i].push({ x, y });
