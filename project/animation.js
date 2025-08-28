@@ -382,6 +382,20 @@ function addGraphPoint(state, i) {
 			const { Fx, Fy } = rod;
 			const F = Math.sqrt(Fx * Fx + Fy * Fy);
 			y = F;
+		} else {
+			const { collisions } = rod;
+			const collIndex = collisions
+				? collisions.findIndex((col) => col.pointIndex === pointIndex)
+				: -1;
+			if (collIndex === -1) y = 0;
+			else if (field === "K") y = collisions[collIndex][field];
+			else if (field === "K1") {
+				const { K1x, K1y } = collisions[collIndex];
+				y = Math.sqrt(K1x * K1x + K1y * K1y);
+			} else if (field === "K2") {
+				const { K2x, K2y } = collisions[collIndex];
+				y = Math.sqrt(K2x * K2x + K2y * K2y);
+			}
 		}
 	} else if (option === "points") {
 		if (field === "K") {

@@ -210,7 +210,10 @@ function enableCheckboxAddedToGraphs() {
 				field: selField.value,
 				index: +inpResIndex.value,
 				isOriginCentered: chkboxOriginCenter.checked,
-				pointIndex: +inpResPointCollPointIndex.value,
+				pointIndex:
+					selPointsOrRods.value === "points"
+						? +inpResPointCollPointIndex.value
+						: +inpResRodCollPointIndex.value,
 			})
 		)
 			checked = true;
@@ -476,6 +479,14 @@ function handleChangeChkboxAddedToGraphs() {
 		};
 		if (nextGraphDetails.option === "points" && nextGraphDetails.field === "K")
 			nextGraphDetails.pointIndex = +inpResPointCollPointIndex.value;
+		if (
+			nextGraphDetails.option === "rods" &&
+			(nextGraphDetails.field === "K" ||
+				nextGraphDetails.field === "K1" ||
+				nextGraphDetails.field === "K2")
+		) {
+			nextGraphDetails.pointIndex = +inpResRodCollPointIndex.value;
+		}
 		graphDetails.push(nextGraphDetails);
 		setGraphDetails(nextGraphDetails);
 	} else {
@@ -494,7 +505,10 @@ function handleChangeChkboxAddedToGraphs() {
 					index: +inpResIndex.value,
 					field: selField.value,
 					isOriginCentered,
-					pointIndex: +inpResPointCollPointIndex.value,
+					pointIndex:
+						selPointsOrRods.value === "points"
+							? +inpResPointCollPointIndex.value
+							: +inpResRodCollPointIndex.value,
 				})
 			)
 				i = j;
