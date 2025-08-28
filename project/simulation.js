@@ -159,50 +159,50 @@ function calcCollisionForce(rod, pointIndex, isMidpoint = false) {
 		}
 		return;
 	}
-	const K = D * (r - dist) - beta * calcDistDot(rod, pointIndex, isMidpoint);
-	const K1 =
-		(K * Math.sqrt((x2 - xM) * (x2 - xM) + (y2 - yM) * (y2 - yM))) / v.len;
-	const K2 = K - K1;
-	const Kx = (K * n.x) / n.len;
-	const Ky = (K * n.y) / n.len;
-	const K1x = -(K1 * n.x) / n.len;
-	const K1y = -(K1 * n.y) / n.len;
-	const K2x = -(K2 * n.x) / n.len;
-	const K2y = -(K2 * n.y) / n.len;
+	const N = D * (r - dist) - beta * calcDistDot(rod, pointIndex, isMidpoint);
+	const N1 =
+		(N * Math.sqrt((x2 - xM) * (x2 - xM) + (y2 - yM) * (y2 - yM))) / v.len;
+	const N2 = N - N1;
+	const Nx = (N * n.x) / n.len;
+	const Ny = (N * n.y) / n.len;
+	const N1x = -(N1 * n.x) / n.len;
+	const N1y = -(N1 * n.y) / n.len;
+	const N2x = -(N2 * n.x) / n.len;
+	const N2y = -(N2 * n.y) / n.len;
 	const E = 0.5 * D * (r - dist) * (r - dist);
 	const collision = {
 		pointIndex,
 		dist,
-		K,
-		Kx,
-		Ky,
-		K1x,
-		K1y,
-		K2x,
-		K2y,
+		N,
+		Nx,
+		Ny,
+		N1x,
+		N1y,
+		N2x,
+		N2y,
 		E,
 	};
 	if (isMidpoint) {
-		point.axmid += Kx / m;
-		point.aymid += Ky / m;
+		point.axmid += Nx / m;
+		point.aymid += Ny / m;
 		if (!isFixed1) {
-			points[point1].axmid += K1x / m1;
-			points[point1].aymid += K1y / m1;
+			points[point1].axmid += N1x / m1;
+			points[point1].aymid += N1y / m1;
 		}
 		if (!isFixed2) {
-			points[point2].axmid += K2x / m2;
-			points[point2].aymid += K2y / m2;
+			points[point2].axmid += N2x / m2;
+			points[point2].aymid += N2y / m2;
 		}
 	} else {
-		point.ax += Kx / m;
-		point.ay += Ky / m;
+		point.ax += Nx / m;
+		point.ay += Ny / m;
 		if (!isFixed1) {
-			points[point1].ax += K1x / m1;
-			points[point1].ay += K1y / m1;
+			points[point1].ax += N1x / m1;
+			points[point1].ay += N1y / m1;
 		}
 		if (!isFixed2) {
-			points[point2].ax += K2x / m2;
-			points[point2].ay += K2y / m2;
+			points[point2].ax += N2x / m2;
+			points[point2].ay += N2y / m2;
 		}
 		if (!rod.collisions) {
 			rod.collisions = [];
@@ -214,14 +214,14 @@ function calcCollisionForce(rod, pointIndex, isMidpoint = false) {
 			if (index === -1) rod.collisions.push(collision);
 			else {
 				const col = rod.collisions[index];
-				col.K = K;
+				col.N = N;
 				col.dist = dist;
-				col.Kx = Kx;
-				col.Ky = Ky;
-				col.K1x = K1x;
-				col.K1y = K1y;
-				col.K2x = K2x;
-				col.K2y = K2y;
+				col.Nx = Nx;
+				col.Ny = Ny;
+				col.N1x = N1x;
+				col.N1y = N1y;
+				col.N2x = N2x;
+				col.N2y = N2y;
 				col.E = E;
 			}
 		}
@@ -264,9 +264,9 @@ function calcCollForce(point1, point2, isMidpoint = false) {
 		y: v2y - v1y,
 	};
 	const distDot = (vDot.x * v.x + vDot.y * v.y) / v.len;
-	const K = D * (r - v.len) - beta * distDot;
-	const Kx = (-K * v.x) / v.len;
-	const Ky = (-K * v.y) / v.len;
+	const N = D * (r - v.len) - beta * distDot;
+	const Nx = (-N * v.x) / v.len;
+	const Ny = (-N * v.y) / v.len;
 	const E = 0.5 * D * (r - v.len) * (r - v.len);
 	if (!collisions) {
 		state.collisions = [];
@@ -279,28 +279,28 @@ function calcCollForce(point1, point2, isMidpoint = false) {
 		collisions.push({
 			point1,
 			point2,
-			K,
-			Kx,
-			Ky,
+			N,
+			Nx,
+			Ny,
 			E,
 			dist: v.len,
 		});
 	} else {
 		const col = collisions[index];
-		col.K = K;
-		col.Kx = Kx;
-		col.Ky = Ky;
+		col.N = N;
+		col.Nx = Nx;
+		col.Ny = Ny;
 	}
 	if (isMidpoint) {
-		pointOne.axmid += Kx / m1;
-		pointOne.aymid += Ky / m1;
-		pointTwo.axmid -= Kx / m2;
-		pointTwo.aymid -= Ky / m2;
+		pointOne.axmid += Nx / m1;
+		pointOne.aymid += Ny / m1;
+		pointTwo.axmid -= Nx / m2;
+		pointTwo.aymid -= Ny / m2;
 	} else {
-		pointOne.ax += Kx / m1;
-		pointOne.ay += Ky / m1;
-		pointTwo.ax -= Kx / m2;
-		pointTwo.ay -= Ky / m2;
+		pointOne.ax += Nx / m1;
+		pointOne.ay += Ny / m1;
+		pointTwo.ax -= Nx / m2;
+		pointTwo.ay -= Ny / m2;
 	}
 }
 

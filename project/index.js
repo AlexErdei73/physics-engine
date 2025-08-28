@@ -312,9 +312,9 @@ function handlePointIndexChange(event, state = null) {
 	const option = id.split("-")[1];
 
 	const divDist = document.querySelector(`#res-${option}-coll-dist`);
-	const divK = document.querySelector(`#res-${option}-coll-K`);
-	const divK1 = document.querySelector("#res-rod-coll-K1");
-	const divK2 = document.querySelector("#res-rod-coll-K2");
+	const divN = document.querySelector(`#res-${option}-coll-N`);
+	const divN1 = document.querySelector("#res-rod-coll-N1");
+	const divN2 = document.querySelector("#res-rod-coll-N2");
 
 	const pointIndex = Number(inpPointIndex.value);
 
@@ -331,20 +331,20 @@ function handlePointIndexChange(event, state = null) {
 		index = collisions.findIndex((col) => col.pointIndex === pointIndex);
 	if (index === -1) {
 		divDist.textContent = "dist:";
-		divK.textContent = "K:";
+		divN.textContent = "N:";
 		if (option === "rod") {
-			divK1.textContent = "K1:";
-			divK2.textContent = "K2:";
+			divN1.textContent = "N1:";
+			divN2.textContent = "N2:";
 		}
 	} else {
-		const { K, K1x, K1y, dist } = collisions[index];
+		const { N, N1x, N1y, dist } = collisions[index];
 		divDist.textContent = `dist: ${Number(dist).toFixed(4)}`;
-		divK.textContent = `K: ${Number(K).toFixed(4)}`;
+		divN.textContent = `N: ${Number(N).toFixed(4)}`;
 		if (option === "rod") {
-			const K1 = Math.sqrt(K1x * K1x + K1y * K1y);
-			const K2 = K - K1;
-			divK1.textContent = `K1: ${Number(K1).toFixed(4)}`;
-			divK2.textContent = `K2: ${Number(K2).toFixed(4)}`;
+			const N1 = Math.sqrt(N1x * N1x + N1y * N1y);
+			const N2 = N - N1;
+			divN1.textContent = `N1: ${Number(N1).toFixed(4)}`;
+			divN2.textContent = `N2: ${Number(N2).toFixed(4)}`;
 		}
 	}
 	enableCheckboxAddedToGraphs();
@@ -477,13 +477,13 @@ function handleChangeChkboxAddedToGraphs() {
 			field: selField.value,
 			isOriginCentered,
 		};
-		if (nextGraphDetails.option === "points" && nextGraphDetails.field === "K")
+		if (nextGraphDetails.option === "points" && nextGraphDetails.field === "N")
 			nextGraphDetails.pointIndex = +inpResPointCollPointIndex.value;
 		if (
 			nextGraphDetails.option === "rods" &&
-			(nextGraphDetails.field === "K" ||
-				nextGraphDetails.field === "K1" ||
-				nextGraphDetails.field === "K2")
+			(nextGraphDetails.field === "N" ||
+				nextGraphDetails.field === "N1" ||
+				nextGraphDetails.field === "N2")
 		) {
 			nextGraphDetails.pointIndex = +inpResRodCollPointIndex.value;
 		}

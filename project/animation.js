@@ -226,10 +226,10 @@ function drawForces(state, ctx) {
 			collisions
 				.filter((col) => col.point1 === i)
 				.forEach((col) => {
-					const { Kx, Ky, point2 } = col;
+					const { Nx, Ny, point2 } = col;
 					const otherPoint = points[point2];
-					drawVector([Kx, Ky], point, ctx);
-					drawVector([-Kx, -Ky], otherPoint, ctx);
+					drawVector([Nx, Ny], point, ctx);
+					drawVector([-Nx, -Ny], otherPoint, ctx);
 				});
 		}
 	}
@@ -240,20 +240,20 @@ function drawForces(state, ctx) {
 		drawVector([Fx, Fy], points[point1], ctx);
 		drawVector([-Fx, -Fy], points[point2], ctx);
 		if (collisions && collisions.length > 0) {
-			let K1xSum = 0;
-			let K1ySum = 0;
-			let K2xSum = 0;
-			let K2ySum = 0;
+			let N1xSum = 0;
+			let N1ySum = 0;
+			let N2xSum = 0;
+			let N2ySum = 0;
 			collisions.forEach((col) => {
-				const { pointIndex, Kx, Ky, K1x, K1y, K2x, K2y } = col;
-				drawVector([Kx, Ky], points[pointIndex], ctx);
-				K1xSum += K1x;
-				K1ySum += K1y;
-				K2xSum += K2x;
-				K2ySum += K2y;
+				const { pointIndex, Nx, Ny, N1x, N1y, N2x, N2y } = col;
+				drawVector([Nx, Ny], points[pointIndex], ctx);
+				N1xSum += N1x;
+				N1ySum += N1y;
+				N2xSum += N2x;
+				N2ySum += N2y;
 			});
-			drawVector([K1xSum, K1ySum], points[point1], ctx);
-			drawVector([K2xSum, K2ySum], points[point2], ctx);
+			drawVector([N1xSum, N1ySum], points[point1], ctx);
+			drawVector([N2xSum, N2ySum], points[point2], ctx);
 		}
 	}
 }
@@ -388,17 +388,17 @@ function addGraphPoint(state, i) {
 				? collisions.findIndex((col) => col.pointIndex === pointIndex)
 				: -1;
 			if (collIndex === -1) y = 0;
-			else if (field === "K") y = collisions[collIndex][field];
-			else if (field === "K1") {
-				const { K1x, K1y } = collisions[collIndex];
-				y = Math.sqrt(K1x * K1x + K1y * K1y);
-			} else if (field === "K2") {
-				const { K2x, K2y } = collisions[collIndex];
-				y = Math.sqrt(K2x * K2x + K2y * K2y);
+			else if (field === "N") y = collisions[collIndex][field];
+			else if (field === "N1") {
+				const { N1x, N1y } = collisions[collIndex];
+				y = Math.sqrt(N1x * N1x + N1y * N1y);
+			} else if (field === "N2") {
+				const { N2x, N2y } = collisions[collIndex];
+				y = Math.sqrt(N2x * N2x + N2y * N2y);
 			}
 		}
 	} else if (option === "points") {
-		if (field === "K") {
+		if (field === "N") {
 			const { collisions } = state;
 			const collIndex = collisions
 				? collisions.findIndex(
@@ -408,7 +408,7 @@ function addGraphPoint(state, i) {
 				  )
 				: -1;
 			if (collIndex === -1) y = 0;
-			else y = collisions[collIndex].K;
+			else y = collisions[collIndex].N;
 		}
 	}
 	graphs[i].push({ x, y });

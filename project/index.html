@@ -1,234 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../styles.css" />
-    <script type="module" src="./index.js"></script>
-    <title>Physics-Engine</title>
-  </head>
-  <body>
-    <nav>
-      <a class="logo" href="/physics-engine/"> 2D Physics Engine </a>
-      <ul>
-        <li><a href="/physics-engine/">Home</a></li>
-        <li><a href="/physics-engine/about">About</a></li>
-        <li><a href="/physics-engine/project" id="a-project">Project</a></li>
-        <li><a href="/physics-engine/create" id="a-create">Create</a></li>
-        <li><a href="/physics-engine/login">Login</a></li>
-        <li><a href="/physics-engine/signup">Sign Up</a></li>
-      </ul>
-    </nav>
-    <h1>Project</h1>
-    <main>
-      <canvas width="600" height="400">
-        World for the physics-engine showing simulated animations
-      </canvas>
-      <div class="ctrl-container" id="sim-running">
-        <fieldset class="range">
-          <legend>Range</legend>
-          <label>
-            frequency:
-            <input type="range" id="range-freq" disabled />
-          </label>
-        </fieldset>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="../styles.css" />
+		<script type="module" src="./index.js"></script>
+		<title>Physics-Engine</title>
+	</head>
+	<body>
+		<nav>
+			<a class="logo" href="/physics-engine/"> 2D Physics Engine </a>
+			<ul>
+				<li><a href="/physics-engine/">Home</a></li>
+				<li><a href="/physics-engine/about">About</a></li>
+				<li><a href="/physics-engine/project" id="a-project">Project</a></li>
+				<li><a href="/physics-engine/create" id="a-create">Create</a></li>
+				<li><a href="/physics-engine/login">Login</a></li>
+				<li><a href="/physics-engine/signup">Sign Up</a></li>
+			</ul>
+		</nav>
+		<h1>Project</h1>
+		<main>
+			<canvas width="600" height="400">
+				World for the physics-engine showing simulated animations
+			</canvas>
+			<div class="ctrl-container" id="sim-running">
+				<fieldset class="range">
+					<legend>Range</legend>
+					<label>
+						frequency:
+						<input type="range" id="range-freq" disabled />
+					</label>
+				</fieldset>
 
-        <fieldset>
-          <legend>Buttons</legend>
-          <div class="main-buttons">
-            <button id="start">Start</button>
-            <button id="stop">Stop</button>
-            <button id="reset">Reset</button>
-          </div>
-          <div class="zoom-buttons">
-            <button id="zoom-in">+ Zoom In</button>
-            <button id="zoom-out">- Zoom Out</button>
-          </div>
-        </fieldset>
+				<fieldset>
+					<legend>Buttons</legend>
+					<div class="main-buttons">
+						<button id="start">Start</button>
+						<button id="stop">Stop</button>
+						<button id="reset">Reset</button>
+					</div>
+					<div class="zoom-buttons">
+						<button id="zoom-in">+ Zoom In</button>
+						<button id="zoom-out">- Zoom Out</button>
+					</div>
+				</fieldset>
 
-        <fieldset>
-          <legend>Show</legend>
-          <label>
-            Grid
-            <input type="checkbox" id="grid" />
-          </label>
+				<fieldset>
+					<legend>Show</legend>
+					<label>
+						Grid
+						<input type="checkbox" id="grid" />
+					</label>
 
-          <label>
-            Time
-            <input type="checkbox" id="time" />
-          </label>
+					<label>
+						Time
+						<input type="checkbox" id="time" />
+					</label>
 
-          <label>
-            Force
-            <input type="checkbox" id="force" />
-          </label>
+					<label>
+						Force
+						<input type="checkbox" id="force" />
+					</label>
 
-          <label>
-            Energy
-            <input type="checkbox" id="energy" />
-          </label>
+					<label>
+						Energy
+						<input type="checkbox" id="energy" />
+					</label>
 
-          <label>
-            Path
-            <input type="checkbox" id="path" />
-          </label>
+					<label>
+						Path
+						<input type="checkbox" id="path" />
+					</label>
 
-          <label>
-            Graphs
-            <input type="checkbox" id="graphs" />
-          </label>
+					<label>
+						Graphs
+						<input type="checkbox" id="graphs" />
+					</label>
 
-          <label>
-            Results
-            <input type="checkbox" id="results" />
-          </label>
-        </fieldset>
-      </div>
+					<label>
+						Results
+						<input type="checkbox" id="results" />
+					</label>
+				</fieldset>
+			</div>
 
-      <div class="ctrl-container hidden" id="res-peeking">
-        <fieldset id="results">
-          <legend>Results</legend>
-          <div>
-            <button type="button" id="btn-switch-back">switch back</button>
-            <select id="sel-points-or-rods">
-              <option value="points">points</option>
-              <option value="rods">rods</option>
-              <option value="periodicExtForce">periodic external force</option>
-            </select>
-            <label>
-              index:
-              <input type="number" min="-1" max="-1" id="inp-res-index" />
-            </label>
-          </div>
+			<div class="ctrl-container hidden" id="res-peeking">
+				<fieldset id="results">
+					<legend>Results</legend>
+					<div>
+						<button type="button" id="btn-switch-back">switch back</button>
+						<select id="sel-points-or-rods">
+							<option value="points">points</option>
+							<option value="rods">rods</option>
+							<option value="periodicExtForce">periodic external force</option>
+						</select>
+						<label>
+							index:
+							<input type="number" min="-1" max="-1" id="inp-res-index" />
+						</label>
+					</div>
 
-          <div>
-            <div id="res-params">
-              <div id="res-t">t:</div>
-              <div id="res-g">g:</div>
-              <div class="hidden" id="res-periodic-ext-force">
-                <div>Fx = F0x * sin(omega*t + fix)</div>
-                <div>Fy = F0y * sin(omega*t + fiy)</div>
-                <div id="res-F0x">F0x:</div>
-                <div id="res-F0y">F0y:</div>
-                <div id="res-omega">omega:</div>
-                <div id="res-fix">fix:</div>
-                <div id="res-fiy">fiy:</div>
-                <div id="res-Fx">Fx:</div>
-                <div id="res-Fy">Fy:</div>
-              </div>
-            </div>
+					<div>
+						<div id="res-params">
+							<div id="res-t">t:</div>
+							<div id="res-g">g:</div>
+							<div class="hidden" id="res-periodic-ext-force">
+								<div>Fx = F0x * sin(omega*t + fix)</div>
+								<div>Fy = F0y * sin(omega*t + fiy)</div>
+								<div id="res-F0x">F0x:</div>
+								<div id="res-F0y">F0y:</div>
+								<div id="res-omega">omega:</div>
+								<div id="res-fix">fix:</div>
+								<div id="res-fiy">fiy:</div>
+								<div id="res-Fx">Fx:</div>
+								<div id="res-Fy">Fy:</div>
+							</div>
+						</div>
 
-            <div id="res-point">
-              <label>
-                Show collisions:
-                <input type="checkbox" id="chkbox-res-point-collisions" />
-              </label>
-              <div class="" id="res-point-params">
-                <div id="res-point-m">m:</div>
-                <div id="res-point-grav">m*g:</div>
-                <div id="res-point-x">x:</div>
-                <div id="res-point-y">y:</div>
-                <div id="res-point-vx">vx:</div>
-                <div id="res-point-vy">vy:</div>
-                <div id="res-point-ax">ax:</div>
-                <div id="res-point-ay">ay:</div>
-              </div>
-              <div class="hidden" id="res-point-collision">
-                <label>
-                  point index:
-                  <input
-                    type="number"
-                    min="-1"
-                    max="-1"
-                    id="res-point-coll-point-index"
-                  />
-                  <div id="res-point-coll-dist">dist:</div>
-                  <div id="res-point-coll-K">K:</div>
-                </label>
-              </div>
-            </div>
+						<div id="res-point">
+							<label>
+								Show collisions:
+								<input type="checkbox" id="chkbox-res-point-collisions" />
+							</label>
+							<div class="" id="res-point-params">
+								<div id="res-point-m">m:</div>
+								<div id="res-point-grav">m*g:</div>
+								<div id="res-point-x">x:</div>
+								<div id="res-point-y">y:</div>
+								<div id="res-point-vx">vx:</div>
+								<div id="res-point-vy">vy:</div>
+								<div id="res-point-ax">ax:</div>
+								<div id="res-point-ay">ay:</div>
+							</div>
+							<div class="hidden" id="res-point-collision">
+								<label>
+									point index:
+									<input
+										type="number"
+										min="-1"
+										max="-1"
+										id="res-point-coll-point-index"
+									/>
+									<div id="res-point-coll-dist">dist:</div>
+									<div id="res-point-coll-N">N:</div>
+								</label>
+							</div>
+						</div>
 
-            <div class="hidden" id="res-rod">
-              <label>
-                Show collisions:
-                <input type="checkbox" id="chkbox-res-rod-collisions" />
-              </label>
-              <div class="" id="res-rod-params">
-                <div id="res-rod-k">k:</div>
-                <div id="res-rod-l0">l0:</div>
-                <div id="res-rod-beta">beta:</div>
-                <div id="res-rod-l">l:</div>
-                <div id="res-rod-F">F:</div>
-                <div id="res-rod-Fx">Fx:</div>
-                <div id="res-rod-Fy">Fy:</div>
-              </div>
-              <div class="hidden" id="res-rod-collision">
-                <label>
-                  point index:
-                  <input
-                    type="number"
-                    min="-1"
-                    max="-1"
-                    id="res-rod-coll-point-index"
-                  />
-                  <div id="res-rod-coll-dist">dist:</div>
-                  <div id="res-rod-coll-K">K:</div>
-                  <div id="res-rod-coll-K1">K1:</div>
-                  <div id="res-rod-coll-K2">K2:</div>
-                </label>
-              </div>
-            </div>
-          </div>
+						<div class="hidden" id="res-rod">
+							<label>
+								Show collisions:
+								<input type="checkbox" id="chkbox-res-rod-collisions" />
+							</label>
+							<div class="" id="res-rod-params">
+								<div id="res-rod-k">k:</div>
+								<div id="res-rod-l0">l0:</div>
+								<div id="res-rod-beta">beta:</div>
+								<div id="res-rod-l">l:</div>
+								<div id="res-rod-F">F:</div>
+								<div id="res-rod-Fx">Fx:</div>
+								<div id="res-rod-Fy">Fy:</div>
+							</div>
+							<div class="hidden" id="res-rod-collision">
+								<label>
+									point index:
+									<input
+										type="number"
+										min="-1"
+										max="-1"
+										id="res-rod-coll-point-index"
+									/>
+									<div id="res-rod-coll-dist">dist:</div>
+									<div id="res-rod-coll-N">N:</div>
+									<div id="res-rod-coll-N1">N1:</div>
+									<div id="res-rod-coll-N2">N2:</div>
+								</label>
+							</div>
+						</div>
+					</div>
 
-          <div>
-            <label class="" id="lab-field-point">
-              Field:
-              <select class="" id="sel-field-point">
-                <option value="x">x</option>
-                <option value="y">y</option>
-                <option value="vx">vx</option>
-                <option value="vy">vy</option>
-                <option value="ax">ax</option>
-                <option value="ay">ay</option>
-                <option value="K">K</option>
-              </select>
-            </label>
+					<div>
+						<label class="" id="lab-field-point">
+							Field:
+							<select class="" id="sel-field-point">
+								<option value="x">x</option>
+								<option value="y">y</option>
+								<option value="vx">vx</option>
+								<option value="vy">vy</option>
+								<option value="ax">ax</option>
+								<option value="ay">ay</option>
+								<option value="N">N</option>
+							</select>
+						</label>
 
-            <label class="hidden" id="lab-field-rod">
-              Field:
-              <select id="sel-field-rod">
-                <option value="l">l</option>
-                <option value="F">F</option>
-                <option value="Fx">Fx</option>
-                <option value="Fy">Fy</option>
-                <option value="K">K</option>
-                <option value="K1">K1</option>
-                <option value="K2">K2</option>
-              </select>
-            </label>
+						<label class="hidden" id="lab-field-rod">
+							Field:
+							<select id="sel-field-rod">
+								<option value="l">l</option>
+								<option value="F">F</option>
+								<option value="Fx">Fx</option>
+								<option value="Fy">Fy</option>
+								<option value="N">N</option>
+								<option value="N1">N1</option>
+								<option value="N2">N2</option>
+							</select>
+						</label>
 
-            <label class="hidden" id="lab-field-periodic-ext-force">
-              Field:
-              <select id="sel-field-periodic-ext-force">
-                <option value="Fx">Fx</option>
-                <option value="Fy">Fy</option>
-              </select>
-            </label>
+						<label class="hidden" id="lab-field-periodic-ext-force">
+							Field:
+							<select id="sel-field-periodic-ext-force">
+								<option value="Fx">Fx</option>
+								<option value="Fy">Fy</option>
+							</select>
+						</label>
 
-            <label>
-              Added to graphs:
-              <input type="checkbox" id="chkbox-added-to-graphs" />
-            </label>
-          </div>
+						<label>
+							Added to graphs:
+							<input type="checkbox" id="chkbox-added-to-graphs" />
+						</label>
+					</div>
 
-          <div>
-            <label>
-              Is origin centered:
-              <input type="checkbox" id="chkbox-origin-center" />
-            </label>
-          </div>
-        </fieldset>
-      </div>
-    </main>
-  </body>
+					<div>
+						<label>
+							Is origin centered:
+							<input type="checkbox" id="chkbox-origin-center" />
+						</label>
+					</div>
+				</fieldset>
+			</div>
+		</main>
+	</body>
 </html>
