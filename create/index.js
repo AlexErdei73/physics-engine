@@ -49,6 +49,8 @@ const inpScale = document.querySelector("#inp-scale");
 const inpDt = document.querySelector("#inp-dt");
 const inpAnimTime = document.querySelector("#inp-anim-time");
 const inpCollStiff = document.querySelector("#inp-coll-stiff");
+const inpRodMu = document.querySelector("#inp-rod-mu");
+const inpPointMu = document.querySelector("#inp-point-mu");
 const inpPointRodBeta = document.querySelector("#inp-point-rod-beta");
 const inpPointPointBeta = document.querySelector("#inp-point-point-beta");
 const chkboxShowTime = document.querySelector("#chkbox-show-time");
@@ -263,6 +265,8 @@ function editParams() {
 		dt,
 		animTime,
 		collisionK,
+		pointMu,
+		rodMu,
 		pointRodBeta,
 		pointPointBeta,
 		scale,
@@ -281,6 +285,8 @@ function editParams() {
 	inpAnimTime.value = animTime;
 	inpScale.value = scale;
 	inpCollStiff.value = collisionK;
+	inpRodMu.value = rodMu || 0;
+	inpPointMu.value = pointMu || 0;
 	inpPointRodBeta.value = pointRodBeta;
 	inpPointPointBeta.value = pointPointBeta;
 	chkboxShowTime.checked = isTimeVisible;
@@ -297,6 +303,8 @@ function changeParams() {
 	initialState.animTime = +inpAnimTime.value || 1 / 30;
 	initialState.scale = +inpScale.value || 0.01;
 	initialState.collisionK = +inpCollStiff.value || 10000;
+	initialState.rodMu = +inpRodMu.value || 0;
+	initialState.pointMu = +inpPointMu.value || 0;
 	initialState.pointRodBeta = +inpPointRodBeta.value || 0;
 	initialState.pointPointBeta = +inpPointPointBeta.value || 0;
 	initialState.isTimeVisible = chkboxShowTime.checked;
@@ -494,6 +502,8 @@ inpDt.addEventListener("change", () => changeParams());
 inpAnimTime.addEventListener("change", () => changeParams());
 inpScale.addEventListener("change", () => changeParams());
 inpCollStiff.addEventListener("change", () => changeParams());
+inpRodMu.addEventListener("change", () => changeParams());
+inpPointMu.addEventListener("change", () => changeParams());
 inpPointRodBeta.addEventListener("change", () => changeParams());
 inpPointPointBeta.addEventListener("change", () => changeParams());
 chkboxShowTime.addEventListener("change", () => changeParams());
