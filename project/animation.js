@@ -226,10 +226,12 @@ function drawForces(state, ctx) {
 			collisions
 				.filter((col) => col.point1 === i)
 				.forEach((col) => {
-					const { Nx, Ny, point2 } = col;
+					const { Nx, Ny, point2, Ffrx, Ffry } = col;
 					const otherPoint = points[point2];
 					drawVector([Nx, Ny], point, ctx);
 					drawVector([-Nx, -Ny], otherPoint, ctx);
+					drawVector([Ffrx, Ffry], point, ctx);
+					drawVector([-Ffrx, -Ffry], otherPoint, ctx);
 				});
 		}
 	}

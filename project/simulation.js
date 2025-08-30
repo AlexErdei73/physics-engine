@@ -305,7 +305,7 @@ function calcCollForce(point1, point2, isMidpoint = false) {
 }
 
 function calcFrictionForce(state, collIndex, isMidpoint = false) {
-	const STICK_TRESHOLD = 1e-6;
+	const STICK_TRESHOLD = 1e-10;
 	const { points, collisions, pointMu: mu } = state;
 	const collision = collisions[collIndex];
 	const { point1, point2, N, Nx, Ny } = collision;
@@ -336,7 +336,7 @@ function calcFrictionForce(state, collIndex, isMidpoint = false) {
 		y: v2y - v1y,
 	};
 	const vRelT = vRel.x * t.x + vRel.y * t.y;
-	const sign = -vRelT / Math.abs(vRelT);
+	const sign = vRelT / Math.abs(vRelT);
 	let Ffr = sign * mu * N;
 	if (Math.abs(vRelT) < STICK_TRESHOLD) {
 		const aRel = {
@@ -345,8 +345,8 @@ function calcFrictionForce(state, collIndex, isMidpoint = false) {
 		};
 		const aRelT = aRel.x * t.x + aRel.y * t.y;
 		const M = (m1 * m2) / (m1 + m2);
-		if (M * Math.abs(aRelT) < Ffr / sign) {
-			Ffr = -M * aRelT;
+		if (M * Math.abs(aRelT) < Math.abs(Ffr)) {
+			Ffr = M * aRelT;
 		}
 	}
 	collision.Ffr = Math.abs(Ffr);
@@ -354,15 +354,15 @@ function calcFrictionForce(state, collIndex, isMidpoint = false) {
 	collision.Ffry = Ffr * t.y;
 	const { Ffrx, Ffry } = collision;
 	if (isMidpoint) {
-		pointOne.axmid -= Ffrx / m1;
-		pointOne.aymid -= Ffry / m1;
-		pointTwo.axmid += Ffrx / m2;
-		pointTwo.aymid += Ffry / m2;
+		pointOne.axmid += Ffrx / m1;
+		pointOne.aymid += Ffry / m1;
+		pointTwo.axmid -= Ffrx / m2;
+		pointTwo.aymid -= Ffry / m2;
 	} else {
-		pointOne.ax -= Ffrx / m1;
-		pointOne.ay -= Ffry / m1;
-		pointTwo.ax += Ffrx / m2;
-		pointTwo.ay += Ffry / m2;
+		pointOne.ax += Ffrx / m1;
+		pointOne.ay += Ffry / m1;
+		pointTwo.ax -= Ffrx / m2;
+		pointTwo.ay -= Ffry / m2;
 	}
 }
 
