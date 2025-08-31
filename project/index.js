@@ -480,7 +480,11 @@ function handleChangeChkboxAddedToGraphs() {
 			field: selField.value,
 			isOriginCentered,
 		};
-		if (nextGraphDetails.option === "points" && nextGraphDetails.field === "N")
+		if (
+			(nextGraphDetails.option === "points" &&
+				nextGraphDetails.field === "N") ||
+			nextGraphDetails.field === "Ffr"
+		)
 			nextGraphDetails.pointIndex = +inpResPointCollPointIndex.value;
 		if (
 			nextGraphDetails.option === "rods" &&

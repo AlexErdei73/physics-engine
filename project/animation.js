@@ -400,7 +400,7 @@ function addGraphPoint(state, i) {
 			}
 		}
 	} else if (option === "points") {
-		if (field === "N") {
+		if (field === "N" || field === "Ffr") {
 			const { collisions } = state;
 			const collIndex = collisions
 				? collisions.findIndex(
@@ -410,7 +410,7 @@ function addGraphPoint(state, i) {
 				  )
 				: -1;
 			if (collIndex === -1) y = 0;
-			else y = collisions[collIndex].N;
+			else y = collisions[collIndex][field];
 		}
 	}
 	graphs[i].push({ x, y });
