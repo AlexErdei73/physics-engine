@@ -313,6 +313,7 @@ function handlePointIndexChange(event, state = null) {
 
 	const divDist = document.querySelector(`#res-${option}-coll-dist`);
 	const divN = document.querySelector(`#res-${option}-coll-N`);
+	const divFfr = document.querySelector(`#res-${option}-coll-friction`);
 	const divN1 = document.querySelector("#res-rod-coll-N1");
 	const divN2 = document.querySelector("#res-rod-coll-N2");
 
@@ -332,14 +333,16 @@ function handlePointIndexChange(event, state = null) {
 	if (index === -1) {
 		divDist.textContent = "dist:";
 		divN.textContent = "N:";
+		divFfr.textContent = "F friction:";
 		if (option === "rod") {
 			divN1.textContent = "N1:";
 			divN2.textContent = "N2:";
 		}
 	} else {
-		const { N, N1x, N1y, dist } = collisions[index];
+		const { N, N1x, N1y, dist, Ffr } = collisions[index];
 		divDist.textContent = `dist: ${Number(dist).toFixed(4)}`;
 		divN.textContent = `N: ${Number(N).toFixed(4)}`;
+		divFfr.textContent = `F friction: ${(Number(Ffr) || 0).toFixed(4)}`;
 		if (option === "rod") {
 			const N1 = Math.sqrt(N1x * N1x + N1y * N1y);
 			const N2 = N - N1;
