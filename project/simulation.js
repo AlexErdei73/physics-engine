@@ -307,6 +307,7 @@ function calcCollForce(point1, point2, isMidpoint = false) {
 function calcFrictionForce(state, collIndex, isMidpoint = false) {
 	const STICK_TRESHOLD = 1e-10;
 	const { points, collisions, pointMu: mu } = state;
+	if (!mu) return;
 	const collision = collisions[collIndex];
 	const { point1, point2, N, Nx, Ny } = collision;
 	const pointOne = points[point1];
