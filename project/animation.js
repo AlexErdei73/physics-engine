@@ -246,16 +246,41 @@ function drawForces(state, ctx) {
       let N1ySum = 0;
       let N2xSum = 0;
       let N2ySum = 0;
+      let Ffr1xSum = 0;
+      let Ffr1ySum = 0;
+      let Ffr2xSum = 0;
+      let Ffr2ySum = 0;
       collisions.forEach((col) => {
-        const { pointIndex, Nx, Ny, N1x, N1y, N2x, N2y } = col;
+        const {
+          pointIndex,
+          Nx,
+          Ny,
+          N1x,
+          N1y,
+          N2x,
+          N2y,
+          Ffrx,
+          Ffry,
+          Ffr1x,
+          Ffr1y,
+          Ffr2x,
+          Ffr2y,
+        } = col;
         drawVector([Nx, Ny], points[pointIndex], ctx);
+        drawVector([Ffrx, Ffry], points[pointIndex], ctx);
         N1xSum += N1x;
         N1ySum += N1y;
         N2xSum += N2x;
         N2ySum += N2y;
+        Ffr1xSum -= Ffr1x;
+        Ffr1ySum -= Ffr1y;
+        Ffr2xSum -= Ffr2x;
+        Ffr2ySum -= Ffr2y;
       });
       drawVector([N1xSum, N1ySum], points[point1], ctx);
       drawVector([N2xSum, N2ySum], points[point2], ctx);
+      drawVector([Ffr1xSum, Ffr1ySum], points[point1], ctx);
+      drawVector([Ffr2xSum, Ffr2ySum], points[point2], ctx);
     }
   }
 }
