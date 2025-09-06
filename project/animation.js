@@ -422,6 +422,8 @@ function addGraphPoint(state, i) {
       } else if (field === "N2") {
         const { N2x, N2y } = collisions[collIndex];
         y = Math.sqrt(N2x * N2x + N2y * N2y);
+      } else {
+        y = collisions[collIndex][field];
       }
     }
   } else if (option === "points") {
