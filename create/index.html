@@ -1,322 +1,315 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="../styles.css" />
-		<script type="module" src="./index.js"></script>
-		<title>Physics-Engine</title>
-	</head>
-	<body>
-		<nav>
-			<a class="logo" href="/physics-engine/"> 2D Physics Engine </a>
-			<ul>
-				<li><a href="/physics-engine/">Home</a></li>
-				<li><a href="/physics-engine/about">About</a></li>
-				<li><a href="/physics-engine/project" id="a-project">Project</a></li>
-				<li><a href="/physics-engine/create" id="a-create">Create</a></li>
-				<li><a href="/physics-engine/login">Login</a></li>
-				<li><a href="/physics-engine/signup">Sign Up</a></li>
-			</ul>
-		</nav>
-		<h1>Create</h1>
-		<form>
-			<fieldset class="container">
-				<legend>Storage</legend>
-				<label>
-					Name:
-					<input type="text" id="inp-name" />
-				</label>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles.css" />
+    <script type="module" src="./index.js"></script>
+    <title>Physics-Engine</title>
+  </head>
+  <body>
+    <nav>
+      <a class="logo" href="/physics-engine/"> 2D Physics Engine </a>
+      <ul>
+        <li><a href="/physics-engine/">Home</a></li>
+        <li><a href="/physics-engine/about">About</a></li>
+        <li><a href="/physics-engine/project" id="a-project">Project</a></li>
+        <li><a href="/physics-engine/create" id="a-create">Create</a></li>
+        <li><a href="/physics-engine/login">Login</a></li>
+        <li><a href="/physics-engine/signup">Sign Up</a></li>
+      </ul>
+    </nav>
+    <h1>Create</h1>
+    <form>
+      <fieldset class="container">
+        <legend>Storage</legend>
+        <label>
+          Name:
+          <input type="text" id="inp-name" />
+        </label>
 
-				<div class="inp-container">
-					<button type="button" id="btn-create">Create</button>
-					<button type="button" id="btn-save">Save</button>
-					<button type="button" id="btn-copy">Copy</button>
-					<button type="button" id="btn-delete">Delete</button>
-				</div>
+        <div class="inp-container">
+          <button type="button" id="btn-create">Create</button>
+          <button type="button" id="btn-save">Save</button>
+          <button type="button" id="btn-copy">Copy</button>
+          <button type="button" id="btn-delete">Delete</button>
+        </div>
 
-				<label for="published">
-					Published:
-					<input type="checkbox" id="chkbox-published" name="published" />
-				</label>
+        <label for="published">
+          Published:
+          <input type="checkbox" id="chkbox-published" name="published" />
+        </label>
 
-				<label for="description" id="lbl-description">
-					Description:
-					<textarea
-						name="descritpion"
-						id="txta-description"
-						cols="30"
-						rows="10"
-					></textarea>
-				</label>
-			</fieldset>
+        <label for="description" id="lbl-description">
+          Description:
+          <textarea
+            name="descritpion"
+            id="txta-description"
+            cols="30"
+            rows="10"
+          ></textarea>
+        </label>
+      </fieldset>
 
-			<fieldset class="container">
-				<legend>Parameters</legend>
-				<label>
-					g:
-					<input type="number" step="any" id="inp-g" />
-				</label>
+      <fieldset class="container">
+        <legend>Parameters</legend>
+        <label>
+          g:
+          <input type="number" step="any" id="inp-g" />
+        </label>
 
-				<label>
-					scale:
-					<input type="number" step="any" id="inp-scale" />
-				</label>
+        <label>
+          scale:
+          <input type="number" step="any" id="inp-scale" />
+        </label>
 
-				<label>
-					dt:
-					<input type="number" step="any" id="inp-dt" />
-				</label>
+        <label>
+          dt:
+          <input type="number" step="any" id="inp-dt" />
+        </label>
 
-				<label>
-					collision k:
-					<input type="number" step="any" id="inp-coll-stiff" />
-				</label>
+        <label>
+          collision k:
+          <input type="number" step="any" id="inp-coll-stiff" />
+        </label>
 
-				<label>
-					point-rod coll. mu:
-					<input
-						type="number"
-						min="0"
-						max="1"
-						step="any"
-						id="inp-rod-mu"
-					/>
-				</label>
+        <label>
+          point-rod coll. mu:
+          <input type="number" min="0" max="1" step="any" id="inp-rod-mu" />
+        </label>
 
-				<label>
-					point-point coll. mu:
-					<input
-						type="number"
-						min="0"
-						max="1"
-						step="any"
-						id="inp-point-mu"
-					/>
-				</label>
+        <label>
+          point-point coll. mu:
+          <input type="number" min="0" max="1" step="any" id="inp-point-mu" />
+        </label>
 
-				<label>
-					point-rod coll. beta:
-					<input type="number" step="any" id="inp-point-rod-beta" />
-				</label>
+        <label>
+          point-rod coll. beta:
+          <input type="number" step="any" id="inp-point-rod-beta" />
+        </label>
 
-				<label>
-					point-point coll. beta:
-					<input type="number" step="any" id="inp-point-point-beta" />
-				</label>
+        <label>
+          point-point coll. beta:
+          <input type="number" step="any" id="inp-point-point-beta" />
+        </label>
 
-				<label>
-					anim time:
-					<input type="number" step="any" id="inp-anim-time" />
-				</label>
+        <label>
+          drag coefficient:
+          <input type="number" step="any" id="inp-drag-coeff" />
+        </label>
 
-				<label>
-					show time:
-					<input type="checkbox" id="chkbox-show-time" />
-				</label>
+        <label>
+          anim time:
+          <input type="number" step="any" id="inp-anim-time" />
+        </label>
 
-				<label>
-					show grid:
-					<input type="checkbox" id="chkbox-show-grid" />
-				</label>
+        <label>
+          show time:
+          <input type="checkbox" id="chkbox-show-time" />
+        </label>
 
-				<label>
-					show force:
-					<input type="checkbox" id="chkbox-show-force" />
-				</label>
+        <label>
+          show grid:
+          <input type="checkbox" id="chkbox-show-grid" />
+        </label>
 
-				<label>
-					show energy:
-					<input type="checkbox" id="chkbox-show-energy" />
-				</label>
+        <label>
+          show force:
+          <input type="checkbox" id="chkbox-show-force" />
+        </label>
 
-				<label>
-					body-rod collisions on:
-					<input type="checkbox" id="chkbox-body-rod-collisions" />
-				</label>
+        <label>
+          show energy:
+          <input type="checkbox" id="chkbox-show-energy" />
+        </label>
 
-				<label>
-					body-body collisions on:
-					<input type="checkbox" id="chkbox-body-body-collisions" />
-				</label>
-			</fieldset>
+        <label>
+          body-rod collisions on:
+          <input type="checkbox" id="chkbox-body-rod-collisions" />
+        </label>
 
-			<fieldset class="container">
-				<legend>Points</legend>
+        <label>
+          body-body collisions on:
+          <input type="checkbox" id="chkbox-body-body-collisions" />
+        </label>
+      </fieldset>
 
-				<label>
-					index:
-					<input type="number" id="inp-point-index" min="-1" max="-1" />
-				</label>
+      <fieldset class="container">
+        <legend>Points</legend>
 
-				<div class="inp-container">
-					<button id="btn-new-point">New</button>
-					<button id="btn-delete-point">Delete</button>
-				</div>
+        <label>
+          index:
+          <input type="number" id="inp-point-index" min="-1" max="-1" />
+        </label>
 
-				<label>
-					x:
-					<input type="number" step="any" id="inp-x" />
-				</label>
+        <div class="inp-container">
+          <button id="btn-new-point">New</button>
+          <button id="btn-delete-point">Delete</button>
+        </div>
 
-				<label>
-					y:
-					<input type="number" step="any" id="inp-y" />
-				</label>
+        <label>
+          x:
+          <input type="number" step="any" id="inp-x" />
+        </label>
 
-				<label>
-					vx:
-					<input type="number" step="any" id="inp-vx" />
-				</label>
+        <label>
+          y:
+          <input type="number" step="any" id="inp-y" />
+        </label>
 
-				<label>
-					vy:
-					<input type="number" step="any" id="inp-vy" />
-				</label>
+        <label>
+          vx:
+          <input type="number" step="any" id="inp-vx" />
+        </label>
 
-				<label>
-					m:
-					<input type="number" step="any" id="inp-m" />
-				</label>
+        <label>
+          vy:
+          <input type="number" step="any" id="inp-vy" />
+        </label>
 
-				<label>
-					size:
-					<input type="number" step="any" id="inp-point-size" />
-				</label>
+        <label>
+          m:
+          <input type="number" step="any" id="inp-m" />
+        </label>
 
-				<label>
-					Point fixed:
-					<input type="checkbox" id="chkbox-fixed" />
-				</label>
+        <label>
+          size:
+          <input type="number" step="any" id="inp-point-size" />
+        </label>
 
-				<label>
-					Is path visible:
-					<input type="checkbox" id="chkbox-path-visible" />
-				</label>
-			</fieldset>
+        <label>
+          Point fixed:
+          <input type="checkbox" id="chkbox-fixed" />
+        </label>
 
-			<fieldset>
-				<legend>Rods</legend>
+        <label>
+          Is path visible:
+          <input type="checkbox" id="chkbox-path-visible" />
+        </label>
+      </fieldset>
 
-				<label>
-					index:
-					<input type="number" id="inp-rod-index" min="-1" max="-1" />
-				</label>
+      <fieldset>
+        <legend>Rods</legend>
 
-				<div class="inp-container">
-					<button id="btn-new-rod">New</button>
-					<button id="btn-delete-rod">Delete</button>
-				</div>
+        <label>
+          index:
+          <input type="number" id="inp-rod-index" min="-1" max="-1" />
+        </label>
 
-				<label for="inp-point1">
-					point1:
-					<input type="number" id="inp-point1" />
-				</label>
+        <div class="inp-container">
+          <button id="btn-new-rod">New</button>
+          <button id="btn-delete-rod">Delete</button>
+        </div>
 
-				<label>
-					point2:
-					<input type="number" id="inp-point2" />
-				</label>
+        <label for="inp-point1">
+          point1:
+          <input type="number" id="inp-point1" />
+        </label>
 
-				<label>
-					elasticity:
-					<input type="number" step="any" id="inp-elast" />
-				</label>
+        <label>
+          point2:
+          <input type="number" id="inp-point2" />
+        </label>
 
-				<label for="inp-beta">
-					beta:
-					<input type="number" step="any" id="inp-beta" />
-				</label>
+        <label>
+          elasticity:
+          <input type="number" step="any" id="inp-elast" />
+        </label>
 
-				<label>
-					length:
-					<input type="number" step="any" id="inp-length" />
-				</label>
+        <label for="inp-beta">
+          beta:
+          <input type="number" step="any" id="inp-beta" />
+        </label>
 
-				<label>
-					size:
-					<input type="number" step="any" id="inp-rod-size" />
-				</label>
+        <label>
+          length:
+          <input type="number" step="any" id="inp-length" />
+        </label>
 
-				<label>
-					Is spring:
-					<input type="checkbox" id="chkbox-spring" />
-				</label>
-			</fieldset>
+        <label>
+          size:
+          <input type="number" step="any" id="inp-rod-size" />
+        </label>
 
-			<fieldset class="container">
-				<legend>Periodic External Force</legend>
+        <label>
+          Is spring:
+          <input type="checkbox" id="chkbox-spring" />
+        </label>
+      </fieldset>
 
-				<label>
-					point:
-					<input
-						type="number"
-						id="inp-ext-force-point-index"
-						min="-1"
-						max="-1"
-					/>
-				</label>
+      <fieldset class="container">
+        <legend>Periodic External Force</legend>
 
-				<label>
-					t min:
-					<input type="number" step="any" id="inp-t-min" />
-				</label>
+        <label>
+          point:
+          <input
+            type="number"
+            id="inp-ext-force-point-index"
+            min="-1"
+            max="-1"
+          />
+        </label>
 
-				<label>
-					t max:
-					<input type="number" step="any" id="inp-t-max" />
-				</label>
+        <label>
+          t min:
+          <input type="number" step="any" id="inp-t-min" />
+        </label>
 
-				<label>
-					freq min:
-					<input type="number" step="any" id="inp-freq-min" />
-				</label>
+        <label>
+          t max:
+          <input type="number" step="any" id="inp-t-max" />
+        </label>
 
-				<label>
-					freq max:
-					<input type="number" step="any" id="inp-freq-max" />
-				</label>
+        <label>
+          freq min:
+          <input type="number" step="any" id="inp-freq-min" />
+        </label>
 
-				<label>
-					F0x:
-					<input type="number" step="any" id="inp-F0x" />
-				</label>
+        <label>
+          freq max:
+          <input type="number" step="any" id="inp-freq-max" />
+        </label>
 
-				<label>
-					fix:
-					<input type="number" step="any" id="inp-fix" />
-				</label>
+        <label>
+          F0x:
+          <input type="number" step="any" id="inp-F0x" />
+        </label>
 
-				<label>
-					F0y:
-					<input type="number" step="any" id="inp-F0y" />
-				</label>
+        <label>
+          fix:
+          <input type="number" step="any" id="inp-fix" />
+        </label>
 
-				<label>
-					fiy:
-					<input type="number" step="any" id="inp-fiy" />
-				</label>
+        <label>
+          F0y:
+          <input type="number" step="any" id="inp-F0y" />
+        </label>
 
-				<label>
-					Is on:
-					<input type="checkbox" id="chkbox-on" />
-				</label>
-			</fieldset>
-		</form>
+        <label>
+          fiy:
+          <input type="number" step="any" id="inp-fiy" />
+        </label>
 
-		<dialog id="dlg-del-confirm">
-			<p>Are you sure you want to delete the project?</p>
-			<div class="ctrl-container">
-				<button type="button" id="btn-cancel">Cancel</button>
-				<button type="button" id="btn-proceed">Proceed</button>
-			</div>
-		</dialog>
+        <label>
+          Is on:
+          <input type="checkbox" id="chkbox-on" />
+        </label>
+      </fieldset>
+    </form>
 
-		<dialog class="" id="dlg-error">
-			<p></p>
-			<div class="ctrl-container">
-				<button type="button" id="btn-ok">OK</button>
-			</div>
-		</dialog>
-	</body>
+    <dialog id="dlg-del-confirm">
+      <p>Are you sure you want to delete the project?</p>
+      <div class="ctrl-container">
+        <button type="button" id="btn-cancel">Cancel</button>
+        <button type="button" id="btn-proceed">Proceed</button>
+      </div>
+    </dialog>
+
+    <dialog class="" id="dlg-error">
+      <p></p>
+      <div class="ctrl-container">
+        <button type="button" id="btn-ok">OK</button>
+      </div>
+    </dialog>
+  </body>
 </html>

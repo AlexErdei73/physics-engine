@@ -14,6 +14,7 @@ const emptyWorld = {
   animTime: 1 / 30,
   collisionK: 10000,
   pointRodBeta: 100,
+  Cdrag: 0,
   width: 600,
   height: 400,
   isTimeVisible: true,
@@ -53,6 +54,7 @@ const inpRodMu = document.querySelector("#inp-rod-mu");
 const inpPointMu = document.querySelector("#inp-point-mu");
 const inpPointRodBeta = document.querySelector("#inp-point-rod-beta");
 const inpPointPointBeta = document.querySelector("#inp-point-point-beta");
+const inpDragCoeff = document.querySelector("#inp-drag-coeff");
 const chkboxShowTime = document.querySelector("#chkbox-show-time");
 const chkboxShowGrid = document.querySelector("#chkbox-show-grid");
 const chkboxShowForce = document.querySelector("#chkbox-show-force");
@@ -256,8 +258,6 @@ function changeRod(i) {
 }
 
 function editParams() {
-  const EMPTY_WORLD_DESCRIPTION =
-    "World for the physics-engine showing simulated animations";
   const {
     name,
     description,
@@ -269,6 +269,7 @@ function editParams() {
     rodMu,
     pointRodBeta,
     pointPointBeta,
+    Cdrag,
     scale,
     isTimeVisible,
     isGridVisible,
@@ -289,6 +290,7 @@ function editParams() {
   inpPointMu.value = pointMu || 0;
   inpPointRodBeta.value = pointRodBeta;
   inpPointPointBeta.value = pointPointBeta;
+  inpDragCoeff.value = Cdrag || 0;
   chkboxShowTime.checked = isTimeVisible;
   chkboxShowGrid.checked = isGridVisible;
   chkboxShowForce.checked = isForcesVisible;
@@ -307,6 +309,7 @@ function changeParams() {
   initialState.pointMu = +inpPointMu.value || 0;
   initialState.pointRodBeta = +inpPointRodBeta.value || 0;
   initialState.pointPointBeta = +inpPointPointBeta.value || 0;
+  initialState.Cdrag = +inpDragCoeff.value || 0;
   initialState.isTimeVisible = chkboxShowTime.checked;
   initialState.isGridVisible = chkboxShowGrid.checked;
   initialState.isForcesVisible = chkboxShowForce.checked;
@@ -506,6 +509,7 @@ inpRodMu.addEventListener("change", () => changeParams());
 inpPointMu.addEventListener("change", () => changeParams());
 inpPointRodBeta.addEventListener("change", () => changeParams());
 inpPointPointBeta.addEventListener("change", () => changeParams());
+inpDragCoeff.addEventListener("change", () => changeParams());
 chkboxShowTime.addEventListener("change", () => changeParams());
 chkboxShowGrid.addEventListener("change", () => changeParams());
 chkboxShowForce.addEventListener("change", () => changeParams());

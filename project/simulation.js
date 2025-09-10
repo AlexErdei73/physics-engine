@@ -1,4 +1,5 @@
 let state;
+let dragConst = 0;
 
 function deleteAcceleration() {
   const { points } = state;
@@ -16,6 +17,9 @@ function deleteAcceleration() {
 export function init(initialState) {
   state = JSON.parse(JSON.stringify(initialState));
   deleteAcceleration();
+  const RHO_AIR = 1.225;
+  const Cdrag = state.Cdrag;
+  dragConst = 0.5 * RHO_AIR * Cdrag;
 }
 
 function calcDistDot(rod, pointIndex, isMidpoint) {
@@ -529,6 +533,35 @@ function calcGrav(point, isMidpoint = false) {
   else point.ay += g;
 }
 
+function calcDrag(point, isMidpoint = false) {
+  if (point.isFixed || !dragConst) return;
+  const { vx, vy, vxmid, vymid, size: D, m } = point;
+  const R = D / 2;
+  const A = Math.PI * R * R;
+  let v, vSquare;
+  if (!isMidpoint) vSquare = vx * vx + vy * vy;
+  else vSquare = vxmid * vxmid + vymid * vymid;
+  if (!vSquare) return;
+  v = Math.sqrt(vSquare);
+  const Fdrag = dragConst * A * vSquare;
+  let Fdragx;
+  let Fdragy;
+  if (!isMidpoint) {
+    Fdragx = (-Fdrag * vx) / v;
+    Fdragy = (-Fdrag * vy) / v;
+    point.ax += Fdragx / m;
+    point.ay += Fdragy / m;
+  } else {
+    Fdragx = (-Fdrag * vxmid) / v;
+    Fdragy = (-Fdrag * vymid) / v;
+    point.axmid += Fdragx / m;
+    point.aymid += Fdragy / m;
+  }
+  point.Fdrag = Fdrag;
+  point.Fdragx = Fdragx;
+  point.Fdragy = Fdragy;
+}
+
 function calcPeriodicExtForce(state, isMidpoint = false) {
   const { periodicExtForce, points, t: t0, dt } = state;
   if (!periodicExtForce) return;
@@ -617,6 +650,7 @@ function calcAccelerations(isMidpoint = false) {
       }
     }
     calcGrav(points[i], isMidpoint);
+    calcDrag(points[i], isMidpoint);
   }
 
   calcPeriodicExtForce(state, isMidpoint);
@@ -637,7 +671,7 @@ function calcAccelerations(isMidpoint = false) {
 }
 
 function stepEulerRichardson() {
-  const { points, dt, t } = state;
+  const { points, dt } = state;
   deleteAcceleration();
   calcAccelerations();
   for (let i = 0; i < points.length; i++) {
