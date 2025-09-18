@@ -89,10 +89,12 @@ selSimulaType.addEventListener("change", (event) => {
 		fieldsetRods.classList.remove("hidden");
 		fieldsetPerExtForce.classList.remove("hidden");
 		setControlsForCelestialSimula(false);
+		initialState.simulationType = "normal";
 	} else {
 		fieldsetRods.classList.add("hidden");
 		fieldsetPerExtForce.classList.add("hidden");
 		setControlsForCelestialSimula(true);
+		initialState.simulationType = "celestial";
 	}
 });
 
