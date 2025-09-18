@@ -67,6 +67,20 @@ const chkboxBodyBodyCollisions = document.querySelector(
 	"#chkbox-body-body-collisions"
 );
 const selSimulaType = document.querySelector("#sel-simula-type");
+
+function setControlsForCelestialSimula(disabled) {
+	inpG.disabled = disabled;
+	inpCollStiff.disabled = disabled;
+	inpDragCoeff.disabled = disabled;
+	inpPointPointBeta.disabled = disabled;
+	inpPointRodBeta.disabled = disabled;
+	inpPointMu.disabled = disabled;
+	inpRodMu.disabled = disabled;
+	chkboxBodyBodyCollisions.disabled = disabled;
+	chkboxBodyRodCollisions.disabled = disabled;
+	chkboxFixed.disabled = disabled;
+}
+
 selSimulaType.addEventListener("change", (event) => {
 	const fieldsetRods = document.querySelector("#fieldset-rods");
 	const fieldsetPerExtForce = document.querySelector("#fieldset-per-ext-force");
@@ -74,9 +88,11 @@ selSimulaType.addEventListener("change", (event) => {
 	if (value === "normal") {
 		fieldsetRods.classList.remove("hidden");
 		fieldsetPerExtForce.classList.remove("hidden");
+		setControlsForCelestialSimula(false);
 	} else {
 		fieldsetRods.classList.add("hidden");
 		fieldsetPerExtForce.classList.add("hidden");
+		setControlsForCelestialSimula(true);
 	}
 });
 
