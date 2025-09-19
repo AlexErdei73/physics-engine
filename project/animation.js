@@ -343,7 +343,7 @@ function calcEnergy(state) {
   let Egrav = 0;
   let Eelastic = 0;
 
-  const { g, points, rods } = state;
+  const { g, points, rods, simulationType } = state;
 
   for (let i = 0; i < points.length; i++) {
     const point = points[i];
@@ -352,6 +352,19 @@ function calcEnergy(state) {
       Egrav += -m * g * y;
       Ekin += 0.5 * m * (vx * vx + vy * vy);
     }
+  }
+
+  if (simulationType === "celestial") {
+    Egrav = 0;
+    for (let i = 0; i < points.length; i++)
+      for (let j = 0; j < i; j++) {
+        const { x: x1, y: y1, m: m1 } = points[i];
+        const { x: x2, y: y2, m: m2 } = points[j];
+        const r = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+        const PI = Math.PI;
+        const G = 4 * PI * PI;
+        Egrav -= (G * m1 * m2) / r;
+      }
   }
 
   for (let i = 0; i < rods.length; i++) {
@@ -372,6 +385,7 @@ function calcEnergy(state) {
       Eelastic += col.E;
     });
   }
+  if (simulationType === "celestial") Eelastic = 0;
   return {
     kinetic: Ekin,
     gravity: Egrav,
@@ -464,6 +478,11 @@ function drawGraphs(graphs, state, ctx, isOriginCenter = false) {
   }
 }
 
+function formatEnergy(energy, simulationType) {
+  if (simulationType === "celestial") return Number(energy).toExponential(3);
+  else return Number(energy).toFixed(4);
+}
+
 export function draw(animate = true, canvas) {
   if (!canvas) canvas = document.querySelector("canvas");
   if (canvas.getContext) {
@@ -483,6 +502,7 @@ export function draw(animate = true, canvas) {
       isEnergyVisible,
       isGraphsVisible,
       periodicExtForce,
+      simulationType,
       t,
     } = state;
     ctx.clearRect(0, 0, width, height);
@@ -494,11 +514,19 @@ export function draw(animate = true, canvas) {
         const energy = calcEnergy(state);
         const { kinetic, potential, total } = energy;
         ctx.fillStyle = "green";
-        ctx.fillText(`kinetic: ${Number(kinetic).toFixed(3)}`, 20, 40);
+        ctx.fillText(
+          `kinetic: ${formatEnergy(kinetic, simulationType)}`,
+          20,
+          40
+        );
         ctx.fillStyle = "blue";
-        ctx.fillText(`potential: ${Number(potential).toFixed(3)}`, 20, 60);
+        ctx.fillText(
+          `potential: ${formatEnergy(potential, simulationType)}`,
+          20,
+          60
+        );
         ctx.fillStyle = "black";
-        ctx.fillText(`total: ${Number(total).toFixed(3)}`, 20, 80);
+        ctx.fillText(`total: ${formatEnergy(total, simulationType)}`, 20, 80);
         showFreq(ctx, periodicExtForce, t, 100);
       } else {
         showFreq(ctx, periodicExtForce, t, 40);
