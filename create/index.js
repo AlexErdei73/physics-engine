@@ -5,39 +5,39 @@ const BASE_URL = "/physics-engine/";
 const pageURL = window.location.href;
 
 const emptyWorld = {
-	name: "Empty World",
-	description: "World for the physics-engine showing simulated animations",
-	simulationType: "normal",
-	g: 0,
-	scale: 0.01,
-	dt: 1e-5,
-	t: 0,
-	animTime: 1 / 30,
-	collisionK: 10000,
-	pointRodBeta: 100,
-	Cdrag: 0,
-	width: 600,
-	height: 400,
-	isTimeVisible: true,
-	isGridVisible: true,
-	isForcesVisible: false,
-	isEnergyVisible: false,
-	bodyRodCollisionsOn: false,
-	points: [],
-	rods: [],
+  name: "Empty World",
+  description: "World for the physics-engine showing simulated animations",
+  simulationType: "normal",
+  g: 0,
+  scale: 0.01,
+  dt: 1e-5,
+  t: 0,
+  animTime: 1 / 30,
+  collisionK: 10000,
+  pointRodBeta: 100,
+  Cdrag: 0,
+  width: 600,
+  height: 400,
+  isTimeVisible: true,
+  isGridVisible: true,
+  isForcesVisible: false,
+  isEnergyVisible: false,
+  bodyRodCollisionsOn: false,
+  points: [],
+  rods: [],
 };
 
 const projects = JSON.parse(localStorage.getItem("projects")) || [];
 const user = JSON.parse(localStorage.getItem("user")) || {
-	userID: "",
-	token: "",
+  userID: "",
+  token: "",
 };
 
 function getProjectIndex(url) {
-	const array = url.split("#");
-	const len = array.length;
-	const index = +array[len - 1];
-	return isNaN(index) ? projects.length - 1 : index;
+  const array = url.split("#");
+  const len = array.length;
+  const index = +array[len - 1];
+  return isNaN(index) ? projects.length - 1 : index;
 }
 
 let projectIndex = getProjectIndex(pageURL);
@@ -61,41 +61,44 @@ const chkboxShowGrid = document.querySelector("#chkbox-show-grid");
 const chkboxShowForce = document.querySelector("#chkbox-show-force");
 const chkboxShowEnergy = document.querySelector("#chkbox-show-energy");
 const chkboxBodyRodCollisions = document.querySelector(
-	"#chkbox-body-rod-collisions"
+  "#chkbox-body-rod-collisions"
 );
 const chkboxBodyBodyCollisions = document.querySelector(
-	"#chkbox-body-body-collisions"
+  "#chkbox-body-body-collisions"
 );
 const selSimulaType = document.querySelector("#sel-simula-type");
 
 function setControlsForCelestialSimula(disabled) {
-	inpG.disabled = disabled;
-	inpCollStiff.disabled = disabled;
-	inpDragCoeff.disabled = disabled;
-	inpPointPointBeta.disabled = disabled;
-	inpPointRodBeta.disabled = disabled;
-	inpPointMu.disabled = disabled;
-	inpRodMu.disabled = disabled;
-	chkboxBodyBodyCollisions.disabled = disabled;
-	chkboxBodyRodCollisions.disabled = disabled;
-	chkboxFixed.disabled = disabled;
+  inpG.disabled = disabled;
+  inpCollStiff.disabled = disabled;
+  inpDragCoeff.disabled = disabled;
+  inpPointPointBeta.disabled = disabled;
+  inpPointRodBeta.disabled = disabled;
+  inpPointMu.disabled = disabled;
+  inpRodMu.disabled = disabled;
+  chkboxBodyBodyCollisions.disabled = disabled;
+  chkboxBodyRodCollisions.disabled = disabled;
+  chkboxFixed.disabled = disabled;
+  const fieldsetRods = document.querySelector("#fieldset-rods");
+  const fieldsetPerExtForce = document.querySelector("#fieldset-per-ext-force");
+  if (disabled) {
+    fieldsetRods.classList.add("hidden");
+    fieldsetPerExtForce.classList.add("hidden");
+  } else {
+    fieldsetRods.classList.remove("hidden");
+    fieldsetPerExtForce.classList.remove("hidden");
+  }
 }
 
 selSimulaType.addEventListener("change", (event) => {
-	const fieldsetRods = document.querySelector("#fieldset-rods");
-	const fieldsetPerExtForce = document.querySelector("#fieldset-per-ext-force");
-	const value = event.target.value;
-	if (value === "normal") {
-		fieldsetRods.classList.remove("hidden");
-		fieldsetPerExtForce.classList.remove("hidden");
-		setControlsForCelestialSimula(false);
-		initialState.simulationType = "normal";
-	} else {
-		fieldsetRods.classList.add("hidden");
-		fieldsetPerExtForce.classList.add("hidden");
-		setControlsForCelestialSimula(true);
-		initialState.simulationType = "celestial";
-	}
+  const value = event.target.value;
+  if (value === "normal") {
+    setControlsForCelestialSimula(false);
+    initialState.simulationType = "normal";
+  } else {
+    setControlsForCelestialSimula(true);
+    initialState.simulationType = "celestial";
+  }
 });
 
 const inpPointIndex = document.querySelector("#inp-point-index");
@@ -118,7 +121,7 @@ const inpRodSize = document.querySelector("#inp-rod-size");
 const chkboxSpring = document.querySelector("#chkbox-spring");
 
 const inpExtForcePointIndex = document.querySelector(
-	"#inp-ext-force-point-index"
+  "#inp-ext-force-point-index"
 );
 const inpTMin = document.querySelector("#inp-t-min");
 const inpTMax = document.querySelector("#inp-t-max");
@@ -140,288 +143,292 @@ const btnNewRod = document.querySelector("#btn-new-rod");
 const btnDeleteRod = document.querySelector("#btn-delete-rod");
 
 function editPoint(i) {
-	const { points } = initialState;
-	if (i < 0 || i >= points.length) return;
-	const point = points[i];
-	inpX.value = point.x;
-	inpY.value = point.y;
-	inpPointSize.value = point.size;
-	chkboxFixed.checked = point.isFixed;
-	chkboxPathVisible.checked = point.isPathVisible;
-	if (point.isFixed) {
-		delete point.vx;
-		delete point.vy;
-		delete point.m;
-		inpVx.disabled = true;
-		inpVy.disabled = true;
-		inpM.disabled = true;
-		chkboxPathVisible.disabled = true;
-	} else {
-		inpVx.value = point.vx;
-		inpVy.value = point.vy;
-		inpM.value = point.m;
-		inpVx.disabled = false;
-		inpVy.disabled = false;
-		inpM.disabled = false;
-		chkboxPathVisible.disabled = false;
-	}
+  const { points } = initialState;
+  if (i < 0 || i >= points.length) return;
+  const point = points[i];
+  inpX.value = point.x;
+  inpY.value = point.y;
+  inpPointSize.value = point.size;
+  chkboxFixed.checked = point.isFixed;
+  chkboxPathVisible.checked = point.isPathVisible;
+  if (point.isFixed) {
+    delete point.vx;
+    delete point.vy;
+    delete point.m;
+    inpVx.disabled = true;
+    inpVy.disabled = true;
+    inpM.disabled = true;
+    chkboxPathVisible.disabled = true;
+  } else {
+    inpVx.value = point.vx;
+    inpVy.value = point.vy;
+    inpM.value = point.m;
+    inpVx.disabled = false;
+    inpVy.disabled = false;
+    inpM.disabled = false;
+    chkboxPathVisible.disabled = false;
+  }
 }
 
 function addPoint() {
-	const { points } = initialState;
+  const { points } = initialState;
 
-	points.push({
-		x: 0,
-		y: 0,
-		vx: 0,
-		vy: 0,
-		m: 1,
-		size: 0.2,
-		isFixed: false,
-	});
+  points.push({
+    x: 0,
+    y: 0,
+    vx: 0,
+    vy: 0,
+    m: 1,
+    size: 0.2,
+    isFixed: false,
+  });
 
-	inpPointIndex.min = 0;
-	inpPointIndex.max = points.length - 1;
-	inpPointIndex.value = points.length - 1;
-	editPoint(points.length - 1);
+  inpPointIndex.min = 0;
+  inpPointIndex.max = points.length - 1;
+  inpPointIndex.value = points.length - 1;
+  editPoint(points.length - 1);
 }
 
 function deletePoint(i) {
-	const { points } = initialState;
-	if (i < 0 || i >= points.length) return;
+  const { points } = initialState;
+  if (i < 0 || i >= points.length) return;
 
-	points.splice(i, 1);
+  points.splice(i, 1);
 
-	inpPointIndex.max = points.length - 1;
-	inpPointIndex.value = points.length - 1;
-	points.length === 0 ? deletePointInputs() : editPoint(points.length - 1);
+  inpPointIndex.max = points.length - 1;
+  inpPointIndex.value = points.length - 1;
+  points.length === 0 ? deletePointInputs() : editPoint(points.length - 1);
 }
 
 function changePoint(i) {
-	const { points } = initialState;
-	if (i < 0 || i >= points.length) return;
+  const { points } = initialState;
+  if (i < 0 || i >= points.length) return;
 
-	const point = points[i];
-	point.x = +inpX.value || 0;
-	point.y = +inpY.value || 0;
-	point.size = +inpPointSize.value || 0.2;
-	point.isFixed = chkboxFixed.checked;
-	point.isPathVisible = chkboxPathVisible.checked;
-	if (!point.isFixed) {
-		point.vx = +inpVx.value || 0;
-		point.vy = +inpVy.value || 0;
-		point.m = +inpM.value || 1;
-		inpVx.disabled = false;
-		inpVy.disabled = false;
-		inpM.disabled = false;
-		chkboxPathVisible.disabled = false;
-	} else {
-		delete point.vx;
-		delete point.vy;
-		delete point.m;
-		inpVx.disabled = true;
-		inpVy.disabled = true;
-		inpM.disabled = true;
-		chkboxPathVisible.disabled = true;
-	}
+  const point = points[i];
+  point.x = +inpX.value || 0;
+  point.y = +inpY.value || 0;
+  point.size = +inpPointSize.value || 0.2;
+  point.isFixed = chkboxFixed.checked;
+  point.isPathVisible = chkboxPathVisible.checked;
+  if (!point.isFixed) {
+    point.vx = +inpVx.value || 0;
+    point.vy = +inpVy.value || 0;
+    point.m = +inpM.value || 1;
+    inpVx.disabled = false;
+    inpVy.disabled = false;
+    inpM.disabled = false;
+    chkboxPathVisible.disabled = false;
+  } else {
+    delete point.vx;
+    delete point.vy;
+    delete point.m;
+    inpVx.disabled = true;
+    inpVy.disabled = true;
+    inpM.disabled = true;
+    chkboxPathVisible.disabled = true;
+  }
 }
 
 function editRod(i) {
-	const { rods } = initialState;
-	if (i < 0 || i >= rods.length) return;
-	const rod = rods[i];
-	inpPoint1.value = rod.point1;
-	inpPoint2.value = rod.point2;
-	inpElast.value = rod.elast;
-	inpLength.value = rod.length;
-	inpBeta.value = rod.beta;
-	inpRodSize.value = rod.size;
-	chkboxSpring.checked = rod.isSpring;
+  const { rods } = initialState;
+  if (i < 0 || i >= rods.length) return;
+  const rod = rods[i];
+  inpPoint1.value = rod.point1;
+  inpPoint2.value = rod.point2;
+  inpElast.value = rod.elast;
+  inpLength.value = rod.length;
+  inpBeta.value = rod.beta;
+  inpRodSize.value = rod.size;
+  chkboxSpring.checked = rod.isSpring;
 }
 
 function addRod() {
-	const { points, rods } = initialState;
+  const { points, rods } = initialState;
 
-	if (points.length < 2) return;
+  if (points.length < 2) return;
 
-	rods.push({
-		point1: 0,
-		point2: 1,
-		elast: 1e4,
-		beta: 0,
-		length: 1,
-		size: 0.2,
-		isSpring: false,
-	});
+  rods.push({
+    point1: 0,
+    point2: 1,
+    elast: 1e4,
+    beta: 0,
+    length: 1,
+    size: 0.2,
+    isSpring: false,
+  });
 
-	inpRodIndex.min = 0;
-	inpRodIndex.max = rods.length - 1;
-	inpRodIndex.value = rods.length - 1;
-	editRod(rods.length - 1);
+  inpRodIndex.min = 0;
+  inpRodIndex.max = rods.length - 1;
+  inpRodIndex.value = rods.length - 1;
+  editRod(rods.length - 1);
 }
 
 function deleteRod(i) {
-	const { rods } = initialState;
-	if (i < 0 || i >= rods.length) return;
+  const { rods } = initialState;
+  if (i < 0 || i >= rods.length) return;
 
-	rods.splice(i, 1);
+  rods.splice(i, 1);
 
-	inpRodIndex.max = rods.length - 1;
-	inpRodIndex.value = rods.length - 1;
-	rods.length === 0 ? deleteRodInputs() : editRod(rods.length - 1);
+  inpRodIndex.max = rods.length - 1;
+  inpRodIndex.value = rods.length - 1;
+  rods.length === 0 ? deleteRodInputs() : editRod(rods.length - 1);
 }
 
 function changeRod(i) {
-	const { points, rods } = initialState;
-	if (i < 0 || i >= rods.length) return;
+  const { points, rods } = initialState;
+  if (i < 0 || i >= rods.length) return;
 
-	const rod = rods[i];
-	const point1 = +inpPoint1.value || 0;
-	const point2 = +inpPoint2.value || 1;
-	if (0 <= point1 && point1 < points.length && point1 !== point2)
-		rod.point1 = point1;
-	if (0 <= point2 && point2 < points.length && point1 !== point2)
-		rod.point2 = point2;
-	rod.elast = +inpElast.value || 1e4;
-	rod.beta = +inpBeta.value || 0;
-	rod.length = +inpLength.value || 1;
-	rod.size = +inpRodSize.value || 0.2;
-	rod.isSpring = chkboxSpring.checked;
+  const rod = rods[i];
+  const point1 = +inpPoint1.value || 0;
+  const point2 = +inpPoint2.value || 1;
+  if (0 <= point1 && point1 < points.length && point1 !== point2)
+    rod.point1 = point1;
+  if (0 <= point2 && point2 < points.length && point1 !== point2)
+    rod.point2 = point2;
+  rod.elast = +inpElast.value || 1e4;
+  rod.beta = +inpBeta.value || 0;
+  rod.length = +inpLength.value || 1;
+  rod.size = +inpRodSize.value || 0.2;
+  rod.isSpring = chkboxSpring.checked;
 }
 
 function editParams() {
-	const {
-		name,
-		description,
-		g,
-		dt,
-		animTime,
-		collisionK,
-		pointMu,
-		rodMu,
-		pointRodBeta,
-		pointPointBeta,
-		Cdrag,
-		scale,
-		isTimeVisible,
-		isGridVisible,
-		isForcesVisible,
-		isEnergyVisible,
-		bodyRodCollisionsOn,
-		collisionsOn,
-	} = initialState;
+  const {
+    name,
+    description,
+    g,
+    dt,
+    animTime,
+    collisionK,
+    pointMu,
+    rodMu,
+    pointRodBeta,
+    pointPointBeta,
+    Cdrag,
+    scale,
+    isTimeVisible,
+    isGridVisible,
+    isForcesVisible,
+    isEnergyVisible,
+    bodyRodCollisionsOn,
+    collisionsOn,
+    simulationType,
+  } = initialState;
 
-	inpName.value = name;
-	txtaDescription.value = description || "";
-	inpG.value = g;
-	inpDt.value = dt;
-	inpAnimTime.value = animTime;
-	inpScale.value = scale;
-	inpCollStiff.value = collisionK;
-	inpRodMu.value = rodMu || 0;
-	inpPointMu.value = pointMu || 0;
-	inpPointRodBeta.value = pointRodBeta;
-	inpPointPointBeta.value = pointPointBeta;
-	inpDragCoeff.value = Cdrag || 0;
-	chkboxShowTime.checked = isTimeVisible;
-	chkboxShowGrid.checked = isGridVisible;
-	chkboxShowForce.checked = isForcesVisible;
-	chkboxShowEnergy.checked = isEnergyVisible;
-	chkboxBodyRodCollisions.checked = bodyRodCollisionsOn;
-	chkboxBodyBodyCollisions.checked = collisionsOn;
+  inpName.value = name;
+  txtaDescription.value = description || "";
+  inpG.value = g;
+  inpDt.value = dt;
+  inpAnimTime.value = animTime;
+  inpScale.value = scale;
+  inpCollStiff.value = collisionK;
+  inpRodMu.value = rodMu || 0;
+  inpPointMu.value = pointMu || 0;
+  inpPointRodBeta.value = pointRodBeta;
+  inpPointPointBeta.value = pointPointBeta;
+  inpDragCoeff.value = Cdrag || 0;
+  chkboxShowTime.checked = isTimeVisible;
+  chkboxShowGrid.checked = isGridVisible;
+  chkboxShowForce.checked = isForcesVisible;
+  chkboxShowEnergy.checked = isEnergyVisible;
+  chkboxBodyRodCollisions.checked = bodyRodCollisionsOn;
+  chkboxBodyBodyCollisions.checked = collisionsOn;
+  selSimulaType.value = simulationType || "normal";
+  if (simulationType === "celestial") setControlsForCelestialSimula(true);
+  else setControlsForCelestialSimula(false);
 }
 
 function changeParams() {
-	initialState.g = +inpG.value || 0;
-	initialState.dt = +inpDt.value || 1e-5;
-	initialState.animTime = +inpAnimTime.value || 1 / 30;
-	initialState.scale = +inpScale.value || 0.01;
-	initialState.collisionK = +inpCollStiff.value || 10000;
-	initialState.rodMu = +inpRodMu.value || 0;
-	initialState.pointMu = +inpPointMu.value || 0;
-	initialState.pointRodBeta = +inpPointRodBeta.value || 0;
-	initialState.pointPointBeta = +inpPointPointBeta.value || 0;
-	initialState.Cdrag = +inpDragCoeff.value || 0;
-	initialState.isTimeVisible = chkboxShowTime.checked;
-	initialState.isGridVisible = chkboxShowGrid.checked;
-	initialState.isForcesVisible = chkboxShowForce.checked;
-	initialState.isEnergyVisible = chkboxShowEnergy.checked;
-	initialState.bodyRodCollisionsOn = chkboxBodyRodCollisions.checked;
-	initialState.collisionsOn = chkboxBodyBodyCollisions.checked;
+  initialState.g = +inpG.value || 0;
+  initialState.dt = +inpDt.value || 1e-5;
+  initialState.animTime = +inpAnimTime.value || 1 / 30;
+  initialState.scale = +inpScale.value || 0.01;
+  initialState.collisionK = +inpCollStiff.value || 10000;
+  initialState.rodMu = +inpRodMu.value || 0;
+  initialState.pointMu = +inpPointMu.value || 0;
+  initialState.pointRodBeta = +inpPointRodBeta.value || 0;
+  initialState.pointPointBeta = +inpPointPointBeta.value || 0;
+  initialState.Cdrag = +inpDragCoeff.value || 0;
+  initialState.isTimeVisible = chkboxShowTime.checked;
+  initialState.isGridVisible = chkboxShowGrid.checked;
+  initialState.isForcesVisible = chkboxShowForce.checked;
+  initialState.isEnergyVisible = chkboxShowEnergy.checked;
+  initialState.bodyRodCollisionsOn = chkboxBodyRodCollisions.checked;
+  initialState.collisionsOn = chkboxBodyBodyCollisions.checked;
 
-	editParams();
+  editParams();
 }
 
 function editPeriodicExternalForce() {
-	const { periodicExtForce } = initialState;
-	if (!periodicExtForce) return;
-	const { point, tMin, tMax, freqMin, freqMax, F0x, fix, F0y, fiy, isOn } =
-		periodicExtForce;
-	inpExtForcePointIndex.value = point;
-	inpTMin.value = tMin;
-	inpTMax.value = tMax;
-	inpFreqMin.value = freqMin;
-	inpFreqMax.value = freqMax;
-	inpF0x.value = F0x;
-	inpF0y.value = F0y;
-	inpFix.value = fix;
-	inpFiy.value = fiy;
-	chkboxOn.checked = isOn;
+  const { periodicExtForce } = initialState;
+  if (!periodicExtForce) return;
+  const { point, tMin, tMax, freqMin, freqMax, F0x, fix, F0y, fiy, isOn } =
+    periodicExtForce;
+  inpExtForcePointIndex.value = point;
+  inpTMin.value = tMin;
+  inpTMax.value = tMax;
+  inpFreqMin.value = freqMin;
+  inpFreqMax.value = freqMax;
+  inpF0x.value = F0x;
+  inpF0y.value = F0y;
+  inpFix.value = fix;
+  inpFiy.value = fiy;
+  chkboxOn.checked = isOn;
 }
 
 function changePeriodicExtForce() {
-	inpExtForcePointIndex.max = initialState.points.length - 1;
-	const periodicExtForce = {
-		point: +inpExtForcePointIndex.value || 0,
-		tMin: +inpTMin.value || 0,
-		tMax: +inpTMax.value || 10000,
-		freqMin: +inpFreqMin.value || 0,
-		freqMax: +inpFreqMax.value || 100,
-		omega: Math.PI * (+inpFreqMin.value + +inpFreqMax.value) || 157.08,
-		F0x: +inpF0x.value || 0,
-		F0y: +inpF0y.value || 0,
-		fix: +inpFix.value || 0,
-		fiy: +inpFiy.value || 0,
-		isOn: chkboxOn.checked,
-	};
-	initialState.periodicExtForce = periodicExtForce;
+  inpExtForcePointIndex.max = initialState.points.length - 1;
+  const periodicExtForce = {
+    point: +inpExtForcePointIndex.value || 0,
+    tMin: +inpTMin.value || 0,
+    tMax: +inpTMax.value || 10000,
+    freqMin: +inpFreqMin.value || 0,
+    freqMax: +inpFreqMax.value || 100,
+    omega: Math.PI * (+inpFreqMin.value + +inpFreqMax.value) || 157.08,
+    F0x: +inpF0x.value || 0,
+    F0y: +inpF0y.value || 0,
+    fix: +inpFix.value || 0,
+    fiy: +inpFiy.value || 0,
+    isOn: chkboxOn.checked,
+  };
+  initialState.periodicExtForce = periodicExtForce;
 
-	editPeriodicExternalForce();
+  editPeriodicExternalForce();
 }
 
 function deletePointInputs() {
-	inpPointIndex.value = "";
-	inpX.value = "";
-	inpY.value = "";
-	inpVx.value = "";
-	inpVy.value = "";
-	inpM.value = "";
-	inpPointSize.value = "";
-	chkboxFixed.checked = false;
+  inpPointIndex.value = "";
+  inpX.value = "";
+  inpY.value = "";
+  inpVx.value = "";
+  inpVy.value = "";
+  inpM.value = "";
+  inpPointSize.value = "";
+  chkboxFixed.checked = false;
 }
 
 function deleteRodInputs() {
-	inpRodIndex.value = "";
-	inpPoint1.value = "";
-	inpPoint2.value = "";
-	inpElast.value = "";
-	inpBeta.value = "";
-	inpRodSize.value = "";
-	inpLength.value = "";
-	chkboxSpring.checked = false;
+  inpRodIndex.value = "";
+  inpPoint1.value = "";
+  inpPoint2.value = "";
+  inpElast.value = "";
+  inpBeta.value = "";
+  inpRodSize.value = "";
+  inpLength.value = "";
+  chkboxSpring.checked = false;
 }
 
 function updateLinks() {
-	const aCreate = document.querySelector("#a-create");
-	const aProject = document.querySelector("#a-project");
-	aCreate.href =
-		projectIndex < projects.length
-			? `${BASE_URL}create#${projectIndex}`
-			: `${BASE_URL}create`;
-	aProject.href =
-		projectIndex < projects.length
-			? `${BASE_URL}project#${projectIndex}`
-			: `${BASE_URL}project`;
+  const aCreate = document.querySelector("#a-create");
+  const aProject = document.querySelector("#a-project");
+  aCreate.href =
+    projectIndex < projects.length
+      ? `${BASE_URL}create#${projectIndex}`
+      : `${BASE_URL}create`;
+  aProject.href =
+    projectIndex < projects.length
+      ? `${BASE_URL}project#${projectIndex}`
+      : `${BASE_URL}project`;
 }
 
 const dlgError = document.querySelector("#dlg-error");
@@ -429,107 +436,107 @@ const btnOk = document.querySelector("#btn-ok");
 btnOk.addEventListener("click", () => removeError(dlgError));
 
 async function save() {
-	initialState.name = inpName.value || initialState.name;
-	initialState.description = txtaDescription.value || initialState.description;
-	projects[projectIndex] = initialState;
-	localStorage.setItem("projects", JSON.stringify(projects));
-	const { projectID, userID } = initialState;
-	if (userID !== user.userID) return;
-	delete initialState.projectID;
-	delete initialState.userID;
-	delete initialState.isPublished;
-	const json = await putProject(
-		projectID,
-		{ content: JSON.stringify(initialState) },
-		user.token
-	);
-	if (json.error) {
-		console.error(json.error);
-		showError(dlgError, json.error);
-	} else {
-		initialState.projectID = projectID;
-		initialState.userID = user.userID;
-		initialState.isPublished = chkboxPublished.checked;
-		projects[projectIndex] = initialState;
-	}
+  initialState.name = inpName.value || initialState.name;
+  initialState.description = txtaDescription.value || initialState.description;
+  projects[projectIndex] = initialState;
+  localStorage.setItem("projects", JSON.stringify(projects));
+  const { projectID, userID } = initialState;
+  if (userID !== user.userID) return;
+  delete initialState.projectID;
+  delete initialState.userID;
+  delete initialState.isPublished;
+  const json = await putProject(
+    projectID,
+    { content: JSON.stringify(initialState) },
+    user.token
+  );
+  if (json.error) {
+    console.error(json.error);
+    showError(dlgError, json.error);
+  } else {
+    initialState.projectID = projectID;
+    initialState.userID = user.userID;
+    initialState.isPublished = chkboxPublished.checked;
+    projects[projectIndex] = initialState;
+  }
 }
 
 async function create() {
-	initialState = emptyWorld;
-	projects.push(initialState);
-	projectIndex = projects.length - 1;
-	localStorage.setItem("projects", JSON.stringify(projects));
-	editParams();
-	deletePointInputs();
-	deleteRodInputs();
-	const userStr = localStorage.getItem("user");
-	if (!userStr) return;
-	const user = JSON.parse(userStr);
-	const projectID = crypto.randomUUID();
-	const json = await postProject(initialState, projectID, 0, user);
-	if (json.error) {
-		console.error(json.error);
-		showError(dlgError, json.error);
-	} else {
-		initialState.projectID = projectID;
-		initialState.userID = user.userID;
-		initialState.isPublished = false;
-		projects[projectIndex] = initialState;
-		updateLinks();
-	}
+  initialState = emptyWorld;
+  projects.push(initialState);
+  projectIndex = projects.length - 1;
+  localStorage.setItem("projects", JSON.stringify(projects));
+  editParams();
+  deletePointInputs();
+  deleteRodInputs();
+  const userStr = localStorage.getItem("user");
+  if (!userStr) return;
+  const user = JSON.parse(userStr);
+  const projectID = crypto.randomUUID();
+  const json = await postProject(initialState, projectID, 0, user);
+  if (json.error) {
+    console.error(json.error);
+    showError(dlgError, json.error);
+  } else {
+    initialState.projectID = projectID;
+    initialState.userID = user.userID;
+    initialState.isPublished = false;
+    projects[projectIndex] = initialState;
+    updateLinks();
+  }
 }
 
 async function copy() {
-	const oldInitialState = initialState;
-	await create();
-	delete oldInitialState.projectID;
-	oldInitialState.userID = initialState.userID;
-	const newProjectID = initialState.projectID;
-	initialState = oldInitialState;
-	initialState.projectID = newProjectID;
-	await save();
+  const oldInitialState = initialState;
+  await create();
+  delete oldInitialState.projectID;
+  oldInitialState.userID = initialState.userID;
+  const newProjectID = initialState.projectID;
+  initialState = oldInitialState;
+  initialState.projectID = newProjectID;
+  await save();
 }
 
 const dlg = document.querySelector("dialog");
 const btnCancel = document.querySelector("#btn-cancel");
 const btnProceed = document.querySelector("#btn-proceed");
 function handleClickDelete() {
-	dlg.showModal();
+  dlg.showModal();
 }
 btnDelete.addEventListener("click", handleClickDelete);
 btnCancel.addEventListener("click", () => dlg.close());
 btnProceed.addEventListener("click", async () => {
-	if (projectIndex < 0 || projectIndex >= projects.length) {
-		dlg.close();
-		return;
-	} else {
-		const json = await deleteProject(
-			projects[projectIndex].projectID,
-			user.token
-		);
-		if (json.error) {
-			console.error(json.error);
-			showError(dlgError, json.error);
-		}
-		projects.splice(projectIndex, 1);
-		localStorage.setItem("projects", JSON.stringify(projects));
-		if (projectIndex === projects.length) projectIndex--;
-		initialState = projects[projectIndex];
-		editParams();
-		const { points, rods } = initialState;
-		if (points.length === 0) deletePointInputs();
-		else {
-			inpPointIndex.value = 0;
-			inpPointIndex.max = points.length - 1;
-		}
-		if (rods.length === 0) deleteRodInputs();
-		else {
-			inpRodIndex.value = 0;
-			inpRodIndex.max = rods.length - 1;
-		}
-		updateLinks();
-		dlg.close();
-	}
+  if (projectIndex < 0 || projectIndex >= projects.length) {
+    dlg.close();
+    return;
+  } else {
+    const json = await deleteProject(
+      projects[projectIndex].projectID,
+      user.token
+    );
+    if (json.error) {
+      console.error(json.error);
+      showError(dlgError, json.error);
+    }
+    projects.splice(projectIndex, 1);
+    localStorage.setItem("projects", JSON.stringify(projects));
+    if (projectIndex === projects.length) projectIndex--;
+    initialState = projects[projectIndex];
+    editParams();
+    const { points, rods } = initialState;
+    if (points.length === 0) deletePointInputs();
+    else {
+      inpPointIndex.value = 0;
+      inpPointIndex.max = points.length - 1;
+    }
+    if (rods.length === 0) deleteRodInputs();
+    else {
+      inpRodIndex.value = 0;
+      inpRodIndex.max = rods.length - 1;
+    }
+    updateLinks();
+    dlg.close();
+  }
 });
 
 inpG.addEventListener("change", () => changeParams());
@@ -550,7 +557,7 @@ chkboxBodyRodCollisions.addEventListener("change", () => changeParams());
 chkboxBodyBodyCollisions.addEventListener("change", () => changeParams());
 
 inpExtForcePointIndex.addEventListener("change", () =>
-	changePeriodicExtForce()
+  changePeriodicExtForce()
 );
 inpTMax.addEventListener("change", () => changePeriodicExtForce());
 inpTMin.addEventListener("change", () => changePeriodicExtForce());
@@ -565,7 +572,7 @@ chkboxOn.addEventListener("change", () => changePeriodicExtForce());
 inpPointIndex.addEventListener("change", () => editPoint(inpPointIndex.value));
 chkboxFixed.addEventListener("change", () => changePoint(inpPointIndex.value));
 chkboxPathVisible.addEventListener("change", () =>
-	changePoint(inpPointIndex.value)
+  changePoint(inpPointIndex.value)
 );
 inpX.addEventListener("change", () => changePoint(inpPointIndex.value));
 inpY.addEventListener("change", () => changePoint(inpPointIndex.value));
@@ -575,7 +582,7 @@ inpM.addEventListener("change", () => changePoint(inpPointIndex.value));
 inpPointSize.addEventListener("change", () => changePoint(inpPointIndex.value));
 btnNewPoint.addEventListener("click", addPoint);
 btnDeletePoint.addEventListener("click", () =>
-	deletePoint(inpPointIndex.value)
+  deletePoint(inpPointIndex.value)
 );
 
 inpRodIndex.addEventListener("change", () => editRod(inpRodIndex.value));
@@ -598,17 +605,17 @@ btnCopy.addEventListener("click", copy);
 const pointsLength = initialState.points.length;
 editPoint(pointsLength - 1);
 if (pointsLength > 0) {
-	inpPointIndex.min = 0;
-	inpPointIndex.max = pointsLength - 1;
-	inpPointIndex.value = pointsLength - 1;
-	inpExtForcePointIndex.max = pointsLength - 1;
+  inpPointIndex.min = 0;
+  inpPointIndex.max = pointsLength - 1;
+  inpPointIndex.value = pointsLength - 1;
+  inpExtForcePointIndex.max = pointsLength - 1;
 }
 const rodsLength = initialState.rods.length;
 editRod(rodsLength - 1);
 if (rodsLength > 0) {
-	inpRodIndex.min = 0;
-	inpRodIndex.max = rodsLength - 1;
-	inpRodIndex.value = rodsLength - 1;
+  inpRodIndex.min = 0;
+  inpRodIndex.max = rodsLength - 1;
+  inpRodIndex.value = rodsLength - 1;
 }
 
 updateLinks();
@@ -617,18 +624,18 @@ const chkboxPublished = document.querySelector("#chkbox-published");
 chkboxPublished.checked = !!initialState.isPublished;
 chkboxPublished.disabled = !user.userID || initialState.userID !== user.userID;
 chkboxPublished.addEventListener("change", async () => {
-	chkboxPublished.disabled = true;
-	const isPublished = +chkboxPublished.checked;
-	const json = await putProject(
-		initialState.projectID,
-		{ isPublished },
-		user.token
-	);
-	if (json.error) {
-		console.error(json.error);
-		chkboxPublished.checked = !isPublished;
-	} else {
-		initialState.isPublished = !!isPublished;
-	}
-	chkboxPublished.disabled = false;
+  chkboxPublished.disabled = true;
+  const isPublished = +chkboxPublished.checked;
+  const json = await putProject(
+    initialState.projectID,
+    { isPublished },
+    user.token
+  );
+  if (json.error) {
+    console.error(json.error);
+    chkboxPublished.checked = !isPublished;
+  } else {
+    initialState.isPublished = !!isPublished;
+  }
+  chkboxPublished.disabled = false;
 });
