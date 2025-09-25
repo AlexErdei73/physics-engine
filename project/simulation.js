@@ -604,7 +604,10 @@ function calcPeriodicExtForce(state, isMidpoint = false) {
 	}
 }
 
-function calcNewtonGravity(point1, point2, isMidpoint = false) {
+function calcNewtonGravity(pointInd1, pointInd2, isMidpoint = false) {
+	const { points } = state;
+	const point1 = points[pointInd1];
+	const point2 = points[pointInd2];
 	let { x: x1, y: y1, m: m1 } = point1;
 	let { x: x2, y: y2, m: m2 } = point2;
 	if (isMidpoint) {
@@ -634,15 +637,17 @@ function calcNewtonGravity(point1, point2, isMidpoint = false) {
 		point1.ax -= Fgrx / m1;
 		point1.ay -= Fgry / m1;
 	}
+	return { pointInd1, pointInd2, Fgr, Fgrx, Fgry };
 }
 
 function calcAccelerations(isMidpoint = false) {
 	const { points, rods, collisions, simulationType } = state;
 
 	if (simulationType === "celestial") {
+		state.newtonGravForces = [];
 		for (let i = 0; i < points.length; i++)
 			for (let j = 0; j < i; j++)
-				calcNewtonGravity(points[j], points[i], isMidpoint);
+				state.newtonGravForces.push(calcNewtonGravity(j, i, isMidpoint));
 		return;
 	}
 
