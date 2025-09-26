@@ -216,8 +216,15 @@ function drawVector(vector, point, ctx, color = "blue") {
 }
 
 function drawForces(state, ctx) {
-	const { g, points, rods, collisions, simulationType, newtonGravForces } =
-		state;
+	const {
+		g,
+		points,
+		rods,
+		collisions,
+		simulationType,
+		newtonGravForces,
+		forceMultiplyer: fmp,
+	} = state;
 
 	for (let i = 0; i < points.length; i++) {
 		if (simulationType === "celestial" && newtonGravForces) {
@@ -228,12 +235,12 @@ function drawForces(state, ctx) {
 						(force.pointInd1 === j && force.pointInd2 === i)
 				);
 				drawVector(
-					[10000 * force.Fgrx, 10000 * force.Fgry],
+					[fmp * force.Fgrx, fmp * force.Fgry],
 					points[force.pointInd2],
 					ctx
 				);
 				drawVector(
-					[-10000 * force.Fgrx, -10000 * force.Fgry],
+					[-fmp * force.Fgrx, -fmp * force.Fgry],
 					points[force.pointInd1],
 					ctx
 				);
