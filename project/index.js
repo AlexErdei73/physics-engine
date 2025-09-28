@@ -371,6 +371,26 @@ const chkboxResPointCollisions = document.querySelector(
 	"#chkbox-res-point-collisions"
 );
 
+const chkboxResPointNewtonGravity = document.querySelector(
+	"#chkbox-res-point-newton-gravity"
+);
+function handleChkboxPointNewtonGravityChange(event) {
+	const chkbox = event.target;
+	const divResPointParams = document.querySelector("#res-point-params");
+	const divResNewtonGravity = document.querySelector("#res-newton-gravity");
+	if (chkbox.checked) {
+		divResNewtonGravity.classList.remove("hidden");
+		divResPointParams.classList.add("hidden");
+	} else {
+		divResNewtonGravity.classList.add("hidden");
+		divResPointParams.classList.remove("hidden");
+	}
+}
+chkboxResPointNewtonGravity.addEventListener(
+	"change",
+	handleChkboxPointNewtonGravityChange
+);
+
 function handleChkboxResCollChange(event) {
 	const chkbox = event.target;
 	const chkboxId = chkbox.id;
@@ -394,7 +414,9 @@ function initResPoint(state, index) {
 	if (!point) return;
 
 	chkboxResPointCollisions.checked = false;
+	chkboxResPointNewtonGravity.checked = false;
 	handleChkboxResCollChange({ target: chkboxResPointCollisions });
+	handleChkboxPointNewtonGravityChange({ target: chkboxResPointNewtonGravity });
 
 	inpResPointCollPointIndex.min = 0;
 	inpResPointCollPointIndex.max = points.length - 1;
