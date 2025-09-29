@@ -303,7 +303,7 @@ function initResPeriodicExtForce(state) {
 		"#res-periodic-ext-force"
 	);
 	divResPeriodicExtForce.classList.remove("hidden");
-}
+}																																											
 
 let currentRod = null;
 function handlePointIndexChange(event, state = null) {
