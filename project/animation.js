@@ -481,6 +481,20 @@ function addGraphPoint(state, i) {
       if (collIndex === -1) y = 0;
       else y = collisions[collIndex][field];
     }
+    if (field === "r12" || field === "Fgr") {
+      const { newtonGravForces, forceMultiplyer: fmp } = state;
+      const gravIndex = newtonGravForces
+        ? newtonGravForces.findIndex(
+            (grav) =>
+              (grav.point1 === index && grav.point2 === pointIndex) ||
+              (grav.point1 === pointIndex && grav.point2 === index)
+          )
+        : -1;
+      if (gravIndex === -1) y = 0;
+      else y = newtonGravForces[gravIndex][field];
+      if (field === "r12") y = y.len;
+      else y = fmp * y;
+    }
   }
   graphs[i].push({ x, y });
 }

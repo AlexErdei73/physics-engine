@@ -214,6 +214,13 @@ function enableCheckboxAddedToGraphs() {
           selPointsOrRods.value === "points"
             ? +inpResPointCollPointIndex.value
             : +inpResRodCollPointIndex.value,
+      }) ||
+      areEqual(graphDetails[i], {
+        option: selPointsOrRods.value,
+        field: selField.value,
+        index: +inpResIndex.value,
+        isOriginCentered: chkboxOriginCenter.checked,
+        pointIndex: +inpResNewtonGravityPointIndex.value,
       })
     )
       checked = true;
@@ -544,6 +551,12 @@ function handleChangeChkboxAddedToGraphs() {
       isOriginCentered,
     };
     if (
+      nextGraphDetails.option === "points" &&
+      (nextGraphDetails.field === "r12" || nextGraphDetails.field === "Fgr")
+    ) {
+      nextGraphDetails.pointIndex = +inpResNewtonGravityPointIndex.value;
+    }
+    if (
       (nextGraphDetails.option === "points" &&
         nextGraphDetails.field === "N") ||
       nextGraphDetails.field === "Ffr"
@@ -580,6 +593,13 @@ function handleChangeChkboxAddedToGraphs() {
             selPointsOrRods.value === "points"
               ? +inpResPointCollPointIndex.value
               : +inpResRodCollPointIndex.value,
+        }) ||
+        areEqual(graphDetails[j], {
+          option: selPointsOrRods.value,
+          index: +inpResIndex.value,
+          field: selField.value,
+          isOriginCentered,
+          pointIndex: +inpResNewtonGravityPointIndex.value,
         })
       )
         i = j;
