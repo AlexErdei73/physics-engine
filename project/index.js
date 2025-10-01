@@ -195,35 +195,33 @@ function areEqual(obj1, obj2) {
   return equal;
 }
 
+function isGraphChosenByUser(graphDetails, index) {
+  let result = false;
+  const userSelection = {
+    option: selPointsOrRods.value,
+    field: selField.value,
+    index: +inpResIndex.value,
+    isOriginCentered: chkboxOriginCenter.checked,
+  };
+  result = areEqual(graphDetails[index], userSelection);
+  if (!result) {
+    userSelection.pointIndex = +inpResNewtonGravityPointIndex.value;
+    result = areEqual(graphDetails[index], userSelection);
+  }
+  if (!result) {
+    userSelection.pointIndex =
+      selPointsOrRods.value === "points"
+        ? +inpResPointCollPointIndex.value
+        : +inpResRodCollPointIndex.value;
+    result = areEqual(graphDetails[index], userSelection);
+  }
+  return result;
+}
+
 function enableCheckboxAddedToGraphs() {
   let checked = false;
   for (let i = 0; i < graphDetails.length; i++) {
-    if (
-      areEqual(graphDetails[i], {
-        option: selPointsOrRods.value,
-        field: selField.value,
-        index: +inpResIndex.value,
-        isOriginCentered: chkboxOriginCenter.checked,
-      }) ||
-      areEqual(graphDetails[i], {
-        option: selPointsOrRods.value,
-        field: selField.value,
-        index: +inpResIndex.value,
-        isOriginCentered: chkboxOriginCenter.checked,
-        pointIndex:
-          selPointsOrRods.value === "points"
-            ? +inpResPointCollPointIndex.value
-            : +inpResRodCollPointIndex.value,
-      }) ||
-      areEqual(graphDetails[i], {
-        option: selPointsOrRods.value,
-        field: selField.value,
-        index: +inpResIndex.value,
-        isOriginCentered: chkboxOriginCenter.checked,
-        pointIndex: +inpResNewtonGravityPointIndex.value,
-      })
-    )
-      checked = true;
+    if (isGraphChosenByUser(graphDetails, i)) checked = true;
   }
 
   chkboxAddedToGraph.checked = checked;
@@ -577,32 +575,7 @@ function handleChangeChkboxAddedToGraphs() {
     let i = -1;
     let j = 0;
     while (j < MAX_NUMBER_OF_GRAPHS && i === -1) {
-      if (
-        areEqual(graphDetails[j], {
-          option: selPointsOrRods.value,
-          index: +inpResIndex.value,
-          field: selField.value,
-          isOriginCentered,
-        }) ||
-        areEqual(graphDetails[j], {
-          option: selPointsOrRods.value,
-          index: +inpResIndex.value,
-          field: selField.value,
-          isOriginCentered,
-          pointIndex:
-            selPointsOrRods.value === "points"
-              ? +inpResPointCollPointIndex.value
-              : +inpResRodCollPointIndex.value,
-        }) ||
-        areEqual(graphDetails[j], {
-          option: selPointsOrRods.value,
-          index: +inpResIndex.value,
-          field: selField.value,
-          isOriginCentered,
-          pointIndex: +inpResNewtonGravityPointIndex.value,
-        })
-      )
-        i = j;
+      if (isGraphChosenByUser(graphDetails, j)) i = j;
       j++;
     }
     if (i > -1) {
