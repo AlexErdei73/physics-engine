@@ -499,6 +499,7 @@ async function copy() {
 	const newProjectID = initialState.projectID;
 	initialState = oldInitialState;
 	initialState.projectID = newProjectID;
+	editParams();
 	await save();
 }
 
