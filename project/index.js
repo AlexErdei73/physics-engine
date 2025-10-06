@@ -448,10 +448,22 @@ function handleChkboxResCollChange(event) {
 chkboxResRodCollisions.addEventListener("change", handleChkboxResCollChange);
 chkboxResPointCollisions.addEventListener("change", handleChkboxResCollChange);
 
+function calcSpeedAndAcceleration(points) {
+	const len = points.length;
+	for (let i = 0; i < len; i++) {
+		const point = points[i];
+		const { ax, ay, vx, vy } = point;
+		point.v = Math.sqrt(vx * vx + vy * vy);
+		point.a = Math.sqrt(ax * ax + ay * ay);
+	}
+}
+
 function initResPoint(state, index) {
 	const { points, g, simulationType } = state;
 	const point = points[index] || null;
 	if (!point) return;
+
+	calcSpeedAndAcceleration(points);
 
 	chkboxResPointCollisions.checked = false;
 	chkboxResPointNewtonGravity.checked = false;
@@ -472,11 +484,14 @@ function initResPoint(state, index) {
 	const divResGrav = document.querySelector("#res-point-grav");
 	const divResX = document.querySelector("#res-point-x");
 	const divResY = document.querySelector("#res-point-y");
+	const divResS = document.querySelector("#res-point-s");
 	const divResVx = document.querySelector("#res-point-vx");
 	const divResVy = document.querySelector("#res-point-vy");
+	const divResV = document.querySelector("#res-point-v");
 	const divResAx = document.querySelector("#res-point-ax");
 	const divResAy = document.querySelector("#res-point-ay");
-	const { m, x, y, vx, vy, ax, ay } = point;
+	const divResA = document.querySelector("#res-point-a");
+	const { m, x, y, s, vx, vy, v, ax, ay, a } = point;
 	divResM.textContent = `m: ${
 		simulationType === "celestial"
 			? Number(m).toExponential(4)
@@ -485,10 +500,13 @@ function initResPoint(state, index) {
 	divResGrav.textContent = `m*g: ${Number(m * g).toFixed(4)}`;
 	divResX.textContent = `x: ${Number(x).toFixed(4)}`;
 	divResY.textContent = `y: ${Number(y).toFixed(4)}`;
+	divResS.textContent = `path length: ${Number(s).toFixed(4)}`;
 	divResVx.textContent = `vx: ${Number(vx).toFixed(4)}`;
 	divResVy.textContent = `vy: ${Number(vy).toFixed(4)}`;
+	divResV.textContent = `v: ${Number(v).toFixed(4)}`;
 	divResAx.textContent = `ax: ${Number(ax).toFixed(4)}`;
 	divResAy.textContent = `ay: ${Number(ay).toFixed(4)}`;
+	divResA.textContent = `a: ${Number(a).toFixed(4)}`;
 }
 
 function initResRod(state, index) {
@@ -591,7 +609,7 @@ function handleChangeChkboxAddedToGraphs() {
 function initResPeeking(state) {
 	const divResT = document.querySelector("#res-t");
 	const divResG = document.querySelector("#res-g");
-	const { t, g, rods } = state;
+	const { t, g, rods, points } = state;
 	divResT.textContent = `t: ${Number(t).toFixed(4)}`;
 	divResG.textContent = `g: ${Number(g).toFixed(4)}`;
 	initResPeriodicExtForce(state);
