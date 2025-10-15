@@ -157,10 +157,9 @@ There is an incline, which has 30degrees with the horizontal direction. How far
 the mass point goes on the incline when its initial speed is 3m/s? How high it
 gets when it turns back? How much is the magnitude of its acceleration and the
 sum of the forces effect it? How much is the normal force? The friction is
-negligible.
+negligible and the mass of the point is 0.1kg.
 
-Let's first do a calculation and we can verify it by a simulation. The result
-does not depend on the mass of the body, let's choose m=0.1kg for simplicity.
+Let's first do a calculation and we can verify it by a simulation.
 The sum of forces is:\
 
 $$
@@ -302,3 +301,131 @@ h=|\Delta y| = |y - y_0| = |2.4548 - 2.9134| = 0.4586m
 $$
 
 This is again in full agreement with our calculations.
+
+## Sign Up
+
+You can create an account from here, if you do not have one. You just need to
+fill in a form. You need a valid email address, because you will receive a
+verification email and you need to click on the link to verify your email
+address. The form to fill in has the following fields: email, password, confirm
+psw, first name, last name. The first and last names are optional.
+![sign up form](./images/signup.png)
+
+## Log In
+
+> **Caution** When you are logged in, but getting access denied errors, the
+> validity of your token has expired. In a case like this you must log out at
+> the home page and log in again.
+
+The form has the email and the password fields. You also can get to the sign
+up page from here if you don't have an account yet. At successful login you
+get a confirmation with a button, which redirects you to the home page. There
+is a link, for the case you have forgotten your password. It will send you an
+email with a link, which makes you possible to make a new password.
+
+![log in form](./images/login.png)
+
+## Create Project
+
+Creating simulation projects means that we specify the general simulation
+parameters and the initial conditions of all the points and rods, which build up
+the simulations. Rods are very stiff springs. What kind of forces do we have?
+
+1. **Gravity** It's the force, which pulls downwards each bodies close to the
+   surface of the Earth. This is the force we calculate with the formula
+   $F_g = m \times g$ and this force always points downwards, which in our
+   simulations the y direction. We can adjust the value of g as a general
+   parameter. For celestial mechanics simulations there is an attracting force
+   between each pair of bodies, which we calculate with Newton's formula:
+   $F_g = G \frac{m_1m_2}{r^2}$ In this formula $m_1$ and $m_2$ are the masses 
+   and r is the distance between them. The units are astronomical units, so 
+   $G=4\pi^2$, the distance unit is the Sun-Earth medium distance 
+   (150 000 000km) and the mass unit is the mass of the Sun. The time unit is 
+   the year.
+
+> **Caution** For celestial mechanics simulations you have to choose celestial
+> mechanics for **simulation type**. The default value is normal simulation,
+> which means experiments either in no gravity or close to the surface of the
+> Earth as we have all got used to it.
+
+> **Caution** For celestial mechanics simulations you may need to specify the
+> appropriate force multiplier. The number of the force in astronomical units
+> can be tiny, like 5e-5, so we need to multiply it to make it visible when you
+> try to visualize it in the simulation or graph.
+
+2. **Elastic and dumping forces** between points, which are connected by a rod.
+   The rod follows Hook's law. $F_e = -k \Delta l = -k \times (l - l_0)$ The 
+   force is proportional with the deformation, the k constant is the elastic constant. 
+   The minus sign expresses that the elastic force tries to decrease the deformation. 
+   The damping force is a velocity dependent force, which depends on the relative
+   velocity of the end points. If this relative velocity has parallel component
+   by the rod, the damping force is $F_d = -\beta v_r$, where $\beta$ is the
+   damping constant, $v_r$ is the relative velocity component, parallel with the
+   rod. The minus sign expresses that its direction is so that it always decreases 
+   the relative velocity component.
+3. **Collision forces** You can allow collisions between points and between
+   points and rods. In both cases we imitate the collision force with elastic
+   force. This is how we deal with the normal force on inclines for example.
+   There is dumping on the calculation of these forces too.
+4. **Friction forces** If you specify more than 0 for the $\mu$ (mu) either for
+   point-point collisions or point-body collisions, we have the Coulomb-model of
+   friction forces. The friction force is trying to decrease the relative
+   velocity, so it points to the opposite direction and parallel with the
+   surface (tangential direction). If the relative velocity is zero, we get
+   static friction. The static friction can be calculated from the condition
+   that the relative acceleration is zero, so the net force should produce the
+   acceleration, which the surface point, If the friction is dynamic, the value
+   of the force is $F_f = \mu \times N$ In this formula N is the normal-force
+   and $\mu$ is the friction coefficient, which is usually maximum 1. The value
+   depends on the surfaces mainly, both the materials and the smoothness of the
+   surface effects it.
+5. **Periodic External Force** We can also add some periodic external force to
+   effect one point. This is mainly useful to check resonance phenomenons. This
+   force starts at some point in time and stops at a later point in time. We
+   define it by its components, like the following formulas: /
+
+$$
+F_x = F_0,_x sin (\omega t + \phi_x)
+$$
+
+$$
+F_y = F_0,_y sin(\omega t + \phi_y)
+$$
+
+$$
+\omega = 2\pi f
+$$
+
+Here f is the frequency, which is between the min and max values and it can be
+adjusted real time with a range input, when you run the simulation.
+
+> **Tip** You can add a constant force to a point for a certain amount of time,
+> because f can be zero and the phase factors can make the sin functions 1.
+
+6.**Air resistance** You can add air resistance to the points with specifying
+the drag coefficient above 0. It's usually 0.47 for spherical bodies under
+normal circumstances. The force, effecting the spherical bodies, is /
+
+$$
+F_d = \frac {1} {2} \rho v^2 C_d A
+$$
+
+$C_d$ is the drag coefficient, usually 0.47 for smooth spheres, although it
+changes for very high speeds or very low speeds. It also depends on the shape of
+the bodies, hence the car can be designed to have a low drag coefficient to
+reduce air resistance. A is the area what the flow "sees", so for a sphere it's
+$A = R^2 \pi$ if the radius is R.
+
+![create page scrolled to top](./images/create1.png)
+![create page scrolled to bottom](./images/create2.png)
+
+The forms, can be used to define the simulation parameters, the mass points or
+the rods are pretty straightforward. You need to specify all the points and rods
+for the simulations. The forms also specify the above parameters and the initial
+conditions. For celestial mechanics rods are not necessary, because the only
+important force between the points is gravity.
+
+We still have to mention the **Copy** and **Delete** buttons, beside the
+**Save** and **Create** buttons. With the **Copy** button, we can copy an
+existing project as our own to modify it. The **Delete** button can delete our
+projects.
