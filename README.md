@@ -151,9 +151,74 @@ This way we can answer the question.
     This answers the question, so the period of the mathematical pendulum grows
     with the amplitude.
 
-### Sample Project III*
+### Sample Project II
 
->**Caution*** This  project is for people, who know well the basic trigonometry.
+There is a 0.1kg mass point, which can slide on a horizontal surface. It starts
+in a rest position. There is a 1N constant horizontal force accelerates it for
+1s then the friction slows it down until it stops. How much is the achieved
+speed at the acceleration? How long is the path until it achieves this speed?
+How long it takes the friction to stop the mass point again? How far the mass
+point gets from the starting point? The friction coefficient is 0.3.
+
+Let's solve the problem with a calculation first. The normal force balances the
+gravity:/
+
+$$
+N = mg = 0.1kg\times 9.81m/s^2 = 0.981N
+$$
+
+The friction force:/
+
+$$
+F_f = \mu \times N = 0.3 \times 0.981N = 0.2943N
+$$
+
+The accelerating force:/
+
+$$
+F = F_c - F_f = 1N - 0.2943N = 0.7057N
+$$
+
+The achieved speed:/
+
+$$
+v = \Delta v = a \times t = F/m \times t = 0.7057N/0.1kg \times 1s = 7.057m/s
+$$
+
+The length of path at acceleration:/
+
+$$
+s_1 = \frac {a}{2} t^2 = 7.057m/s^2 /2 \times 1s^2 = 3.5285m
+$$
+
+The deceleration from friction:/
+
+$$
+a = \frac {F_f} {m} = \frac {-0.2943N} {0.1kg} = -2.943m/s^2
+$$
+
+The elapsed time until stop:/
+
+$$
+t = \frac {\Delta v} {a} = \frac {-7.057m/s} {-2.943m/s^2} = 2.3979s
+$$
+
+The length of path during deceleration:/
+
+$$
+s_2 = v_0t +\frac {a} {2} t^2 = 7.057m/s \times 2.3979s + \frac {-2.943m/s^2} {2} \times (2.3979s)^2 = 8.4610m
+$$
+
+The full path:/
+
+$$
+s = s_1 + s_2 = 3.5285m + 8.461m = 11.9895m
+$$
+
+### Sample Project III\*
+
+> **Caution\*** This project is for people, who know well the basic
+> trigonometry.
 
 There is an incline, which has 30degrees with the horizontal direction. How far
 the mass point goes on the incline when its initial speed is 3m/s? How high it
@@ -161,8 +226,8 @@ gets when it turns back? How much is the magnitude of its acceleration and the
 sum of the forces effect it? How much is the normal force? The friction is
 negligible and the mass of the point is 0.1kg.
 
-Let's first do a calculation and we can verify it by a simulation.
-The sum of forces is:\
+Let's first do a calculation and we can verify it by a simulation. The sum of
+forces is:\
 
 $$
 F=mgsin\alpha
@@ -319,11 +384,11 @@ psw, first name, last name. The first and last names are optional.
 > validity of your token has expired. In a case like this you must log out at
 > the home page and log in again.
 
-The form has the email and the password fields. You also can get to the sign
-up page from here if you don't have an account yet. At successful login you
-get a confirmation with a button, which redirects you to the home page. There
-is a link, for the case you have forgotten your password. It will send you an
-email with a link, which makes you possible to make a new password.
+The form has the email and the password fields. You also can get to the sign up
+page from here if you don't have an account yet. At successful login you get a
+confirmation with a button, which redirects you to the home page. There is a
+link, for the case you have forgotten your password. It will send you an email
+with a link, which makes you possible to make a new password.
 
 ![log in form](./images/login.png)
 
@@ -339,11 +404,10 @@ the simulations. Rods are very stiff springs. What kind of forces do we have?
    simulations the y direction. We can adjust the value of g as a general
    parameter. For celestial mechanics simulations there is an attracting force
    between each pair of bodies, which we calculate with Newton's formula:
-   $F_g = G \frac{m_1m_2}{r^2}$ In this formula $m_1$ and $m_2$ are the masses 
-   and r is the distance between them. The units are astronomical units, so 
-   $G=4\pi^2$, the distance unit is the Sun-Earth medium distance 
-   (150 000 000km) and the mass unit is the mass of the Sun. The time unit is 
-   the year.
+   $F_g = G \frac{m_1m_2}{r^2}$ In this formula $m_1$ and $m_2$ are the masses
+   and r is the distance between them. The units are astronomical units, so
+   $G=4\pi^2$, the distance unit is the Sun-Earth medium distance (150 000
+   000km) and the mass unit is the mass of the Sun. The time unit is the year.
 
 > **Caution** For celestial mechanics simulations you have to choose celestial
 > mechanics for **simulation type**. The default value is normal simulation,
@@ -356,15 +420,15 @@ the simulations. Rods are very stiff springs. What kind of forces do we have?
 > try to visualize it in the simulation or graph.
 
 2. **Elastic and dumping forces** between points, which are connected by a rod.
-   The rod follows Hook's law. $F_e = -k \Delta l = -k \times (l - l_0)$ The 
-   force is proportional with the deformation, the k constant is the elastic constant. 
-   The minus sign expresses that the elastic force tries to decrease the deformation. 
-   The damping force is a velocity dependent force, which depends on the relative
-   velocity of the end points. If this relative velocity has parallel component
-   by the rod, the damping force is $F_d = -\beta v_r$, where $\beta$ is the
-   damping constant, $v_r$ is the relative velocity component, parallel with the
-   rod. The minus sign expresses that its direction is so that it always decreases 
-   the relative velocity component.
+   The rod follows Hook's law. $F_e = -k \Delta l = -k \times (l - l_0)$ The
+   force is proportional with the deformation, the k constant is the elastic
+   constant. The minus sign expresses that the elastic force tries to decrease
+   the deformation. The damping force is a velocity dependent force, which
+   depends on the relative velocity of the end points. If this relative velocity
+   has parallel component by the rod, the damping force is $F_d = -\beta v_r$,
+   where $\beta$ is the damping constant, $v_r$ is the relative velocity
+   component, parallel with the rod. The minus sign expresses that its direction
+   is so that it always decreases the relative velocity component.
 3. **Collision forces** You can allow collisions between points and between
    points and rods. In both cases we imitate the collision force with elastic
    force. This is how we deal with the normal force on inclines for example.
@@ -431,25 +495,49 @@ We still have to mention the **Copy** and **Delete** buttons, beside the
 **Save** and **Create** buttons. With the **Copy** button, we can copy an
 existing project as our own to modify it. The **Delete** button can delete our
 projects.
+
 ## Execute Project
-You navigate to the project page and press the **Start** button. You can also stop or reset the project with the relevant buttons. 
-The **Zoom In** and **Zoom Out** buttons can zoom in and out of the world view, although the origin of the coordinate system stays in the top-left corner.
-We can turn on and off some visualisations with the checkboxes, like **Grid**, **Time**, **Force** and **Energy**. 
-The **Graph** checkbox changes the view to show the graphs instead of the simulation. 
-The **Results** checkbox is used to show a piece of UI, which shows all the important numerical results and you can also pick the quantities you can see on the graphs.
-![project view](./images/project.png)
+
+You navigate to the project page and press the **Start** button. You can also
+stop or reset the project with the relevant buttons. The **Zoom In** and **Zoom
+Out** buttons can zoom in and out of the world view, although the origin of the
+coordinate system stays in the top-left corner. We can turn on and off some
+visualisations with the checkboxes, like **Grid**, **Time**, **Force** and
+**Energy**. The **Graph** checkbox changes the view to show the graphs instead
+of the simulation. The **Results** checkbox is used to show a piece of UI, which
+shows all the important numerical results and you can also pick the quantities
+you can see on the graphs. ![project view](./images/project.png)
+
 ## Numeric Results
-You normally stop the project by clicking the **Stop** button and tick the **Results** checkbox. This opens up a piece of UI, where you can pick an element of the simulation (a point or a rod) or you just get an overview of the simulation parameters, like time or g.
-![numeric results](./images/results.png)
-Whatever element you select, it's going to be red in the simulation view. You can also view the collision and friction forces regarding the selected element. On the image, we can see the [Sample Project II](#sample-project-ii) numeric results. The rod (incline) and its collision with the 2nd point (the sliding one) has been chosen. We can read the N (normal force) and the F (friction force). 
+
+You normally stop the project by clicking the **Stop** button and tick the
+**Results** checkbox. This opens up a piece of UI, where you can pick an element
+of the simulation (a point or a rod) or you just get an overview of the
+simulation parameters, like time or g. ![numeric results](./images/results.png)
+Whatever element you select, it's going to be red in the simulation view. You
+can also view the collision and friction forces regarding the selected element.
+On the image, we can see the [Sample Project II](#sample-project-ii) numeric
+results. The rod (incline) and its collision with the 2nd point (the sliding
+one) has been chosen. We can read the N (normal force) and the F (friction
+force).
+
 ## Time Graphs
-When you go to the [Numeric Results](#numeric-results) you can choose maximum 4 parameters, which can be shown as the function of time on a graph. These can be anything available on the select element, like the x coordinate of the 5th point or the acceleration of the 6th point. It also can be the periodic external force or the normal force between the 0th rod and the 2nd point. When you have chosen the parameters, you can view the graphs by pressing the **switch back** button and tick the **Graphs** checkbox. This makes the animation disappear in the simulation window. If you press the **Start** button, you see the graphs gradually appear as the simulation progresses. The origin is the bottom-left corner, we can magnify by the **Zoom In** and **Zoom Out** buttons, but we cannot change the position of the origin, unless we tick on the results page the **Is origin centered** checkbox. This centres the origin on the y axis, so we can see if a parameter negative.
->**Caution** The path is not going to be recorded when the simulation is drawing the graphs. If you untick the **Graphs** checkbox you will see inaccurate paths. You must reset and rerun the simulation to see the correct paths.
 
+When you go to the [Numeric Results](#numeric-results) you can choose maximum 4
+parameters, which can be shown as the function of time on a graph. These can be
+anything available on the select element, like the x coordinate of the 5th point
+or the acceleration of the 6th point. It also can be the periodic external force
+or the normal force between the 0th rod and the 2nd point. When you have chosen
+the parameters, you can view the graphs by pressing the **switch back** button
+and tick the **Graphs** checkbox. This makes the animation disappear in the
+simulation window. If you press the **Start** button, you see the graphs
+gradually appear as the simulation progresses. The origin is the bottom-left
+corner, we can magnify by the **Zoom In** and **Zoom Out** buttons, but we
+cannot change the position of the origin, unless we tick on the results page the
+**Is origin centered** checkbox. This centres the origin on the y axis, so we
+can see if a parameter negative.
 
-
-
-
-
-
-
+> **Caution** The path is not going to be recorded when the simulation is
+> drawing the graphs. If you untick the **Graphs** checkbox you will see
+> inaccurate paths. You must reset and rerun the simulation to see the correct
+> paths.
