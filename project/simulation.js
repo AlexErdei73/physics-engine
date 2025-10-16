@@ -378,7 +378,7 @@ function calcFrictionForceForRod(
 	collIndex,
 	isMidpoint = false
 ) {
-	const STICK_TRESHOLD = 1e-4;
+	const STICK_TRESHOLD = 1e-5;
 	const { points, rods, rodMu: mu } = state;
 	if (!mu) return;
 	const rod = rods[rodIndex];
