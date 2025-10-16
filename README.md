@@ -151,7 +151,9 @@ This way we can answer the question.
     This answers the question, so the period of the mathematical pendulum grows
     with the amplitude.
 
-### Sample Project II
+### Sample Project III*
+
+>**Caution*** This  project is for people, who know well the basic trigonometry.
 
 There is an incline, which has 30degrees with the horizontal direction. How far
 the mass point goes on the incline when its initial speed is 3m/s? How high it
@@ -429,3 +431,25 @@ We still have to mention the **Copy** and **Delete** buttons, beside the
 **Save** and **Create** buttons. With the **Copy** button, we can copy an
 existing project as our own to modify it. The **Delete** button can delete our
 projects.
+## Execute Project
+You navigate to the project page and press the **Start** button. You can also stop or reset the project with the relevant buttons. 
+The **Zoom In** and **Zoom Out** buttons can zoom in and out of the world view, although the origin of the coordinate system stays in the top-left corner.
+We can turn on and off some visualisations with the checkboxes, like **Grid**, **Time**, **Force** and **Energy**. 
+The **Graph** checkbox changes the view to show the graphs instead of the simulation. 
+The **Results** checkbox is used to show a piece of UI, which shows all the important numerical results and you can also pick the quantities you can see on the graphs.
+![project view](./images/project.png)
+## Numeric Results
+You normally stop the project by clicking the **Stop** button and tick the **Results** checkbox. This opens up a piece of UI, where you can pick an element of the simulation (a point or a rod) or you just get an overview of the simulation parameters, like time or g.
+![numeric results](./images/results.png)
+Whatever element you select, it's going to be red in the simulation view. You can also view the collision and friction forces regarding the selected element. On the image, we can see the [Sample Project II](#sample-project-ii) numeric results. The rod (incline) and its collision with the 2nd point (the sliding one) has been chosen. We can read the N (normal force) and the F (friction force). 
+## Time Graphs
+When you go to the [Numeric Results](#numeric-results) you can choose maximum 4 parameters, which can be shown as the function of time on a graph. These can be anything available on the select element, like the x coordinate of the 5th point or the acceleration of the 6th point. It also can be the periodic external force or the normal force between the 0th rod and the 2nd point. When you have chosen the parameters, you can view the graphs by pressing the **switch back** button and tick the **Graphs** checkbox. This makes the animation disappear in the simulation window. If you press the **Start** button, you see the graphs gradually appear as the simulation progresses. The origin is the bottom-left corner, we can magnify by the **Zoom In** and **Zoom Out** buttons, but we cannot change the position of the origin, unless we tick on the results page the **Is origin centered** checkbox. This centres the origin on the y axis, so we can see if a parameter negative.
+>**Caution** The path is not going to be recorded when the simulation is drawing the graphs. If you untick the **Graphs** checkbox you will see inaccurate paths. You must reset and rerun the simulation to see the correct paths.
+
+
+
+
+
+
+
+
