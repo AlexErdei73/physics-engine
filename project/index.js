@@ -454,9 +454,9 @@ function calcSpeedAndAcceleration(points) {
 	const len = points.length;
 	for (let i = 0; i < len; i++) {
 		const point = points[i];
-		const { ax, ay, vx, vy } = point;
+		const { axmid, aymid, vx, vy } = point;
 		point.v = Math.sqrt(vx * vx + vy * vy);
-		point.a = Math.sqrt(ax * ax + ay * ay);
+		point.a = Math.sqrt(axmid * axmid + aymid * aymid);
 	}
 }
 
@@ -493,7 +493,7 @@ function initResPoint(state, index) {
 	const divResAx = document.querySelector("#res-point-ax");
 	const divResAy = document.querySelector("#res-point-ay");
 	const divResA = document.querySelector("#res-point-a");
-	const { m, x, y, s, vx, vy, v, ax, ay, a } = point;
+	const { m, x, y, s, vx, vy, v, axmid: ax, aymid: ay, a } = point;
 	divResM.textContent = `m: ${
 		simulationType === "celestial"
 			? Number(m).toExponential(4)

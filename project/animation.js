@@ -437,6 +437,7 @@ function addGraphPoint(state, i) {
 	if (graphDetails.length === 0 || i < 0 || i >= graphDetails.length) return;
 	const x = state.t;
 	const { option, index, field, pointIndex } = graphDetails[i];
+	if (field === "ax" || field === "ay") graphDetails[i].field += "mid"; 
 	let y = index === -1 ? state[option][field] : state[option][index][field];
 	if (option === "rods") {
 		const { points, rods } = state;
