@@ -103,15 +103,15 @@ async function initialize() {
 	const rangeFreq = document.querySelector("#range-freq");
 	const { periodicExtForce: extForce } = initialState;
 	rangeFreq.disabled = !extForce || !extForce.isOn;
-	const handleChangeRaneFreq = () => {
+	const handleChangeRangeFreq = () => {
 		const rangeValue = rangeFreq.value;
 		const { freqMin, freqMax } = initialState.periodicExtForce;
 		const f = freqMin + ((freqMax - freqMin) / 100) * rangeValue;
 		extForce.omega = 2 * Math.PI * f;
 		draw(false);
 	};
-	rangeFreq.addEventListener("change", handleChangeRaneFreq);
-	handleChangeRaneFreq();
+	rangeFreq.addEventListener("change", handleChangeRangeFreq);
+	if (!rangeFreq.disabled) handleChangeRangeFreq();
 
 	const canvas = document.querySelector("canvas");
 	canvas.textContent = initialState.description;
