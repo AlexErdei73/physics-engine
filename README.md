@@ -163,57 +163,39 @@ point gets from the starting point? The friction coefficient is 0.3.
 Let's solve the problem with a calculation first. The normal force balances the
 gravity:/
 
-$$
-N = mg = 0.1kg\times 9.81m/s^2 = 0.981N
-$$
+$$N = mg = 0.1kg\times 9.81m/s^2 = 0.981N$$
 
 The friction force:/
 
-$$
-F_f = \mu \times N = 0.3 \times 0.981N = 0.2943N
-$$
+$$F_f = \mu \times N = 0.3 \times 0.981N = 0.2943N$$
 
 The accelerating force:/
 
-$$
-F = F_c - F_f = 1N - 0.2943N = 0.7057N
-$$
+$$F = F_c - F_f = 1N - 0.2943N = 0.7057N$$
 
 The achieved speed:/
 
-$$
-v = \Delta v = a \times t = F/m \times t = 0.7057N/0.1kg \times 1s = 7.057m/s
-$$
+$$v = \Delta v = a\times t = F/m\times t=0.7057N/0.1kg\times 1s=7.057m/s$$
 
 The length of path at acceleration:/
 
-$$
-s_1 = \frac {a}{2} t^2 = 7.057m/s^2 /2 \times 1s^2 = 3.5285m
-$$
+$$s_1=\frac{a}{2}t^2 =7.057m/s^2/2 \times 1s^2=3.5285m$$
 
 The deceleration from friction:/
 
-$$
-a = \frac {F_f} {m} = \frac {-0.2943N} {0.1kg} = -2.943m/s^2
-$$
+$$a=\frac{F_f}{m}=\frac{-0.2943N}{0.1kg}=-2.943m/s^2$$
 
 The elapsed time until stop:/
 
-$$
-t = \frac {\Delta v} {a} = \frac {-7.057m/s} {-2.943m/s^2} = 2.3979s
-$$
+$$t=\frac{\Delta v}{a}=\frac{-7.057m/s}{-2.943m/s^2}=2.3979s$$
 
 The length of path during deceleration:/
 
-$$
-s_2 = v_0t +\frac {a} {2} t^2 = 7.057m/s \times 2.3979s + \frac {-2.943m/s^2} {2} \times (2.3979s)^2 = 8.4610m
-$$
+$$s_2=v_0t+\frac{a}{2}t^2=7.057m/s\times 2.3979s+\frac{-2.943m/s^2}{2}\times (2.3979s)^2=8.4610m$$
 
 The full path:/
 
-$$
-s = s_1 + s_2 = 3.5285m + 8.461m = 11.9895m
-$$
+$$s = s_1 + s_2 = 3.5285m + 8.461m = 11.9895m$$
 
 Let's make the project:
 
@@ -248,8 +230,9 @@ Let's make the project:
     (Press **Stop** then **Reset** buttons. Tick **Results** checkbox. Choose
     point 2. Pick x and tick **Added to graph** checkbox. Do the same with vx
     and ax. Choose periodic external force. Choose Fx and tick **Added to
-    graph** checkbox. Tick the **Is origin centered** checkbox. Press **switch back** button. Tick **Graphs** checkbox and
-    press **Start** button) You can see the above graphs slowly appear.
+    graph** checkbox. Tick the **Is origin centered** checkbox. Press **switch
+    back** button. Tick **Graphs** checkbox and press **Start** button) You can
+    see the above graphs slowly appear.
 
 ![x, vx, ax and Fx in the function of t](./images/sample-project-2.png)
 
@@ -274,7 +257,7 @@ $$
 In this case it's:\
 
 $$
-F = 0.1kg \times9.81m/s^2\times sin 30=0.4905N
+F = 0.1kg \times 9.81m/s^2\times sin 30=0.4905N
 $$
 
 The magnitude of acceleration:\

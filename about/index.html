@@ -1,24 +1,1034 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="../styles.css" />
-		<script type="module" src="../index.js"></script>
-		<title>Physics-Engine</title>
+		<meta charset="utf-8" />
+		<meta name="generator" content="pandoc" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, user-scalable=yes"
+		/>
+		<title>README</title>
+		<style>
+			/* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+			html {
+				color: #1a1a1a;
+				background-color: #fdfdfd;
+			}
+			body {
+				margin: 0 auto;
+				max-width: 36em;
+				padding-left: 50px;
+				padding-right: 50px;
+				padding-top: 50px;
+				padding-bottom: 50px;
+				hyphens: auto;
+				overflow-wrap: break-word;
+				text-rendering: optimizeLegibility;
+				font-kerning: normal;
+			}
+			@media (max-width: 600px) {
+				body {
+					font-size: 0.9em;
+					padding: 12px;
+				}
+				h1 {
+					font-size: 1.8em;
+				}
+			}
+			@media print {
+				html {
+					background-color: white;
+				}
+				body {
+					background-color: transparent;
+					color: black;
+					font-size: 12pt;
+				}
+				p,
+				h2,
+				h3 {
+					orphans: 3;
+					widows: 3;
+				}
+				h2,
+				h3,
+				h4 {
+					page-break-after: avoid;
+				}
+			}
+			p {
+				margin: 1em 0;
+			}
+			a {
+				color: #1a1a1a;
+			}
+			a:visited {
+				color: #1a1a1a;
+			}
+			img {
+				max-width: 100%;
+			}
+			svg {
+				height: auto;
+				max-width: 100%;
+			}
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				margin-top: 1.4em;
+			}
+			h5,
+			h6 {
+				font-size: 1em;
+				font-style: italic;
+			}
+			h6 {
+				font-weight: normal;
+			}
+			ol,
+			ul {
+				padding-left: 1.7em;
+				margin-top: 1em;
+			}
+			li > ol,
+			li > ul {
+				margin-top: 0;
+			}
+			blockquote {
+				margin: 1em 0 1em 1.7em;
+				padding-left: 1em;
+				border-left: 2px solid #e6e6e6;
+				color: #606060;
+			}
+			code {
+				font-family: Menlo, Monaco, Consolas, "Lucida Console", monospace;
+				font-size: 85%;
+				margin: 0;
+				hyphens: manual;
+			}
+			pre {
+				margin: 1em 0;
+				overflow: auto;
+			}
+			pre code {
+				padding: 0;
+				overflow: visible;
+				overflow-wrap: normal;
+			}
+			.sourceCode {
+				background-color: transparent;
+				overflow: visible;
+			}
+			hr {
+				border: none;
+				border-top: 1px solid #1a1a1a;
+				height: 1px;
+				margin: 1em 0;
+			}
+			table {
+				margin: 1em 0;
+				border-collapse: collapse;
+				width: 100%;
+				overflow-x: auto;
+				display: block;
+				font-variant-numeric: lining-nums tabular-nums;
+			}
+			table caption {
+				margin-bottom: 0.75em;
+			}
+			tbody {
+				margin-top: 0.5em;
+				border-top: 1px solid #1a1a1a;
+				border-bottom: 1px solid #1a1a1a;
+			}
+			th {
+				border-top: 1px solid #1a1a1a;
+				padding: 0.25em 0.5em 0.25em 0.5em;
+			}
+			td {
+				padding: 0.125em 0.5em 0.25em 0.5em;
+			}
+			header {
+				margin-bottom: 4em;
+				text-align: center;
+			}
+			#TOC li {
+				list-style: none;
+			}
+			#TOC ul {
+				padding-left: 1.3em;
+			}
+			#TOC > ul {
+				padding-left: 0;
+			}
+			#TOC a:not(:hover) {
+				text-decoration: none;
+			}
+			code {
+				white-space: pre-wrap;
+			}
+			span.smallcaps {
+				font-variant: small-caps;
+			}
+			div.columns {
+				display: flex;
+				gap: min(4vw, 1.5em);
+			}
+			div.column {
+				flex: auto;
+				overflow-x: auto;
+			}
+			div.hanging-indent {
+				margin-left: 1.5em;
+				text-indent: -1.5em;
+			}
+			/* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+			ul.task-list[class] {
+				list-style: none;
+			}
+			ul.task-list li input[type="checkbox"] {
+				font-size: inherit;
+				width: 0.8em;
+				margin: 0 0.8em 0.2em -1.6em;
+				vertical-align: middle;
+			}
+		</style>
+		<script
+			src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+			type="text/javascript"
+		></script>
 	</head>
 	<body>
-		<nav>
-			<a class="logo" href="/physics-engine/"> 2D Physics Engine </a>
-			<ul>
-				<li><a href="/physics-engine/">Home</a></li>
-				<li><a href="/physics-engine/about">About</a></li>
-				<li><a href="/physics-engine/project">Project</a></li>
-				<li><a href="/physics-engine/create">Create</a></li>
-				<li><a href="/physics-engine/login">Login</a></li>
-				<li><a href="/physics-engine/signup">Sign Up</a></li>
-			</ul>
-		</nav>
-		<h1>About</h1>
+		<h1 id="phisics-engine">Phisics-Engine</h1>
+		<p>
+			This repository is going to implement a simple physics engine for 2D point
+			mechanics. I am going to use the
+			<a
+				href="https://www.physics.udel.edu/~bnikolic/teaching/phys660/numerical_ode/node4.html"
+				>Euler-Richardson algorithm</a
+			>
+			(RK2) for simplicity. The simple animation is going to go on the browser
+			canvas. The project is going to be part of a mathematics-physics training
+			project for elementary and secondary school pupils.
+		</p>
+		<h2 id="content">Content</h2>
+		<ol type="1">
+			<li><a href="#quick-start-guide">Quick Start Guide</a></li>
+			<li><a href="#sign-up">Sign Up</a></li>
+			<li><a href="#log-in">Log In</a></li>
+			<li><a href="#create-project">Create Project</a></li>
+			<li><a href="#execute-project">Execute Project</a></li>
+			<li><a href="#getting-numeric-results">Numeric Results</a></li>
+			<li><a href="#getting-time-graphs">Time Graphs</a></li>
+		</ol>
+		<h2 id="quick-start-guide">Quick Start Guide</h2>
+		<p>
+			I recommend first to create an account with your email address form the
+			<a href="#sign-up">Sign Up</a> menu. Without creating an account, you
+			still can try the projects and even modify them, but the modifications are
+			local to your computer. You also don’t get refreshed when someone modifies
+			their projects, unlike with an account, because the projects get updated
+			whenever you <a href="#log-in">Log In</a>.
+		</p>
+		<p>
+			After registration, you need to verify your email and you ready to execute
+			the already existing projects or create your own ones. You are also able
+			to publish your projects and share them with other members.
+		</p>
+		<p>
+			To <a href="#execute-project">execute a project</a> you need to go to the
+			home page, where you can navigate between projects with the
+			<strong>Next</strong> and <strong>Back</strong> buttons. Chose your
+			project by clicking on its link then when the page loaded press the
+			<strong>Start</strong> button. You will see an animation, which is the
+			physics simulation. You may see the elapsed time and energy values at
+			top-right corner of the animation window and you can stop it and reset, by
+			the appropriate buttons.
+		</p>
+		<p>
+			The simulations use metric units (m, kg, s, N, J, etc.) for normal
+			simulations and astronomical units for the celestial mechanics
+			simulations, which show planetary orbits around the Sun. For these
+			simulations the unit of time is year and the unit of distance is the
+			astronomical unit, which is the Sun-Earth mean distance (about 150 000
+			000km). The mass unit is the mass of the Sun. In these units the
+			gravitational constant in Newton’s gravity law is about
+			<span class="math inline">\(4\pi^2\)</span> .
+		</p>
+		<p>
+			You can also see a bunch of check-boxes, which control what it shows in
+			the animation window. You can turn off/on the time and energy values in
+			the top-right corner, the unit grid, the force vectors on the bodies and
+			the trajectories of the bodies.
+		</p>
+		<p>
+			You can get <a href="#numerical-results">numerical results</a> by ticking
+			the <strong>Results</strong> checkbox and you are also able to get
+			<a href="#time-graphs">time graphs</a> by ticking the
+			<strong>Graphs</strong> checkbox. The app is able to show 4 different
+			graphs on one page. First you need to pick the maximum 4 different
+			quantities from the numerical results by choosing them with the selector
+			and ticking the <strong>Added to graphs</strong> check-box. You can remove
+			them from the graph from the similar way with unticking the checkbox.
+		</p>
+		<p>
+			After the selection, you need to tick the
+			<strong>Graphs</strong> check-box and run the simulation by clicking the
+			<strong>Start</strong> button. The graph slowly appears as the time
+			elapses.
+		</p>
+		<figure>
+			<img src="../images/project.png" alt="projects page" />
+			<figcaption aria-hidden="true">projects page</figcaption>
+		</figure>
+		<p>
+			To <a href="#create-project">create a project</a> you need to click the
+			<strong>Create</strong> menu in the top navigation and it opens the page.
+			Here you can edit the current project or press the
+			<strong>Create</strong> button to create a new one. This leads to an empty
+			world with some predefined values, which are appropriate for most normal
+			simulation projects.
+		</p>
+		<p>
+			<img src="../images/create1.png" alt="create page scrolled to top" />
+			<img src="../images/create2.png" alt="create page scrolled to bottom" />
+		</p>
+		<p>
+			You can create new points from the points part with the New button and
+			delete them with the Delete button. All the points have an associated
+			number (index) and changing that, we can navigate between the mass points
+			(bodies). We can also edit the parameters of the point, with the given
+			index. The <strong>Point fixed</strong> checkbox creates fixed points,
+			which cannot move at all.
+		</p>
+		<p>
+			The coordinates are in length units and the top-left corner of the
+			simulation window is always the origin. When the x position is growing the
+			point moves to the right, when y is growing it is moving down. The gravity
+			of Earth is pointing down to the y direction.
+		</p>
+		<blockquote>
+			<p>
+				<strong>Caution:</strong> The default value for g is 0, so there is no
+				gravity. You must give the 9.8 parameter for g for normal simulations.
+			</p>
+		</blockquote>
+		<p>
+			The rod is a stiff spring. You can create them by the
+			<strong>New</strong> button delete them by the <strong>Delete</strong>
+			button, similarly to points. You can adjust the stiffness and dumping of
+			these. You also need to specify the indexes of the end points, which the
+			rod connects. All rods have their own index and by ticking the
+			<strong>Is spring</strong> checkbox the graphics will remind for a spring
+			during the simulation.
+		</p>
+		<p>
+			From these elements you can build complex simulations. You can also create
+			periodic force, which effects some point to simulate resonance
+			phenomenons. The frequency of this force can be adjusted between the
+			minimum and maximum value by the range input on the project page meanwhile
+			you are executing the simulation.
+		</p>
+		<p>
+			At the end give a name to the project and a short text description mainly
+			for accessible users, who may not be able to see the animations. Do not
+			forget to press the <strong>Save</strong> button to save the new project.
+		</p>
+		<p>
+			You can publish your project for the other registered users with ticking
+			the <strong>Published</strong> checkbox.
+		</p>
+		<blockquote>
+			<p>
+				<strong>Caution:</strong> You may get error messages if you are not
+				logged in. The browser still saves into local storage, but this gets
+				overwritten if you log in to your account.
+			</p>
+		</blockquote>
+		<h3 id="sample-project-i">Sample Project I</h3>
+		<p>
+			The period of the mathematical pendulum is independent of its amplitude
+			for small amplitudes. What is happening to the period if the amplitude
+			grows and not small at all?
+		</p>
+		<p>
+			To answer this question and practice a bit all of the above, I will make a
+			sample project. We will make two mathematical pendulums, which can hang
+			independently and we can show and compare their x position, depending the
+			time. This way we can answer the question.
+		</p>
+		<ol type="1">
+			<li>Let’s log in to our account.</li>
+			<li>
+				Create a new project (Navigate to create page, press
+				<strong>Create</strong> button)
+			</li>
+			<li>
+				Do not forget to set g to <span class="math inline">\(9.8m/s^2\)</span>
+			</li>
+			<li>
+				Create a fixed point to hang the pendulum(s) at x=3m y=0 position (Press
+				<strong>New</strong> at points, tick
+				<strong>Fixed point</strong> checkbox, fill in x and y)
+			</li>
+			<li>
+				Create a mass point at the x=3m y=3m position and let’s give it
+				vx=0.1m/s vy=0 initial velocity. The m should be 0.1kg (Similar like
+				previously without ticking the checkbox)
+			</li>
+			<li>
+				Connect the two points (index=0 and 1) with a new rod (Press
+				<strong>New</strong> button at rods, make sure elasticity = 10000,
+				beta=100, point1 is 0 and point2 is 1 and length=3m, the
+				<strong>Is spring</strong> checkbox is unticked)
+			</li>
+			<li>
+				Fill in the title and text description and press
+				<strong>Save</strong> button
+			</li>
+			<li>
+				Run it (Navigate to project page, press <strong>Start</strong>) It
+				should be hanging nicely with tiny amplitude
+			</li>
+			<li>
+				Press <strong>Stop</strong> button and navigate back to the create page
+			</li>
+			<li>
+				Create another mass point at x=3m, y=3m position with the same m=0.1kg
+				mass. This has index 2. The vx=5m/s vy=0 are the initial velocity.
+			</li>
+			<li>
+				Add another rod, which connects the points with 0 and 2 indexes. So
+				point1=0, point2=2, elasticity=10000, beta=100, length=3m.
+			</li>
+			<li>
+				Run it again the same way like in 8. The two pendulum is not hanging
+				perfectly synchronously.
+			</li>
+			<li>
+				Press <strong>Stop</strong> button and tick
+				<strong>Results</strong> checkbox
+			</li>
+			<li>
+				New surface appears, navigate to point index 1, choose x position and
+				tick <strong>Added to graphs</strong> checkbox
+			</li>
+			<li>Do the same like in 14. but this time with point index 2</li>
+			<li>
+				Press <strong>switch back</strong> button to make this surface disappear
+			</li>
+			<li>Press <strong>Reset</strong> button to reset the simulation</li>
+			<li>Tick the <strong>Graphs</strong> checkbox</li>
+			<li>
+				Press <strong>Start</strong> button, the graph should appear slowly.
+				It’s clear from the graph that the pendulum with the large amplitude has
+				slightly bigger period. This answers the question, so the period of the
+				mathematical pendulum grows with the amplitude.
+			</li>
+		</ol>
+		<h3 id="sample-project-ii">Sample Project II</h3>
+		<p>
+			There is a 0.1kg mass point, which can slide on a horizontal surface. It
+			starts in a rest position. There is a 1N constant horizontal force
+			accelerates it for 1s then the friction slows it down until it stops. How
+			much is the achieved speed at the acceleration? How long is the path until
+			it achieves this speed? How long it takes the friction to stop the mass
+			point again? How far the mass point gets from the starting point? The
+			friction coefficient is 0.3.
+		</p>
+		<p>
+			Let’s solve the problem with a calculation first. The normal force
+			balances the gravity:/
+		</p>
+		<p>
+			<span class="math display"
+				>\[N = mg = 0.1kg\times 9.81m/s^2 = 0.981N\]</span
+			>
+		</p>
+		<p>The friction force:/</p>
+		<p>
+			<span class="math display"
+				>\[F_f = \mu \times N = 0.3 \times 0.981N = 0.2943N\]</span
+			>
+		</p>
+		<p>The accelerating force:/</p>
+		<p>
+			<span class="math display"
+				>\[F = F_c - F_f = 1N - 0.2943N = 0.7057N\]</span
+			>
+		</p>
+		<p>The achieved speed:/</p>
+		<p>
+			<span class="math display"
+				>\[v = \Delta v = a\times t = F/m\times t=0.7057N/0.1kg\times
+				1s=7.057m/s\]</span
+			>
+		</p>
+		<p>The length of path at acceleration:/</p>
+		<p>
+			<span class="math display"
+				>\[s_1=\frac{a}{2}t^2 =7.057m/s^2/2 \times 1s^2=3.5285m\]</span
+			>
+		</p>
+		<p>The deceleration from friction:/</p>
+		<p>
+			<span class="math display"
+				>\[a=\frac{F_f}{m}=\frac{-0.2943N}{0.1kg}=-2.943m/s^2\]</span
+			>
+		</p>
+		<p>The elapsed time until stop:/</p>
+		<p>
+			<span class="math display"
+				>\[t=\frac{\Delta v}{a}=\frac{-7.057m/s}{-2.943m/s^2}=2.3979s\]</span
+			>
+		</p>
+		<p>The length of path during deceleration:/</p>
+		<p>
+			<span class="math display"
+				>\[s_2=v_0t+\frac{a}{2}t^2=7.057m/s\times
+				2.3979s+\frac{-2.943m/s^2}{2}\times (2.3979s)^2=8.4610m\]</span
+			>
+		</p>
+		<p>The full path:/</p>
+		<p>
+			<span class="math display"
+				>\[s = s_1 + s_2 = 3.5285m + 8.461m = 11.9895m\]</span
+			>
+		</p>
+		<p>Let’s make the project:</p>
+		<ol type="1">
+			<li>
+				Create project (go to create page and press
+				<strong>Create</strong> button)
+			</li>
+			<li>
+				Add title and short description and save it (press
+				<strong>Save</strong> button)
+			</li>
+			<li>Add 9.81 to g</li>
+			<li>
+				Change scale to 0.025, dt to 0.000001 and anim time to
+				0.003333333333333333
+			</li>
+			<li>
+				Make a fixed point at x=0, y=3 (Click <strong>New</strong> button at
+				Points and input the coordinates then tick
+				<strong>Point fixed</strong> checkbox)
+			</li>
+			<li>Make a fixed point at x=15, y=3 (Do the same as in 5, but x=15)</li>
+			<li>
+				Make a rod between points 0 and 1 (Click <strong>New</strong> and rods,
+				make sure that length is 15 and point1 is 0 and point2 is 1. Also make
+				sure that elastic constant is 10000 and beta 100)
+			</li>
+			<li>
+				Make a sliding point at x=0, y=2.9. m=0.1 and it is not fixed. (Press
+				<strong>New</strong> at Points then give all the details and make sure
+				the <strong>Point fixed</strong> checkbox is unticked)
+			</li>
+			<li>
+				Turn on point-rod collisions and add friction (tick the
+				<strong>body-rod collisions on</strong> checkbox and add 100 value
+				point-rod coll. beta. You also add 0.3 to point-rod coll. mu)
+			</li>
+			<li>
+				Create a 1N constant external force, which effects the 2nd point for 1s
+				(Set the following data in periodic external force: point = 2, t min =
+				0, t max = 1, freq min = 0, freq max = 0, F0x = 1, fix = 1.570796, F0y =
+				0, fiy = 0 then tick the <strong>Is on</strong> checkbox)
+			</li>
+			<li>
+				Tick the <strong>show time</strong>, <strong>show grid</strong>,
+				<strong>show force</strong> and <strong>show energy</strong> checkboxes
+				to visualize data in simulation window
+			</li>
+			<li>
+				Run the simulation (navigate to project page and press
+				<strong>Start</strong> button)
+			</li>
+			<li>
+				You can see that the point gets to rest after about 12m horizontal
+				movement, which takes about 3.5s. Check this exactly. (press
+				<strong>Stop</strong> when the sliding point is in rest, choose point 2,
+				you can see x or path length is 11.9805 in exact agreement with our
+				calculations)
+			</li>
+			<li>
+				Make t graphs of x, vx, ax od point 2 and Fx from periodic external
+				force. (Press <strong>Stop</strong> then <strong>Reset</strong> buttons.
+				Tick <strong>Results</strong> checkbox. Choose point 2. Pick x and tick
+				<strong>Added to graph</strong> checkbox. Do the same with vx and ax.
+				Choose periodic external force. Choose Fx and tick
+				<strong>Added to graph</strong> checkbox. Tick the
+				<strong>Is origin centered</strong> checkbox. Press
+				<strong>switch back</strong> button. Tick
+				<strong>Graphs</strong> checkbox and press
+				<strong>Start</strong> button) You can see the above graphs slowly
+				appear.
+			</li>
+		</ol>
+		<figure>
+			<img
+				src="../images/sample-project-2.png"
+				alt="x, vx, ax and Fx in the function of t"
+			/>
+			<figcaption aria-hidden="true">
+				x, vx, ax and Fx in the function of t
+			</figcaption>
+		</figure>
+		<h3 id="sample-project-iii">Sample Project III*</h3>
+		<blockquote>
+			<p>
+				<strong>Caution*</strong> This project is for people, who know well the
+				basic trigonometry.
+			</p>
+		</blockquote>
+		<p>
+			There is an incline, which has 30degrees with the horizontal direction.
+			How far the mass point goes on the incline when its initial speed is 3m/s?
+			How high it gets when it turns back? How much is the magnitude of its
+			acceleration and the sum of the forces effect it? How much is the normal
+			force? The friction is negligible and the mass of the point is 0.1kg.
+		</p>
+		<p>
+			Let’s first do a calculation and we can verify it by a simulation. The sum
+			of forces is:<br />
+		</p>
+		<p><span class="math display">\[ F=mgsin\alpha \]</span></p>
+		<p>In this case it’s:<br /></p>
+		<p>
+			<span class="math display"
+				>\[ F = 0.1kg \times 9.81m/s^2\times sin 30=0.4905N \]</span
+			>
+		</p>
+		<p>The magnitude of acceleration:<br /></p>
+		<p><span class="math display">\[ F = ma \]</span></p>
+		<p>
+			<span class="math display">\[ a=F/m=0.4905N/0.1kg=4.905m/s^2 \]</span>
+		</p>
+		<p>
+			The time of deceleration is the same as the time of acceleration, so<br />
+		</p>
+		<p><span class="math display">\[ a = |\Delta v|/t \]</span></p>
+		<p>
+			<span class="math display"
+				>\[ t=|\Delta v|/a=v/a=\frac{3m/s}{4.905m/s^2}=0.61162s \]</span
+			>
+		</p>
+		<p>The length of path during this time<br /></p>
+		<p>
+			<span class="math display"
+				>\[ s=a/2\times t^2 = 4.905m/s^2/2\times (0.61162s)^2=0.9174m \]</span
+			>
+		</p>
+		<p>The achieved height is<br /></p>
+		<p>
+			<span class="math display"
+				>\[ h = s\times sin\alpha = 0.9174 \times 0.5 = 0.4587m \]</span
+			>
+		</p>
+		<p>
+			We should get these details from a simulation too. Let’s make the
+			simulation. The first endpoint of the incline will be x0=1m and y0=3m.
+			Let’s choose the length of the incline l=2m. Let’s calculate the other
+			endpoint:<br />
+		</p>
+		<p>
+			<span class="math display"
+				>\[ x_1 = x_0 + l\times cos\alpha = 1m + 2m \times cos 30 = 2.732051m
+				\]</span
+			>
+		</p>
+		<p>
+			<span class="math display"
+				>\[ y_1 = y_0 -l\times sin\alpha = 3m - 2m \times sin 30 = 2m \]</span
+			>
+		</p>
+		<p>
+			Now we calculate the position of the mass point at the start, when its
+			radius = 0.1m.<br />
+		</p>
+		<p>
+			<span class="math display"
+				>\[ x_2 = x_0 - r \times sin\alpha = 1m - 0.1m\times sin30 = 0.95m
+				\]</span
+			>
+		</p>
+		<p>
+			<span class="math display"
+				>\[ y_2 = y_0 - r \times cos\alpha = 3m - 0.1m\times cos30 = 2.9134m
+				\]</span
+			>
+		</p>
+		<p>
+			We also need to calculate the component of the initial velocity:<br />
+		</p>
+		<p>
+			<span class="math display"
+				>\[ v_x = v_0 \times cos \alpha = 3m/s \times cos 30 = 2.598076m/s
+				\]</span
+			>
+		</p>
+		<p>
+			<span class="math display"
+				>\[ v_y = v_0\times sin\alpha = 3m/s\times sin30 = 1.5m/s \]</span
+			>
+		</p>
+		<p>Now we have all the details for making the simulation.</p>
+		<ol type="1">
+			<li>
+				Create a new project (Choose <strong>Create</strong> menu at top bar
+				then press <strong>Create</strong> button)
+			</li>
+			<li>Add 9.81 to g</li>
+			<li>
+				Press the <strong>New</strong> button at points to create the bottom
+				point of the incline. Set x=1 and y=3 then tick
+				<strong>Point fixed</strong> checkbox.
+			</li>
+			<li>
+				Press the <strong>New</strong> button again to create the top point of
+				the incline. Set x=2.732051 and y=2 then tick
+				<strong>Point fixed</strong> checkbox again.
+			</li>
+			<li>
+				Now press the <strong>New</strong> button at rods to create the actual
+				incline. Make sure it has point1=0 and point2=1, so it connects the
+				previous points. The length=2 and elasticity=10000 and beta=100.
+			</li>
+			<li>
+				Press <strong>New</strong> button again at points to create the sliding
+				mass point. Set m=0.1 x=0.95 y=2.9134 and tick
+				<strong>Is path visible</strong> checkbox to show the path. Set
+				vx=2.598076 and vy=-1.5. vy must be negative, because the point goes up
+				but y grows downwards.
+			</li>
+			<li>Name the project and write a short text description.</li>
+			<li>
+				Tick the <strong>show time</strong>, <strong>show grid</strong>,
+				<strong>show force</strong> and <strong>show energy</strong> checkboxes
+				to see more data during the simulation.
+			</li>
+			<li>
+				Do not forget to tick the <strong>body-rod collision on</strong>
+				checkbox. This makes sure, that the point won’t ignore the incline, so
+				the system calculates the forces between them. Make sure that
+				<strong>collision k</strong> parameter is 10000 and
+				<strong>point-rod coll. beta</strong> is 100. These are the elasticity
+				and damping constants of the collision between the rod and the mass
+				point.
+			</li>
+			<li>
+				Click the <strong>project</strong> link in the top bar and the
+				<strong>Start</strong> button to run the simulation. It runs quite fast.
+			</li>
+		</ol>
+		<blockquote>
+			<p>
+				<strong>Tip</strong> The project runs quite fast, but we can slow it
+				down by changing the <strong>dt</strong> and
+				<strong>anim time</strong> parameters in the same ratio. If for example
+				we choose dt=1e-7 and anim time=0.0003333333333 it slows down everything
+				100 times. We should keep the ratio of these parameters the same as the
+				original setup was.
+			</p>
+		</blockquote>
+		<ol start="11" type="1">
+			<li>
+				Now we can get some graphs. Press <strong>Stop</strong> button and
+				<strong>Reset</strong> button then tick the
+				<strong>Results</strong> checkbox.
+			</li>
+			<li>
+				Choose index 2 for the point then select
+				<strong>path length</strong> and tick
+				<strong>Added to graphs</strong> checkbox.
+			</li>
+			<li>
+				Select <strong>v</strong> then tick
+				<strong>Added to graphs</strong> checkbox again
+			</li>
+			<li>
+				Click <strong>switch back</strong> button and tick
+				<strong>Graphs</strong> checkbox then click the
+				<strong>Start</strong> button to get the graphs. We get the below graph:
+			</li>
+		</ol>
+		<figure>
+			<img src="../images/sv-tgraphs.png" alt="s and v in function of time" />
+			<figcaption aria-hidden="true">s and v in function of time</figcaption>
+		</figure>
+		<p>
+			The red curve is the path length, which changes very slowly around the
+			time, when the body turns its direction of movement. The green v-shaped
+			line is the speed. It goes down to zero and up when the body goes back to
+			its original position. The turning point is when v=0. We see that the
+			values, what we can read from the graph are in consistency with our
+			calculation, although graph readings have limited accuracies.
+		</p>
+		<ol start="15" type="1">
+			<li>
+				Untick the <strong>Graphs</strong> checkbox then press
+				<strong>Reset</strong> and <strong>Start</strong>
+			</li>
+			<li>Press <strong>Stop</strong> when the time is 0.611 roughly</li>
+			<li>
+				Tick <strong>Results</strong> checkbox and choose 2 for point index. The
+				sliding point is red now, which means it’s selected and we can see its
+				numerical values. Thepath length=0.9174, a=4.905 and v is nearly 0 in
+				full agreement with our calculations. We can read y=2.4548.
+			</li>
+		</ol>
+		<p>/</p>
+		<p>
+			<span class="math display"
+				>\[ h=|\Delta y| = |y - y_0| = |2.4548 - 2.9134| = 0.4586m \]</span
+			>
+		</p>
+		<p>This is again in full agreement with our calculations.</p>
+		<h2 id="sign-up">Sign Up</h2>
+		<p>
+			You can create an account from here, if you do not have one. You just need
+			to fill in a form. You need a valid email address, because you will
+			receive a verification email and you need to click on the link to verify
+			your email address. The form to fill in has the following fields: email,
+			password, confirm psw, first name, last name. The first and last names are
+			optional. <img src="./images/signup.png" alt="sign up form" />
+		</p>
+		<h2 id="log-in">Log In</h2>
+		<blockquote>
+			<p>
+				<strong>Caution</strong> When you are logged in, but getting access
+				denied errors, the validity of your token has expired. In a case like
+				this you must log out at the home page and log in again.
+			</p>
+		</blockquote>
+		<p>
+			The form has the email and the password fields. You also can get to the
+			sign up page from here if you don’t have an account yet. At successful
+			login you get a confirmation with a button, which redirects you to the
+			home page. There is a link, for the case you have forgotten your password.
+			It will send you an email with a link, which makes you possible to make a
+			new password.
+		</p>
+		<figure>
+			<img src="../images/login.png" alt="log in form" />
+			<figcaption aria-hidden="true">log in form</figcaption>
+		</figure>
+		<h2 id="create-project">Create Project</h2>
+		<p>
+			Creating simulation projects means that we specify the general simulation
+			parameters and the initial conditions of all the points and rods, which
+			build up the simulations. Rods are very stiff springs. What kind of forces
+			do we have?
+		</p>
+		<ol type="1">
+			<li>
+				<strong>Gravity</strong> It’s the force, which pulls downwards each
+				bodies close to the surface of the Earth. This is the force we calculate
+				with the formula
+				<span class="math inline">\(F_g = m \times g\)</span> and this force
+				always points downwards, which in our simulations the y direction. We
+				can adjust the value of g as a general parameter. For celestial
+				mechanics simulations there is an attracting force between each pair of
+				bodies, which we calculate with Newton’s formula:
+				<span class="math inline">\(F_g = G \frac{m_1m_2}{r^2}\)</span> In this
+				formula <span class="math inline">\(m_1\)</span> and
+				<span class="math inline">\(m_2\)</span> are the masses and r is the
+				distance between them. The units are astronomical units, so
+				<span class="math inline">\(G=4\pi^2\)</span>, the distance unit is the
+				Sun-Earth medium distance (150 000 000km) and the mass unit is the mass
+				of the Sun. The time unit is the year.
+			</li>
+		</ol>
+		<blockquote>
+			<p>
+				<strong>Caution</strong> For celestial mechanics simulations you have to
+				choose celestial mechanics for <strong>simulation type</strong>. The
+				default value is normal simulation, which means experiments either in no
+				gravity or close to the surface of the Earth as we have all got used to
+				it.
+			</p>
+		</blockquote>
+		<blockquote>
+			<p>
+				<strong>Caution</strong> For celestial mechanics simulations you may
+				need to specify the appropriate force multiplier. The number of the
+				force in astronomical units can be tiny, like 5e-5, so we need to
+				multiply it to make it visible when you try to visualize it in the
+				simulation or graph.
+			</p>
+		</blockquote>
+		<ol start="2" type="1">
+			<li>
+				<strong>Elastic and dumping forces</strong> between points, which are
+				connected by a rod. The rod follows Hook’s law.
+				<span class="math inline"
+					>\(F_e = -k \Delta l = -k \times (l - l_0)\)</span
+				>
+				The force is proportional with the deformation, the k constant is the
+				elastic constant. The minus sign expresses that the elastic force tries
+				to decrease the deformation. The damping force is a velocity dependent
+				force, which depends on the relative velocity of the end points. If this
+				relative velocity has parallel component by the rod, the damping force
+				is <span class="math inline">\(F_d = -\beta v_r\)</span>, where
+				<span class="math inline">\(\beta\)</span> is the damping constant,
+				<span class="math inline">\(v_r\)</span> is the relative velocity
+				component, parallel with the rod. The minus sign expresses that its
+				direction is so that it always decreases the relative velocity
+				component.
+			</li>
+			<li>
+				<strong>Collision forces</strong> You can allow collisions between
+				points and between points and rods. In both cases we imitate the
+				collision force with elastic force. This is how we deal with the normal
+				force on inclines for example. There is dumping on the calculation of
+				these forces too.
+			</li>
+			<li>
+				<strong>Friction forces</strong> If you specify more than 0 for the
+				<span class="math inline">\(\mu\)</span> (mu) either for point-point
+				collisions or point-body collisions, we have the Coulomb-model of
+				friction forces. The friction force is trying to decrease the relative
+				velocity, so it points to the opposite direction and parallel with the
+				surface (tangential direction). If the relative velocity is zero, we get
+				static friction. The static friction can be calculated from the
+				condition that the relative acceleration is zero, so the net force
+				should produce the acceleration, which the surface point, If the
+				friction is dynamic, the value of the force is
+				<span class="math inline">\(F_f = \mu \times N\)</span> In this formula
+				N is the normal-force and <span class="math inline">\(\mu\)</span> is
+				the friction coefficient, which is usually maximum 1. The value depends
+				on the surfaces mainly, both the materials and the smoothness of the
+				surface effects it.
+			</li>
+			<li>
+				<strong>Periodic External Force</strong> We can also add some periodic
+				external force to effect one point. This is mainly useful to check
+				resonance phenomenons. This force starts at some point in time and stops
+				at a later point in time. We define it by its components, like the
+				following formulas: /
+			</li>
+		</ol>
+		<p>
+			<span class="math display"
+				>\[ F_x = F_0,_x sin (\omega t + \phi_x) \]</span
+			>
+		</p>
+		<p>
+			<span class="math display"
+				>\[ F_y = F_0,_y sin(\omega t + \phi_y) \]</span
+			>
+		</p>
+		<p><span class="math display">\[ \omega = 2\pi f \]</span></p>
+		<p>
+			Here f is the frequency, which is between the min and max values and it
+			can be adjusted real time with a range input, when you run the simulation.
+		</p>
+		<blockquote>
+			<p>
+				<strong>Tip</strong> You can add a constant force to a point for a
+				certain amount of time, because f can be zero and the phase factors can
+				make the sin functions 1.
+			</p>
+		</blockquote>
+		<p>
+			6.<strong>Air resistance</strong> You can add air resistance to the points
+			with specifying the drag coefficient above 0. It’s usually 0.47 for
+			spherical bodies under normal circumstances. The force, effecting the
+			spherical bodies, is /
+		</p>
+		<p>
+			<span class="math display">\[ F_d = \frac {1} {2} \rho v^2 C_d A \]</span>
+		</p>
+		<p>
+			<span class="math inline">\(C_d\)</span> is the drag coefficient, usually
+			0.47 for smooth spheres, although it changes for very high speeds or very
+			low speeds. It also depends on the shape of the bodies, hence the car can
+			be designed to have a low drag coefficient to reduce air resistance. A is
+			the area what the flow “sees”, so for a sphere it’s
+			<span class="math inline">\(A = R^2 \pi\)</span> if the radius is R.
+		</p>
+		<p>
+			<img src="../images/create1.png" alt="create page scrolled to top" />
+			<img src="../images/create2.png" alt="create page scrolled to bottom" />
+		</p>
+		<p>
+			The forms, can be used to define the simulation parameters, the mass
+			points or the rods are pretty straightforward. You need to specify all the
+			points and rods for the simulations. The forms also specify the above
+			parameters and the initial conditions. For celestial mechanics rods are
+			not necessary, because the only important force between the points is
+			gravity.
+		</p>
+		<p>
+			We still have to mention the <strong>Copy</strong> and
+			<strong>Delete</strong> buttons, beside the <strong>Save</strong> and
+			<strong>Create</strong> buttons. With the <strong>Copy</strong> button, we
+			can copy an existing project as our own to modify it. The
+			<strong>Delete</strong> button can delete our projects.
+		</p>
+		<h2 id="execute-project">Execute Project</h2>
+		<p>
+			You navigate to the project page and press the
+			<strong>Start</strong> button. You can also stop or reset the project with
+			the relevant buttons. The <strong>Zoom In</strong> and
+			<strong>Zoom Out</strong> buttons can zoom in and out of the world view,
+			although the origin of the coordinate system stays in the top-left corner.
+			We can turn on and off some visualisations with the checkboxes, like
+			<strong>Grid</strong>, <strong>Time</strong>, <strong>Force</strong> and
+			<strong>Energy</strong>. The <strong>Graph</strong> checkbox changes the
+			view to show the graphs instead of the simulation. The
+			<strong>Results</strong> checkbox is used to show a piece of UI, which
+			shows all the important numerical results and you can also pick the
+			quantities you can see on the graphs.
+			<img src="../images/project.png" alt="project view" />
+		</p>
+		<h2 id="numeric-results">Numeric Results</h2>
+		<p>
+			You normally stop the project by clicking the <strong>Stop</strong> button
+			and tick the <strong>Results</strong> checkbox. This opens up a piece of
+			UI, where you can pick an element of the simulation (a point or a rod) or
+			you just get an overview of the simulation parameters, like time or g.
+			<img src="../images/results.png" alt="numeric results" /> Whatever element
+			you select, it’s going to be red in the simulation view. You can also view
+			the collision and friction forces regarding the selected element. On the
+			image, we can see the
+			<a href="#sample-project-ii">Sample Project II</a> numeric results. The
+			rod (incline) and its collision with the 2nd point (the sliding one) has
+			been chosen. We can read the N (normal force) and the F (friction force).
+		</p>
+		<h2 id="time-graphs">Time Graphs</h2>
+		<p>
+			When you go to the <a href="#numeric-results">Numeric Results</a> you can
+			choose maximum 4 parameters, which can be shown as the function of time on
+			a graph. These can be anything available on the select element, like the x
+			coordinate of the 5th point or the acceleration of the 6th point. It also
+			can be the periodic external force or the normal force between the 0th rod
+			and the 2nd point. When you have chosen the parameters, you can view the
+			graphs by pressing the <strong>switch back</strong> button and tick the
+			<strong>Graphs</strong> checkbox. This makes the animation disappear in
+			the simulation window. If you press the <strong>Start</strong> button, you
+			see the graphs gradually appear as the simulation progresses. The origin
+			is the bottom-left corner, we can magnify by the
+			<strong>Zoom In</strong> and <strong>Zoom Out</strong> buttons, but we
+			cannot change the position of the origin, unless we tick on the results
+			page the <strong>Is origin centered</strong> checkbox. This centres the
+			origin on the y axis, so we can see if a parameter negative.
+		</p>
+		<blockquote>
+			<p>
+				<strong>Caution</strong> The path is not going to be recorded when the
+				simulation is drawing the graphs. If you untick the
+				<strong>Graphs</strong> checkbox you will see inaccurate paths. You must
+				reset and rerun the simulation to see the correct paths.
+			</p>
+		</blockquote>
 	</body>
 </html>
