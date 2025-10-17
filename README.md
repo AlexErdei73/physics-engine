@@ -215,6 +215,44 @@ $$
 s = s_1 + s_2 = 3.5285m + 8.461m = 11.9895m
 $$
 
+Let's make the project:
+
+1. Create project (go to create page and press **Create** button)
+2. Add title and short description and save it (press **Save** button)
+3. Add 9.81 to g
+4. Change scale to 0.025, dt to 0.000001 and anim time to 0.003333333333333333
+5. Make a fixed point at x=0, y=3 (Click **New** button at Points and input the
+   coordinates then tick **Point fixed** checkbox)
+6. Make a fixed point at x=15, y=3 (Do the same as in 5, but x=15)
+7. Make a rod between points 0 and 1 (Click **New** and rods, make sure that
+   length is 15 and point1 is 0 and point2 is 1. Also make sure that elastic
+   constant is 10000 and beta 100)
+8. Make a sliding point at x=0, y=2.9. m=0.1 and it is not fixed. (Press **New**
+   at Points then give all the details and make sure the **Point fixed**
+   checkbox is unticked)
+9. Turn on point-rod collisions and add friction (tick the **body-rod collisions
+   on** checkbox and add 100 value point-rod coll. beta. You also add 0.3 to
+   point-rod coll. mu)
+10. Create a 1N constant external force, which effects the 2nd point for 1s (Set
+    the following data in periodic external force: point = 2, t min = 0, t max =
+    1, freq min = 0, freq max = 0, F0x = 1, fix = 1.570796, F0y = 0, fiy = 0
+    then tick the **Is on** checkbox)
+11. Tick the **show time**, **show grid**, **show force** and **show energy**
+    checkboxes to visualize data in simulation window
+12. Run the simulation (navigate to project page and press **Start** button)
+13. You can see that the point gets to rest after about 12m horizontal movement,
+    which takes about 3.5s. Check this exactly. (press **Stop** when the sliding
+    point is in rest, choose point 2, you can see x or path length is 11.9805 in
+    exact agreement with our calculations)
+14. Make t graphs of x, vx, ax od point 2 and Fx from periodic external force.
+    (Press **Stop** then **Reset** buttons. Tick **Results** checkbox. Choose
+    point 2. Pick x and tick **Added to graph** checkbox. Do the same with vx
+    and ax. Choose periodic external force. Choose Fx and tick **Added to
+    graph** checkbox. Tick the **Is origin centered** checkbox. Press **switch back** button. Tick **Graphs** checkbox and
+    press **Start** button) You can see the above graphs slowly appear.
+
+![x, vx, ax and Fx in the function of t](./images/sample-project-2.png)
+
 ### Sample Project III\*
 
 > **Caution\*** This project is for people, who know well the basic
