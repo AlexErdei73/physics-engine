@@ -14,8 +14,8 @@ elementary and secondary school pupils.
 3. [Log In](#log-in)
 4. [Create Project](#create-project)
 5. [Execute Project](#execute-project)
-6. [Numeric Results](#getting-numeric-results)
-7. [Time Graphs](#getting-time-graphs)
+6. [Numeric Results](#numeric-results)
+7. [Time Graphs](#time-graphs)
 
 ## Quick Start Guide
 
