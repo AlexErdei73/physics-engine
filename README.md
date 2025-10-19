@@ -163,39 +163,42 @@ point gets from the starting point? The friction coefficient is 0.3.
 Let's solve the problem with a calculation first. The normal force balances the
 gravity:/
 
-$$N = mg = 0.1kg\times 9.81m/s^2 = 0.981N$$
+$$N = mg = 0.1\times 9.81 = 0.981N$$
 
 The friction force:/
 
-$$F_f = \mu \times N = 0.3 \times 0.981N = 0.2943N$$
+$$F_f = \mu \times N = 0.3 \times 0.981 = 0.2943N$$
 
 The accelerating force:/
 
-$$F = F_c - F_f = 1N - 0.2943N = 0.7057N$$
+$$F = F_c - F_f = 1 - 0.2943 = 0.7057N$$
+
+The acceleration:/ $$a = F/m = 0.7057/0.1 = 7.057m/s^2$$
 
 The achieved speed:/
 
-$$v = \Delta v = a\times t = F/m\times t=0.7057N/0.1kg\times 1s=7.057m/s$$
+$$v = \Delta v = a\times t = 7.057 \times 1=7.057m/s$$
 
 The length of path at acceleration:/
 
-$$s_1=\frac{a}{2}t^2 =7.057m/s^2/2 \times 1s^2=3.5285m$$
+$$s_1=\frac{a}{2}t^2 =7.057/2 \times 1=3.5285m$$
 
 The deceleration from friction:/
 
-$$a=\frac{F_f}{m}=\frac{-0.2943N}{0.1kg}=-2.943m/s^2$$
+$$a=\frac{F_f}{m}=\frac{-0.2943}{0.1}=-2.943m/s^2$$
 
 The elapsed time until stop:/
 
-$$t=\frac{\Delta v}{a}=\frac{-7.057m/s}{-2.943m/s^2}=2.3979s$$
+$$t=\frac{\Delta v}{a}=\frac{-7.057}{-2.943}=2.3979s$$
 
 The length of path during deceleration:/
 
-$$s_2=v_0t+\frac{a}{2}t^2=7.057m/s\times 2.3979s+\frac{-2.943m/s^2}{2}\times (2.3979s)^2=8.4610m$$
+$$s_2=v_0t+\frac{a}{2}t^2$$
+$$s_2=7.057\times 2.3979+\frac{-2.943}{2}\times 2.3979^2$$ $$s_2=8.4610m$$
 
 The full path:/
 
-$$s = s_1 + s_2 = 3.5285m + 8.461m = 11.9895m$$
+$$s = s_1 + s_2$$ $$s = 3.5285 + 8.461 = 11.9895m$$
 
 Let's make the project:
 
@@ -257,7 +260,7 @@ $$
 In this case it's:\
 
 $$
-F = 0.1kg \times 9.81m/s^2\times sin 30=0.4905N
+F = 0.1 \times 9.81 \times sin 30=0.4905N
 $$
 
 The magnitude of acceleration:\
@@ -267,7 +270,7 @@ F = ma
 $$
 
 $$
-a=F/m=0.4905N/0.1kg=4.905m/s^2
+a=F/m=0.4905/0.1=4.905m/s^2
 $$
 
 The time of deceleration is the same as the time of acceleration, so\
@@ -277,19 +280,27 @@ a = |\Delta v|/t
 $$
 
 $$
-t=|\Delta v|/a=v/a=\frac{3m/s}{4.905m/s^2}=0.61162s
+t=|\Delta v|/a=v/a=\frac{3}{4.905}=0.61162s
 $$
 
 The length of path during this time\
 
 $$
-s=a/2\times t^2 = 4.905m/s^2/2\times (0.61162s)^2=0.9174m
+s=a/2\times t^2 = 4.905^2/2\times 0.61162^2
+$$
+
+$$
+s=0.9174m
 $$
 
 The achieved height is\
 
 $$
-h = s\times sin\alpha = 0.9174 \times 0.5 = 0.4587m
+h = s\times sin\alpha = 0.9174 \times 0.5
+$$
+
+$$
+h = 0.4587m
 $$
 
 We should get these details from a simulation too. Let's make the simulation.
@@ -297,32 +308,48 @@ The first endpoint of the incline will be x0=1m and y0=3m. Let's choose the
 length of the incline l=2m. Let's calculate the other endpoint:\
 
 $$
-x_1 = x_0 + l\times cos\alpha = 1m + 2m \times cos 30 = 2.732051m
+x_1 = x_0 + l\times cos\alpha
 $$
 
 $$
-y_1 = y_0 -l\times sin\alpha = 3m - 2m \times sin 30 = 2m
+x_1 = 1 + 2cos 30 = 2.732051m
+$$
+
+$$
+y_1 = y_0 -l\times sin\alpha
+$$
+
+$$
+y_1 = 3 - 2sin 30 = 2m
 $$
 
 Now we calculate the position of the mass point at the start, when its radius =
 0.1m.\
 
 $$
-x_2 = x_0 - r \times sin\alpha = 1m - 0.1m\times sin30 = 0.95m
+x_2 = x_0 - r \times sin\alpha
 $$
 
 $$
-y_2 = y_0 - r \times cos\alpha = 3m - 0.1m\times cos30 = 2.9134m
+x_2 = 1-0.1msin30 = 0.95m
+$$
+
+$$
+y_2 = y_0 - r \times cos\alpha
+$$
+
+$$
+y_2 = 3-0.1cos30 = 2.9134m
 $$
 
 We also need to calculate the component of the initial velocity:\
 
 $$
-v_x = v_0 \times cos \alpha = 3m/s \times cos 30 = 2.598076m/s
+v_x = v_0 \times cos \alpha = 3cos 30 = 2.598076m/s
 $$
 
 $$
-v_y = v_0\times sin\alpha = 3m/s\times sin30 = 1.5m/s
+v_y = v_0\times sin\alpha = 3sin30 = 1.5m/s
 $$
 
 Now we have all the details for making the simulation.
@@ -385,7 +412,11 @@ readings have limited accuracies.
 /
 
 $$
-h=|\Delta y| = |y - y_0| = |2.4548 - 2.9134| = 0.4586m
+h=|\Delta y| = |y - y_0|
+$$
+
+$$
+h== |2.4548 - 2.9134| = 0.4586m
 $$
 
 This is again in full agreement with our calculations.
