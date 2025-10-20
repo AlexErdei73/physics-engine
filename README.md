@@ -412,11 +412,11 @@ readings have limited accuracies.
 /
 
 $$
-h=|\Delta y| = |y - y_0|
+h=|\Delta y|=|y - y_0|
 $$
 
 $$
-h== |2.4548 - 2.9134| = 0.4586m
+h=|2.4548 - 2.9134|=0.4586m
 $$
 
 This is again in full agreement with our calculations.
