@@ -208,6 +208,10 @@ dialog::backdrop {
 	display: none;
 }
 
+.hide {
+	visibility: hidden;
+}
+
 #res-peeking {
 	justify-content: center;
 	align-items: start;

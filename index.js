@@ -52,9 +52,15 @@ async function populateCanvases() {
 		reset(canvas);
 		figcap.textContent = initialState.name;
 		canvas.textContent = initialState.description;
+		figcap.classList.remove('hide');
+		canvas.classList.remove('hide');
 		const anchor = document.querySelector(`#a-${i}`);
 		anchor.href = `${BASE_URL}project#${projectNumber}`;
-		if (projectNumber >= projects.length) anchor.href = `${BASE_URL}project`;
+		if (projectNumber >= projects.length) {
+			anchor.href = `${BASE_URL}project`;
+			canvas.classList.add('hide');
+			figcap.classList.add('hide');
+		}
 	}
 }
 
