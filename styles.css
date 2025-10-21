@@ -32,6 +32,10 @@ body {
 	font-size: 200%;
 }
 
+#about-page ol li {
+	margin: 0.35em;
+}
+
 nav {
 	position: fixed;
 	top: 0;
@@ -189,6 +193,10 @@ figure canvas {
 
 figcaption {
 	text-align: center;
+}
+
+a figcaption, #frm-login a {
+	background-color: lightgray;
 }
 
 dialog {
