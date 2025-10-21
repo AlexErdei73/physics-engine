@@ -1,8 +1,15 @@
+html {
+	background-color: lightgray;
+}
+
 body {
 	background-color: darkgray;
-	margin: 0;
+	margin: 0 auto;
 	padding: 0;
-	margin-top: 4em;
+	padding-top: 4em;
+	padding-bottom: 1em;
+	max-width: 100rem;
+	min-height: 100vh;
 }
 
 #about-page {
@@ -11,7 +18,9 @@ body {
 
 #about-page > body {
 	background-color: inherit;
-	margin: 4em auto;
+	margin: 0 auto;
+	padding-left: 50px;
+	padding-right: 50px;
 }
 
 #about-page blockquote {
@@ -34,6 +43,7 @@ nav {
 	justify-content: space-between;
 	background-color: rgb(81, 81, 81);
 	color: whitesmoke;
+	max-width: 100rem;
 }
 
 h1 {
@@ -279,5 +289,20 @@ nav a:visited {
 
 	.ctrl-container fieldset {
 		margin: 0 auto;
+	}
+}
+
+@media (min-width: 100rem) {
+	nav {
+		left: calc(50vw - 50rem);
+	}
+
+	#about-page {
+		background-color: white;
+	}
+
+	#about-page > body {
+		max-width: calc(100rem - 100px);
+		background-color: lightgray;
 	}
 }
