@@ -448,10 +448,12 @@ function addGraphPoint(state, i) {
 			const { x: x2, y: y2 } = points[point2];
 			const l = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 			y = l;
-		} else if (field === "F") {
-			const { Fx, Fy } = rod;
-			const F = Math.sqrt(Fx * Fx + Fy * Fy);
-			y = F;
+		} else if (field === "F" || field === "Fx" || field === "Fy") {
+			if (field === "F") {
+				const { Fx, Fy } = rod;
+				const F = Math.sqrt(Fx * Fx + Fy * Fy);
+				y = F;
+			}
 		} else {
 			const { collisions } = rod;
 			const collIndex = collisions
