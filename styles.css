@@ -19,8 +19,7 @@ body {
 #about-page > body {
 	background-color: inherit;
 	margin: 0 auto;
-	padding-left: 50px;
-	padding-right: 50px;
+	max-width: 36em;
 }
 
 #about-page blockquote {
@@ -305,6 +304,10 @@ nav a:visited {
 }
 
 @media (min-width: 100rem) {
+	body {
+		margin-left: calc(50vw - 50rem);
+	}
+
 	nav {
 		left: calc(50vw - 50rem);
 	}
@@ -314,7 +317,16 @@ nav a:visited {
 	}
 
 	#about-page > body {
-		max-width: calc(100rem - 100px);
+		padding-left: 32em;
+		padding-right: 32em;
 		background-color: lightgray;
+		margin-left: calc(50vw - 50rem);
+	}
+}
+
+@media (max-width:600px) {
+	#about-page > body {
+		padding-top: 50px;
+		padding-bottom: 50px;
 	}
 }
