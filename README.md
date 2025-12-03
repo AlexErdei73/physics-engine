@@ -48,12 +48,12 @@ animation window. You can turn off/on the time and energy values in the
 top-right corner, the unit grid, the force vectors on the bodies and the
 trajectories of the bodies.
 
-You can get [numerical results](#numerical-results) by ticking the **Results**
+You can get [numeric results](#numeric-results) by clicking the **Results**
 checkbox and you are also able to get [time graphs](#time-graphs) by ticking the
 **Graphs** checkbox. The app is able to show 4 different graphs on one page.
 First you need to pick the maximum 4 different quantities from the numerical
 results by choosing them with the selector and ticking the **Added to graphs**
-check-box. You can remove them from the graph from the similar way with
+check-box. You can remove them from the graph the similar way by
 unticking the checkbox.
 
 After the selection, you need to tick the **Graphs** check-box and run the
@@ -71,7 +71,7 @@ projects.
 ![create page scrolled to top](./images/create1.png)
 ![create page scrolled to bottom](./images/create2.png)
 
-You can create new points from the points part with the New button and delete
+You can create new points from the points part with the **New** button and **Delete**
 them with the Delete button. All the points have an associated number (index)
 and changing that, we can navigate between the mass points (bodies). We can also
 edit the parameters of the point, with the given index. The **Point fixed**
@@ -100,22 +100,22 @@ At the end give a name to the project and a short text description mainly for
 accessible users, who may not be able to see the animations. Do not forget to
 press the **Save** button to save the new project.
 
-You can publish your project for the other registered users with ticking the
+You can publish your project for the other registered users by ticking the
 **Published** checkbox.
 
-> **Caution:** You may get error messages if you are not logged in. The browser
-> still saves into local storage, but this gets overwritten if you log in to
+> **Caution:** You may get error message if your token has expired. The browser
+> still saves into the local storage, but this gets overwritten if you log in to
 > your account.
 
 ### Sample Project I
 
 The period of the mathematical pendulum is independent of its amplitude for
-small amplitudes. What is happening to the period if the amplitude grows and not
+small amplitudes. What happens to the period when the amplitude grows and not
 small at all?
 
 To answer this question and practice a bit all of the above, I will make a
 sample project. We will make two mathematical pendulums, which can hang
-independently and we can show and compare their x position, depending the time.
+independently and we can show and compare their x position, depending on the time.
 This way we can answer the question.
 
 1. Let's log in to our account.
@@ -124,29 +124,29 @@ This way we can answer the question.
 4. Create a fixed point to hang the pendulum(s) at x=3m y=0 position (Press
    **New** at points, tick **Fixed point** checkbox, fill in x and y)
 5. Create a mass point at the x=3m y=3m position and let's give it vx=0.1m/s
-   vy=0 initial velocity. The m should be 0.1kg (Similar like previously without
+   vy=0 initial velocity. The m should be 0.1kg (Similarly like previously without
    ticking the checkbox)
 6. Connect the two points (index=0 and 1) with a new rod (Press **New** button
-   at rods, make sure elasticity = 10000, beta=100, point1 is 0 and point2 is 1
-   and length=3m, the **Is spring** checkbox is unticked)
-7. Fill in the title and text description and press **Save** button
+   at rods, make sure elasticity is 10000, beta is 100, point1 is 0 and point2 is 1
+   and length is 3. The **Is spring** checkbox is unticked)
+7. Fill in the title and text description and press the **Save** button
 8. Run it (Navigate to project page, press **Start**) It should be hanging
    nicely with tiny amplitude
-9. Press **Stop** button and navigate back to the create page
-10. Create another mass point at x=3m, y=3m position with the same m=0.1kg mass.
-    This has index 2. The vx=5m/s vy=0 are the initial velocity.
-11. Add another rod, which connects the points with 0 and 2 indexes. So
-    point1=0, point2=2, elasticity=10000, beta=100, length=3m.
-12. Run it again the same way like in 8. The two pendulum is not hanging
+9. Press the **Stop** button then navigate back to the create page
+10. Create another mass point at the x=3m, y=3m position with the same m=0.1kg mass.
+    This has index 2. The vx=5m/s and vy=0 are the initial velocity components.
+11. Add another rod, which connects the points with the 0 and 2 indexes. So
+    point1=0, point2=2, elasticity=10000, beta=100 and length=3.
+12. Run it again the same way like under point 8. The two pendulums are not hanging
     perfectly synchronously.
-13. Press **Stop** button and tick **Results** checkbox
-14. New surface appears, navigate to point index 1, choose x position and tick
-    **Added to graphs** checkbox
-15. Do the same like in 14. but this time with point index 2
-16. Press **switch back** button to make this surface disappear
-17. Press **Reset** button to reset the simulation
+13. Press the **Stop** button then tick the **Results** checkbox
+14. New surface appears where navigate to the point with index 1 then choose the x position and tick
+    the **Added to graphs** checkbox
+15. Do the same like you did under the point 14, but this time with the point with index 2
+16. Press the **switch back** button to make this surface close
+17. Press the **Reset** button to reset the simulation
 18. Tick the **Graphs** checkbox
-19. Press **Start** button, the graph should appear slowly. It's clear from the
+19. Press the **Start** button. The graph should appear slowly. It's clear from the
     graph that the pendulum with the large amplitude has slightly bigger period.
     This answers the question, so the period of the mathematical pendulum grows
     with the amplitude.
@@ -154,11 +154,11 @@ This way we can answer the question.
 ### Sample Project II
 
 There is a 0.1kg mass point, which can slide on a horizontal surface. It starts
-in a rest position. There is a 1N constant horizontal force accelerates it for
+from the rest position. There is a 1N constant horizontal force accelerating it for
 1s then the friction slows it down until it stops. How much is the achieved
-speed at the acceleration? How long is the path until it achieves this speed?
-How long it takes the friction to stop the mass point again? How far the mass
-point gets from the starting point? The friction coefficient is 0.3.
+speed during the acceleration? How long is the path until it achieves this speed?
+How long does the friction take to stop the mass point again? How far the mass
+point has got from the starting point? The friction coefficient is 0.3.
 
 Let's solve the problem with a calculation first. The normal force balances the
 gravity:/
@@ -173,7 +173,9 @@ The accelerating force:/
 
 $$F = F_c - F_f = 1 - 0.2943 = 0.7057N$$
 
-The acceleration:/ $$a = F/m = 0.7057/0.1 = 7.057m/s^2$$
+The acceleration:/
+
+$$a = F/m = 0.7057/0.1 = 7.057m/s^2$$
 
 The achieved speed:/
 
@@ -331,7 +333,7 @@ x_2 = x_0 - r \times sin\alpha
 $$
 
 $$
-x_2 = 1-0.1msin30 = 0.95m
+x_2 = 1-0.1sin30 = 0.95m
 $$
 
 $$
@@ -354,18 +356,17 @@ $$
 
 Now we have all the details for making the simulation.
 
-1. Create a new project (Choose **Create** menu at top bar then press **Create**
-   button)
+1. Create a new project (Choose the **Create** menu at top bar then press the **Create** button)
 2. Add 9.81 to g
 3. Press the **New** button at points to create the bottom point of the incline.
-   Set x=1 and y=3 then tick **Point fixed** checkbox.
+   Set x=1 and y=3 then tick the **Point fixed** checkbox.
 4. Press the **New** button again to create the top point of the incline. Set
-   x=2.732051 and y=2 then tick **Point fixed** checkbox again.
+   x=2.732051 and y=2 then tick the **Point fixed** checkbox again.
 5. Now press the **New** button at rods to create the actual incline. Make sure
    it has point1=0 and point2=1, so it connects the previous points. The
-   length=2 and elasticity=10000 and beta=100.
-6. Press **New** button again at points to create the sliding mass point. Set
-   m=0.1 x=0.95 y=2.9134 and tick **Is path visible** checkbox to show the path.
+   length=2 and the elasticity=10000 and the beta=100.
+6. Press the **New** button again at points to create the sliding mass point. Set
+   m=0.1, x=0.95 and y=2.9134 then tick the **Is path visible** checkbox to show the path.
    Set vx=2.598076 and vy=-1.5. vy must be negative, because the point goes up
    but y grows downwards.
 7. Name the project and write a short text description.
@@ -373,24 +374,22 @@ Now we have all the details for making the simulation.
    checkboxes to see more data during the simulation.
 9. Do not forget to tick the **body-rod collision on** checkbox. This makes
    sure, that the point won't ignore the incline, so the system calculates the
-   forces between them. Make sure that **collision k** parameter is 10000 and
+   forces between them. Make sure that the **collision k** parameter is 10000 and the
    **point-rod coll. beta** is 100. These are the elasticity and damping
    constants of the collision between the rod and the mass point.
 10. Click the **project** link in the top bar and the **Start** button to run
     the simulation. It runs quite fast.
 
 > **Tip** The project runs quite fast, but we can slow it down by changing the
-> **dt** and **anim time** parameters in the same ratio. If for example we
-> choose dt=1e-7 and anim time=0.0003333333333 it slows down everything 100
-> times. We should keep the ratio of these parameters the same as the original
+> **dt** and the **anim time** parameters in the same ratio. If ,for example, we
+> choose dt=1e-7 and anim time=0.0003333333333, it slows down everything by 100 factor times. We should keep the ratio of these parameters the same as the original
 > setup was.
 
-11. Now we can get some graphs. Press **Stop** button and **Reset** button then
+11. Now we can get some graphs. Press the **Stop** button and the **Reset** button then
     tick the **Results** checkbox.
-12. Choose index 2 for the point then select **path length** and tick **Added to
-    graphs** checkbox.
+12. Choose index 2 for the point then select **path length** and tick the **Added to graphs** checkbox.
 13. Select **v** then tick **Added to graphs** checkbox again
-14. Click **switch back** button and tick **Graphs** checkbox then click the
+14. Click the **switch back** button and tick the **Graphs** checkbox then click the
     **Start** button to get the graphs. We get the below graph:
 
 ![s and v in function of time](./images/sv-tgraphs.png)
@@ -399,17 +398,15 @@ The red curve is the path length, which changes very slowly around the time,
 when the body turns its direction of movement. The green v-shaped line is the
 speed. It goes down to zero and up when the body goes back to its original
 position. The turning point is when v=0. We see that the values, what we can
-read from the graph are in consistency with our calculation, although graph
+read from the graph are in consistency with our calculation, although the graph
 readings have limited accuracies.
 
 15. Untick the **Graphs** checkbox then press **Reset** and **Start**
 16. Press **Stop** when the time is 0.611 roughly
-17. Tick **Results** checkbox and choose 2 for point index. The sliding point is
+17. Tick the **Results** checkbox and choose 2 for point index. The sliding point is
     red now, which means it's selected and we can see its numerical values.
-    Thepath length=0.9174, a=4.905 and v is nearly 0 in full agreement with our
-    calculations. We can read y=2.4548.
-
-/
+    The path length=0.9174, a=4.905 and v is nearly 0 in full agreement with our
+    calculations. We can read y=2.4548.\
 
 $$
 h=|\Delta y|=|y - y_0|
@@ -492,7 +489,7 @@ the simulations. Rods are very stiff springs. What kind of forces do we have?
    surface (tangential direction). If the relative velocity is zero, we get
    static friction. The static friction can be calculated from the condition
    that the relative acceleration is zero, so the net force should produce the
-   acceleration, which the surface point, If the friction is dynamic, the value
+   acceleration, which the surface point, what touches the body, has. If the friction is dynamic, the value
    of the force is $F_f = \mu \times N$ In this formula N is the normal-force
    and $\mu$ is the friction coefficient, which is usually maximum 1. The value
    depends on the surfaces mainly, both the materials and the smoothness of the
@@ -515,14 +512,14 @@ $$
 $$
 
 Here f is the frequency, which is between the min and max values and it can be
-adjusted real time with a range input, when you run the simulation.
+adjusted in real time with a range input, when you run the simulation.
 
 > **Tip** You can add a constant force to a point for a certain amount of time,
 > because f can be zero and the phase factors can make the sin functions 1.
 
 6.**Air resistance** You can add air resistance to the points with specifying
 the drag coefficient above 0. It's usually 0.47 for spherical bodies under
-normal circumstances. The force, effecting the spherical bodies, is /
+normal circumstances. The force, effecting spherical bodies, is /
 
 $$
 F_d = \frac {1} {2} \rho v^2 C_d A
@@ -537,22 +534,22 @@ $A = R^2 \pi$ if the radius is R.
 ![create page scrolled to top](./images/create1.png)
 ![create page scrolled to bottom](./images/create2.png)
 
-The forms, can be used to define the simulation parameters, the mass points or
+The forms, can be used to define the simulation parameters, for the mass points or
 the rods are pretty straightforward. You need to specify all the points and rods
 for the simulations. The forms also specify the above parameters and the initial
 conditions. For celestial mechanics rods are not necessary, because the only
 important force between the points is gravity.
 
 We still have to mention the **Copy** and **Delete** buttons, beside the
-**Save** and **Create** buttons. With the **Copy** button, we can copy an
+**Save** and the **Create** buttons. With the **Copy** button, we can copy an
 existing project as our own to modify it. The **Delete** button can delete our
 projects.
 
 ## Execute Project
 
 You navigate to the project page and press the **Start** button. You can also
-stop or reset the project with the relevant buttons. The **Zoom In** and **Zoom
-Out** buttons can zoom in and out of the world view, although the origin of the
+stop or reset the project with the relevant buttons. The **Zoom In** and **Zoom Out** 
+buttons can zoom in and out of the world view, although the origin of the
 coordinate system stays in the top-left corner. We can turn on and off some
 visualisations with the checkboxes, like **Grid**, **Time**, **Force** and
 **Energy**. The **Graph** checkbox changes the view to show the graphs instead
@@ -567,7 +564,7 @@ You normally stop the project by clicking the **Stop** button and tick the
 of the simulation (a point or a rod) or you just get an overview of the
 simulation parameters, like time or g. ![numeric results](./images/results.png)
 Whatever element you select, it's going to be red in the simulation view. You
-can also view the collision and friction forces regarding the selected element.
+can also view the collision and the friction forces regarding the selected element.
 On the image, we can see the [Sample Project II](#sample-project-ii) numeric
 results. The rod (incline) and its collision with the 2nd point (the sliding
 one) has been chosen. We can read the N (normal force) and the F (friction
