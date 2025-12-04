@@ -1,4 +1,4 @@
-# Phisics-Engine
+# Physics-Engine
 
 This repository is going to implement a simple physics engine for 2D point
 mechanics. I am going to use the
@@ -19,13 +19,13 @@ elementary and secondary school pupils.
 
 ## Quick Start Guide
 
-I recommend first to create an account with your email address form the
+I recommend first to create an account with your email address from the
 [Sign Up](#sign-up) menu. Without creating an account, you still can try the
 projects and even modify them, but the modifications are local to your computer.
 You also don't get refreshed when someone modifies their projects, unlike with
 an account, because the projects get updated whenever you [Log In](#log-in).
 
-After registration, you need to verify your email and you ready to execute the
+After registration, you need to verify your email and you're ready to execute the
 already existing projects or create your own ones. You are also able to publish
 your projects and share them with other members.
 
@@ -43,7 +43,7 @@ and the unit of distance is the astronomical unit, which is the Sun-Earth mean
 distance (about 150 000 000km). The mass unit is the mass of the Sun. In these
 units the gravitational constant in Newton's gravity law is about $4\pi^2$ .
 
-You can also see a bunch of check-boxes, which control what it shows in the
+You can also see a bunch of checkboxes, which control what it shows in the
 animation window. You can turn off/on the time and energy values in the
 top-right corner, the unit grid, the force vectors on the bodies and the
 trajectories of the bodies.
@@ -71,8 +71,7 @@ projects.
 ![create page scrolled to top](./images/create1.png)
 ![create page scrolled to bottom](./images/create2.png)
 
-You can create new points from the points part with the **New** button and **Delete**
-them with the Delete button. All the points have an associated number (index)
+You can create new points from the points part with the **New** button and delete them with the **Delete** button. All the points have an associated number (index)
 and changing that, we can navigate between the mass points (bodies). We can also
 edit the parameters of the point, with the given index. The **Point fixed**
 checkbox creates fixed points, which cannot move at all.
@@ -85,7 +84,7 @@ down to the y direction.
 > **Caution:** The default value for g is 0, so there is no gravity. You must
 > give the 9.8 parameter for g for normal simulations.
 
-The rod is a stiff spring. You can create them by the **New** button delete them
+The rod is a stiff spring. You can create them by the **New** button and delete them
 by the **Delete** button, similarly to points. You can adjust the stiffness and
 dumping of these. You also need to specify the indexes of the end points, which
 the rod connects. All rods have their own index and by ticking the **Is spring**
@@ -140,7 +139,7 @@ This way we can answer the question.
 12. Run it again the same way like under point 8. The two pendulums are not hanging
     perfectly synchronously.
 13. Press the **Stop** button then tick the **Results** checkbox
-14. New surface appears where navigate to the point with index 1 then choose the x position and tick
+14. A new surface appears where you navigate to the point with index 1 then choose the x position and tick
     the **Added to graphs** checkbox
 15. Do the same like you did under the point 14, but this time with the point with index 2
 16. Press the **switch back** button to make this surface close
@@ -231,7 +230,7 @@ Let's make the project:
     which takes about 3.5s. Check this exactly. (press **Stop** when the sliding
     point is in rest, choose point 2, you can see x or path length is 11.9805 in
     exact agreement with our calculations)
-14. Make t graphs of x, vx, ax od point 2 and Fx from periodic external force.
+14. Make t graphs of x, vx, ax of point 2 and Fx from periodic external force.
     (Press **Stop** then **Reset** buttons. Tick **Results** checkbox. Choose
     point 2. Pick x and tick **Added to graph** checkbox. Do the same with vx
     and ax. Choose periodic external force. Choose Fx and tick **Added to
@@ -246,20 +245,20 @@ Let's make the project:
 > **Caution\*** This project is for people, who know well the basic
 > trigonometry.
 
-There is an incline, which has 30degrees with the horizontal direction. How far
+There is an incline, which has 30 degrees with the horizontal direction. How far
 the mass point goes on the incline when its initial speed is 3m/s? How high it
 gets when it turns back? How much is the magnitude of its acceleration and the
 sum of the forces effect it? How much is the normal force? The friction is
 negligible and the mass of the point is 0.1kg.
 
 Let's first do a calculation and we can verify it by a simulation. The sum of
-forces is:\
+forces is:
 
 $$
 F=mgsin\alpha
 $$
 
-In this case it's:\
+In this case it's:
 
 $$
 F = 0.1 \times 9.81 \times sin 30=0.4905N
@@ -275,7 +274,7 @@ $$
 a=F/m=0.4905/0.1=4.905m/s^2
 $$
 
-The time of deceleration is the same as the time of acceleration, so\
+The time of deceleration is the same as the time of acceleration, so
 
 $$
 a = |\Delta v|/t
@@ -285,7 +284,7 @@ $$
 t=|\Delta v|/a=v/a=\frac{3}{4.905}=0.61162s
 $$
 
-The length of path during this time\
+The length of path during this time
 
 $$
 s=a/2\times t^2 = 4.905^2/2\times 0.61162^2
@@ -295,7 +294,7 @@ $$
 s=0.9174m
 $$
 
-The achieved height is\
+The achieved height is
 
 $$
 h = s\times sin\alpha = 0.9174 \times 0.5
@@ -307,7 +306,7 @@ $$
 
 We should get these details from a simulation too. Let's make the simulation.
 The first endpoint of the incline will be x0=1m and y0=3m. Let's choose the
-length of the incline l=2m. Let's calculate the other endpoint:\
+length of the incline l=2m. Let's calculate the other endpoint:
 
 $$
 x_1 = x_0 + l\times cos\alpha
@@ -326,7 +325,7 @@ y_1 = 3 - 2sin 30 = 2m
 $$
 
 Now we calculate the position of the mass point at the start, when its radius =
-0.1m.\
+0.1m.
 
 $$
 x_2 = x_0 - r \times sin\alpha
@@ -344,7 +343,7 @@ $$
 y_2 = 3-0.1cos30 = 2.9134m
 $$
 
-We also need to calculate the component of the initial velocity:\
+We also need to calculate the component of the initial velocity:
 
 $$
 v_x = v_0 \times cos \alpha = 3cos 30 = 2.598076m/s
@@ -362,12 +361,12 @@ Now we have all the details for making the simulation.
    Set x=1 and y=3 then tick the **Point fixed** checkbox.
 4. Press the **New** button again to create the top point of the incline. Set
    x=2.732051 and y=2 then tick the **Point fixed** checkbox again.
-5. Now press the **New** button at rods to create the actual incline. Make sure
+5. Press the **New** button at rods to create the actual incline. Make sure
    it has point1=0 and point2=1, so it connects the previous points. The
-   length=2 and the elasticity=10000 and the beta=100.
+   length=2, elasticity=10000 and beta=100.
 6. Press the **New** button again at points to create the sliding mass point. Set
    m=0.1, x=0.95 and y=2.9134 then tick the **Is path visible** checkbox to show the path.
-   Set vx=2.598076 and vy=-1.5. vy must be negative, because the point goes up
+   Set vx=2.598076 and vy=-1.5. vy must be negative because the point goes up
    but y grows downwards.
 7. Name the project and write a short text description.
 8. Tick the **show time**, **show grid**, **show force** and **show energy**
@@ -468,13 +467,13 @@ the simulations. Rods are very stiff springs. What kind of forces do we have?
 > can be tiny, like 5e-5, so we need to multiply it to make it visible when you
 > try to visualize it in the simulation or graph.
 
-2. **Elastic and dumping forces** between points, which are connected by a rod.
+2. **Elastic and damping forces** between points, which are connected by a rod.
    The rod follows Hook's law. $F_e = -k \Delta l = -k \times (l - l_0)$ The
    force is proportional with the deformation, the k constant is the elastic
    constant. The minus sign expresses that the elastic force tries to decrease
    the deformation. The damping force is a velocity dependent force, which
    depends on the relative velocity of the end points. If this relative velocity
-   has parallel component by the rod, the damping force is $F_d = -\beta v_r$,
+   has a parallel component with the rod, the damping force is $F_d = -\beta v_r$,
    where $\beta$ is the damping constant, $v_r$ is the relative velocity
    component, parallel with the rod. The minus sign expresses that its direction
    is so that it always decreases the relative velocity component.
@@ -490,7 +489,7 @@ the simulations. Rods are very stiff springs. What kind of forces do we have?
    static friction. The static friction can be calculated from the condition
    that the relative acceleration is zero, so the net force should produce the
    acceleration, which the surface point, what touches the body, has. If the friction is dynamic, the value
-   of the force is $F_f = \mu \times N$ In this formula N is the normal-force
+   of the force is $F_f = \mu \times N$. In this formula N is the normal force
    and $\mu$ is the friction coefficient, which is usually maximum 1. The value
    depends on the surfaces mainly, both the materials and the smoothness of the
    surface effects it.
@@ -517,9 +516,9 @@ adjusted in real time with a range input, when you run the simulation.
 > **Tip** You can add a constant force to a point for a certain amount of time,
 > because f can be zero and the phase factors can make the sin functions 1.
 
-6.**Air resistance** You can add air resistance to the points with specifying
+6. **Air resistance** You can add air resistance to the points by specifying
 the drag coefficient above 0. It's usually 0.47 for spherical bodies under
-normal circumstances. The force, effecting spherical bodies, is /
+The force affecting spherical bodies is /
 
 $$
 F_d = \frac {1} {2} \rho v^2 C_d A
@@ -528,13 +527,13 @@ $$
 $C_d$ is the drag coefficient, usually 0.47 for smooth spheres, although it
 changes for very high speeds or very low speeds. It also depends on the shape of
 the bodies, hence the car can be designed to have a low drag coefficient to
-reduce air resistance. A is the area what the flow "sees", so for a sphere it's
+reduce air resistance. A is the area that the flow "sees", so for a sphere it's
 $A = R^2 \pi$ if the radius is R.
 
 ![create page scrolled to top](./images/create1.png)
 ![create page scrolled to bottom](./images/create2.png)
 
-The forms, can be used to define the simulation parameters, for the mass points or
+The forms can be used to define the simulation parameters for the mass points or
 the rods are pretty straightforward. You need to specify all the points and rods
 for the simulations. The forms also specify the above parameters and the initial
 conditions. For celestial mechanics rods are not necessary, because the only
