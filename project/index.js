@@ -70,7 +70,7 @@ async function getProjectIdx(projectID) {
 
 async function getInitialState() {
 	const projectIdx = await getProjectIdx(projectID);
-	projectIndex = projectIdx && projectIdx > -1 ? projectIdx : projectIndex;
+	projectIndex = (projectIdx || projectIdx === 0) && projectIdx > -1 ? projectIdx : projectIndex;
 	const initialState =
 		projects.length > 0 && projectIndex < projects.length
 			? projects[projectIndex]
